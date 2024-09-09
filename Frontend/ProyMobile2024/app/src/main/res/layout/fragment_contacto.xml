@@ -1,14 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".contacto">
+    android:background="#FFFFFF"
+    tools:context=".contacto"
+    tools:ignore="ExtraText">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.cardview.widget.CardView
+        android:id="@+id/myCardView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="#BFAFAF"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        tools:layout_editor_absoluteX="16dp" >
 
-</FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/tvtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="PONETE EN CONTACTO O DEJANOS TUS DATOS Y NOS COMUNICAREMOS A LA BREVEDAD"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tvname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvtitle"
+                android:layout_marginTop="15dp"
+                android:text="Ingrese su nombre:"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvname"
+                android:layout_marginTop="5dp"
+                android:ems="10"
+                android:inputType="text"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvtel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etname"
+                android:layout_marginTop="15dp"
+                android:text="Ingrese su teléfono:"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/ettel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvtel"
+                android:layout_marginTop="5dp"
+                android:ems="10"
+                android:inputType="phone"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ettel"
+                android:layout_marginTop="15dp"
+                android:text="Ingrese su email:"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etemail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvmail"
+                android:layout_marginTop="5dp"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvmsj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etemail"
+                android:layout_marginTop="15dp"
+                android:text="Deje su mensaje:"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etmsj"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvmsj"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:textSize="14sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnenviar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etmsj"
+                android:layout_marginTop="15dp"
+                android:text="Enviar"
+                />
+
+
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
