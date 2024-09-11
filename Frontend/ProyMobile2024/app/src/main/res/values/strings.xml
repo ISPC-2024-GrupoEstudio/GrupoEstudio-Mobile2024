@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">Proy-Mobile2024</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="user_name">User Name</string>
+    <string name="tu_foto_descr">Tu foto de perfil</string>
+    <string name="drawer_toggle_description">Abrir el menú de navegación</string>
+    <string name="itemnav_perfil">Mi perfil</string>
+    <string name="itemnav_productos">Productos</string>
+    <string name="itemnav_carrito">Carrito</string>
+    <string name="itemnav_login">Login</string>
+    <string name="itemnav_registr">Registrarse</string>
+    <string name="itemnav_cerrsesion">Cerrar sesión</string>
+    <string name="itemnav_contanctus">Contactanos</string>
+    <string name="itemnav_home">Home</string>
 </resources>
