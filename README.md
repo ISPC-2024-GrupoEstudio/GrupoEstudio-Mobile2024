@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://raw.githubusercontent.com/JavierCarranza0101/imagenes-dresscodehost/main/img_petboutique/PetBoutiquelogo1.jpg" alt="logo petboutique" width="300" ## >
+<img src="https://raw.githubusercontent.com/JavierCarranza0101/imagenes-dresscodehost/main/img_petboutique/PetBoutiquelogo1.jpg" alt="logo petboutique" width="300" ## />
 </div>
 
 # Pet Boutique-App Movil

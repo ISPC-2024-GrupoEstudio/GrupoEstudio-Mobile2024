@@ -11,4 +11,20 @@
     <string name="itemnav_cerrsesion">Cerrar sesión</string>
     <string name="itemnav_contanctus">Contactanos</string>
     <string name="itemnav_home">Home</string>
+    <string name="perfil_nombreCompleto">Nombre Apellido</string>
+    <string name="perfil_email">ejemplo@gmail.com</string>
+    <string name="perfil_telefono_nro">+54 9 03541 123456</string>
+    <string name="perfil_telefono">Numero Telefonico</string>
+    <string name="perfil_direccion">Calle 123</string>
+    <string name="perfil_direccion_label">Direccion</string>
+    <string name="perfil_dni">12.345.678</string>
+    <string name="perfil_contrasena_encriptada">*********</string>
+    <string name="perfil_contrasena">Contrasena</string>
+    <string name="perfil_editar">Editar perfil</string>
+    <string name="perfil_salir">Cerrar Sesión</string>
+    <string name="perfil_editar_img">Editar Imagen</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
