@@ -24,6 +24,24 @@
     <string name="perfil_salir">Cerrar Sesión</string>
     <string name="perfil_editar_img">Editar Imagen</string>
 
+    <!-- Fragmento Contacto -->
+    <string name="ingresar_nombre_contacto">Ingrese su nombre</string>
+    <string name="ingresar_nombre_label_contacto">Ingrese su nombre:</string>
+    <string name="ingresar_tel_contacto">Ingrese su teléfono</string>
+    <string name="ingresar_tel_label_contacto">Ingrese su teléfono:</string>
+    <string name="ingresar_email_contacto">Ingrese su email</string>
+    <string name="ingresar_email_label_contacto">Ingrese su email:</string>
+    <string name="ingresar_msj_contacto">Ingrese su mensaje</string>
+    <string name="ingresar_msj_label_contacto">Ingrese su mensaje:</string>
+    <string name="whatsapp_contacto">WhatsApp de contacto</string>
+    <string name="titulo_contacto">¡CONTACTANOS!</string>
+    <string name="subtitulo_contacto">Nos comunicaremos a la brevedad!</string>
+    <string name="btn_enviar">Enviar</string>
+    <string name="num_whatsapp">3518542789</string>
+    <string name="instagram">\@petboutique</string>
+    <string name="facebook">Pet Boutique</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
