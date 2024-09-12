@@ -169,84 +169,74 @@
 
             </androidx.cardview.widget.CardView>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
-                android:layout_marginBottom="15dp"
-                android:baselineAligned="false">
+                android:layout_marginBottom="15dp">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tv_ws"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:minHeight="48dp"
+                    android:text="@string/num_whatsapp"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    app:drawableLeftCompat="@drawable/ws"
+                    android:drawablePadding="-10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_ig"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_ig"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:minHeight="48dp"
+                    android:text="@string/instagram"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    app:drawableLeftCompat="@drawable/ig"
+                    android:drawablePadding="-10dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_ws"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_fb"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tv_fb"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:minHeight="48dp"
+                    android:text="@string/facebook"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    app:drawableLeftCompat="@drawable/fb"
+                    android:drawablePadding="-10dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_ig"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    android:gravity="center"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="20dp"
-                        android:layout_marginEnd="3dp"
-                        android:src="@drawable/ws" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:fontFamily="sans-serif-medium"
-                        android:minHeight="48dp"
-                        android:text="3518542789"
-                        android:textColor="#000000"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="20dp"
-                        android:layout_marginEnd="3dp"
-                        android:src="@drawable/ig" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:fontFamily="sans-serif-medium"
-                        android:minHeight="48dp"
-                        android:text="\@petboutique"
-                        android:textColor="#000000"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0">
-
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="20dp"
-                        android:layout_marginEnd="3dp"
-                        android:src="@drawable/fb" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:fontFamily="sans-serif-medium"
-                        android:minHeight="48dp"
-                        android:text="Pet Boutique"
-                        android:textColor="#000000"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
