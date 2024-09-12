@@ -41,9 +41,9 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-black"
                         android:gravity="center"
-                        android:text="¡CONTACTANOS!"
                         android:textColor="#000000"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        android:text="@string/titulo_contacto"/>
 
                     <TextView
                         android:id="@+id/tvtitle2"
@@ -51,7 +51,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
                         android:gravity="center"
-                        android:text="Nos comunicaremos a la brevedad"
+                        android:text="@string/subtitulo_contacto"
                         android:textColor="#000000"
                         android:textSize="22sp" />
 
@@ -61,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Ingrese su nombre:"
+                        android:text="@string/ingresar_nombre_label_contacto"
                         android:textColor="#000000"
                         android:textSize="16sp" />
 
@@ -73,8 +73,11 @@
                         android:background="@drawable/form_contacto"
                         android:ems="10"
                         android:inputType="text"
+                        android:minHeight="48dp"
                         android:padding="10dp"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:autofillHints="Ingrese su nombre"
+                        android:hint="@string/ingresar_nombre_contacto"/>
 
                     <TextView
                         android:id="@+id/tvtel"
@@ -82,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Ingrese su teléfono:"
+                        android:text="@string/ingresar_tel_label_contacto"
                         android:textColor="#000000"
                         android:textSize="16sp" />
 
@@ -94,8 +97,11 @@
                         android:background="@drawable/form_contacto"
                         android:ems="10"
                         android:inputType="phone"
+                        android:minHeight="48dp"
                         android:padding="10dp"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:autofillHints="Ingrese su teléfono"
+                        android:hint="@string/ingresar_tel_contacto"/>
 
                     <TextView
                         android:id="@+id/tvmail"
@@ -103,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Ingrese su email:"
+                        android:text="@string/ingresar_email_label_contacto"
                         android:textColor="#000000"
                         android:textSize="16sp" />
 
@@ -115,8 +121,11 @@
                         android:background="@drawable/form_contacto"
                         android:ems="10"
                         android:inputType="textEmailAddress"
+                        android:minHeight="48dp"
                         android:padding="10dp"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:autofillHints="Ingrese su email"
+                        android:hint="@string/ingresar_email_contacto"/>
 
                     <TextView
                         android:id="@+id/tvmsj"
@@ -124,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Deje su mensaje:"
+                        android:text="@string/ingresar_msj_label_contacto"
                         android:textColor="#000000"
                         android:textSize="16sp" />
 
@@ -138,7 +147,10 @@
                         android:gravity="start|top"
                         android:inputType="textMultiLine"
                         android:padding="10dp"
-                        android:textColor="#000000" />
+                        android:textColor="#000000"
+                        android:textSize="14sp"
+                        android:autofillHints="Ingrese su mail"
+                        android:hint="@string/ingresar_msj_contacto"/>
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btnenviar"
@@ -147,11 +159,11 @@
                         android:layout_marginTop="15dp"
                         android:background="@drawable/btn_contacto"
                         android:backgroundTint="@null"
-                        android:text="Enviar"
+                        android:text="@string/btn_enviar"
                         android:textAllCaps="false"
-                        android:textColor="@android:color/white"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textColor="#000000"/>
 
                 </LinearLayout>
 
@@ -163,7 +175,8 @@
                 android:orientation="horizontal"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:baselineAligned="false">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -182,9 +195,10 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:fontFamily="sans-serif-medium"
+                        android:minHeight="48dp"
                         android:text="3518542789"
                         android:textColor="#000000"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -204,6 +218,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:fontFamily="sans-serif-medium"
+                        android:minHeight="48dp"
                         android:text="\@petboutique"
                         android:textColor="#000000"
                         android:textSize="12sp" />
@@ -226,6 +241,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:fontFamily="sans-serif-medium"
+                        android:minHeight="48dp"
                         android:text="Pet Boutique"
                         android:textColor="#000000"
                         android:textSize="12sp" />
