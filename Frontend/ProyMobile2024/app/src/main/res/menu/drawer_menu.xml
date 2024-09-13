@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <group
+            android:id="@+id/group1">
+                <item
+                    android:id="@+id/nav_home"
+                    android:title="@string/itemnav_home"
+                    android:icon="@drawable/home_icon"
+
+                    />
+                <item
+                    android:id="@+id/nav_profile"
+                    android:title="@string/itemnav_perfil"
+                    android:icon="@drawable/miperfil_icono" />
+
+        </group>
+        <group
+            android:id="@+id/group2">
+
+                <item
+                    android:id="@+id/nav_products"
+                    android:title="@string/itemnav_productos"
+                    android:icon="@drawable/producto_icono"/>
+                <item
+                    android:id="@+id/nav_cart"
+                    android:title="@string/itemnav_carrito"
+                    android:icon="@drawable/cart_icono"/>
+
+        </group>
+
+        <group
+            android:id="@+id/group3">
+                <item
+                    android:id="@+id/nav_login"
+                    android:title="@string/itemnav_login"
+                    android:icon="@drawable/login_icon" />
+                <item
+                    android:id="@+id/nav_registro"
+                    android:title="@string/itemnav_registr"
+                    android:icon="@drawable/registro_icon" />
+
+                <item
+                    android:id="@+id/nav_logout"
+                    android:title="@string/itemnav_cerrsesion"
+                    android:icon="@drawable/cerrarsesion_icon" />
+
+        </group>
+
+        <group
+            android:id="@+id/group4">
+                <item
+                    android:id="@+id/nav_contactus"
+                    android:title="@string/itemnav_contanctus"
+                    android:icon="@drawable/contactus_icon" />
+        </group>
+
+
+</menu>

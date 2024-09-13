@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Proy-Mobile2024"
 include(":app")
- 
