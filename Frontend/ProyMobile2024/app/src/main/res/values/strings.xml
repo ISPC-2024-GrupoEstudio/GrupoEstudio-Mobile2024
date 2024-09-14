@@ -44,5 +44,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="usuario_id">Ingrese su usuario</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="loginB">Login</string>
+    <string name="forgot_pasword">Olvidé mi contraseña</string>
+    <string name="msjregistrate">¿No tienes cuenta?¡Registrate aqui!</string>
+    <string name="image_description_dog">perro</string>
+    <string name="welcome_msj">¡Bienvenido de nuevo!</string>
 
 </resources>
