@@ -1,14 +1,13 @@
 package com.example.proy_mobile2024;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -45,10 +44,28 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 drawerLayout.open();
-
             }
         });
 
+        // Configura el listener para el NavigationView
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                int id = item.getItemId();
+
+                if (id == R.id.nav_products) {
+                    // Redirige a la actividad GaleriaProducto
+                    Intent intent = new Intent(MainActivity.this, GaleriaProductosActivity.class);
+                    startActivity(intent);
+                }
+
+                // Cierra el drawer después de seleccionar un ítem
+                drawerLayout.closeDrawers();
+                return true;
+            }
+        });
+
+        System.out.println(">> MAIN ACTIVITY");
 
     }
 
