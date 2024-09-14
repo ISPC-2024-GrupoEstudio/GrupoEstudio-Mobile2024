@@ -40,6 +40,7 @@ Este proyecto es una aplicación móvil desarrollada con Android Studio, enfocad
 ![Carrito de Compras](https://github.com/JavierCarranza0101/imagenes-dresscodehost/blob/main/img_petboutique/screenshots/carito%201.png)
 ![Productos](https://github.com/JavierCarranza0101/imagenes-dresscodehost/blob/main/img_petboutique/screenshots/Screenshot_20240914_160820productos.png)
 ![Contacto](https://github.com/JavierCarranza0101/imagenes-dresscodehost/blob/main/img_petboutique/screenshots/Screenshot_20240911_195741contacto.png)
+![Perfil](https://github.com/JavierCarranza0101/imagenes-dresscodehost/blob/main/img_petboutique/screenshots/Screenshot_20240914_163445perfil1.png)
 
 ## Autores
 
