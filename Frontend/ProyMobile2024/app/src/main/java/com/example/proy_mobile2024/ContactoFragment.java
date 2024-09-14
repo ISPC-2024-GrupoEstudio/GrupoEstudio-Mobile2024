@@ -22,7 +22,6 @@ public class ContactoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //return inflater.inflate(R.layout.fragment_contacto, container, false);
         View view = inflater.inflate(R.layout.fragment_contacto, container, false);
 
         etName = view.findViewById(R.id.et_name);
@@ -40,7 +39,6 @@ public class ContactoFragment extends Fragment {
         return view;
     }
 
-    // Método para validar los campos
     private String validarCampos(String nombre, String telefono, String email, String mensaje) {
         if (nombre.isEmpty()) {
             return "El campo de nombre está vacío.";
@@ -66,7 +64,6 @@ public class ContactoFragment extends Fragment {
         return null;
     }
 
-    // Método para enviar el mensaje
     private void enviarMensaje() {
         String nombre = etName.getText().toString();
         String telefono = etTel.getText().toString();
@@ -74,19 +71,16 @@ public class ContactoFragment extends Fragment {
         String mensaje = etMsj.getText().toString();
 
         String validacion = validarCampos(nombre, telefono, email, mensaje);
+
         if (validacion == null) {
-            // Mostrar mensaje de éxito
             Toast.makeText(getContext(), "Mensaje enviado", Toast.LENGTH_SHORT).show();
 
-            // Vaciar los campos del formulario
             etName.setText("");
             etTel.setText("");
             etEmail.setText("");
             etMsj.setText("");
         } else {
-            // Mostrar mensaje de error específico
             Toast.makeText(getContext(), validacion, Toast.LENGTH_SHORT).show();
         }
     }
-
 }

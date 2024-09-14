@@ -21,9 +21,8 @@
                 android:id="@+id/myCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_margin="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:background="#BFAFAF"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="16dp"
@@ -53,7 +52,10 @@
                         android:gravity="center"
                         android:text="@string/subtitulo_contacto"
                         android:textColor="#000000"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:singleLine="false"
+                        android:ellipsize="none"
+                        android:scrollHorizontally="false"/>
 
                     <TextView
                         android:id="@+id/tvname"
@@ -63,21 +65,36 @@
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/ingresar_nombre_label_contacto"
                         android:textColor="#000000"
+                        android:layout_gravity="center"
                         android:textSize="16sp" />
 
-                    <EditText
-                        android:id="@+id/et_name"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/form_contacto"
-                        android:ems="10"
-                        android:inputType="text"
-                        android:minHeight="48dp"
-                        android:padding="10dp"
-                        android:textSize="14sp"
-                        android:autofillHints="Ingrese su nombre"
-                        android:hint="@string/ingresar_nombre_contacto"/>
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:maxWidth="488dp"
+                            android:minWidth="250dp"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/form_contacto"
+                            android:ems="10"
+                            android:inputType="text"
+                            android:minHeight="48dp"
+                            android:padding="10dp"
+                            android:textSize="14sp"
+                            android:autofillHints="Ingrese su nombre"
+                            android:hint="@string/ingresar_nombre_contacto"
+                            app:layout_constraintWidth_max="488dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                     <TextView
                         android:id="@+id/tvtel"
@@ -87,21 +104,36 @@
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/ingresar_tel_label_contacto"
                         android:textColor="#000000"
+                        android:layout_gravity="center"
                         android:textSize="16sp" />
 
-                    <EditText
-                        android:id="@+id/et_tel"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/form_contacto"
-                        android:ems="10"
-                        android:inputType="phone"
-                        android:minHeight="48dp"
-                        android:padding="10dp"
-                        android:textSize="14sp"
-                        android:autofillHints="Ingrese su teléfono"
-                        android:hint="@string/ingresar_tel_contacto"/>
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_tel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:maxWidth="488dp"
+                            android:minWidth="250dp"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/form_contacto"
+                            android:ems="10"
+                            android:inputType="phone"
+                            android:minHeight="48dp"
+                            android:padding="10dp"
+                            android:textSize="14sp"
+                            android:autofillHints="Ingrese su teléfono"
+                            android:hint="@string/ingresar_tel_contacto"
+                            app:layout_constraintWidth_max="488dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                     <TextView
                         android:id="@+id/tvmail"
@@ -111,21 +143,36 @@
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/ingresar_email_label_contacto"
                         android:textColor="#000000"
+                        android:layout_gravity="center"
                         android:textSize="16sp" />
 
-                    <EditText
-                        android:id="@+id/et_email"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/form_contacto"
-                        android:ems="10"
-                        android:inputType="textEmailAddress"
-                        android:minHeight="48dp"
-                        android:padding="10dp"
-                        android:textSize="14sp"
-                        android:autofillHints="Ingrese su email"
-                        android:hint="@string/ingresar_email_contacto"/>
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_email"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:maxWidth="488dp"
+                            android:minWidth="250dp"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/form_contacto"
+                            android:ems="10"
+                            android:inputType="textEmailAddress"
+                            android:minHeight="48dp"
+                            android:padding="10dp"
+                            android:textSize="14sp"
+                            android:autofillHints="Ingrese su email"
+                            android:hint="@string/ingresar_email_contacto"
+                            app:layout_constraintWidth_max="488dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                     <TextView
                         android:id="@+id/tvmsj"
@@ -135,26 +182,41 @@
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/ingresar_msj_label_contacto"
                         android:textColor="#000000"
+                        android:layout_gravity="center"
                         android:textSize="16sp" />
 
-                    <EditText
-                        android:id="@+id/et_msj"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/form_contacto"
-                        android:ems="10"
-                        android:gravity="start|top"
-                        android:inputType="textMultiLine"
-                        android:padding="10dp"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:autofillHints="Ingrese su mail"
-                        android:hint="@string/ingresar_msj_contacto"/>
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_msj"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:maxWidth="488dp"
+                            android:minWidth="250dp"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/form_contacto"
+                            android:ems="10"
+                            android:inputType="textMultiLine"
+                            android:padding="10dp"
+                            android:textColor="#000000"
+                            android:textSize="14sp"
+                            android:autofillHints="Ingrese su mail"
+                            android:hint="@string/ingresar_msj_contacto"
+                            app:layout_constraintWidth_max="488dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_enviar"
-                        android:layout_width="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_width="320dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/btn_contacto"
