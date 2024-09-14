@@ -26,6 +26,7 @@
 
 
 </LinearLayout>
+
     <include
         layout="@layout/toolbar"
         android:layout_height="match_parent"
