@@ -11,5 +11,45 @@
     <string name="itemnav_cerrsesion">Cerrar sesión</string>
     <string name="itemnav_contanctus">Contactanos</string>
     <string name="itemnav_home">Home</string>
+    <string name="perfil_nombreCompleto">Nombre Apellido</string>
+    <string name="perfil_email">ejemplo@gmail.com</string>
+    <string name="perfil_telefono_nro">+54 9 03541 123456</string>
+    <string name="perfil_telefono">Numero Telefonico</string>
+    <string name="perfil_direccion">Calle 123</string>
+    <string name="perfil_direccion_label">Direccion</string>
+    <string name="perfil_dni">12.345.678</string>
+    <string name="perfil_contrasena_encriptada">*********</string>
+    <string name="perfil_contrasena">Contrasena</string>
+    <string name="perfil_editar">Editar perfil</string>
+    <string name="perfil_salir">Cerrar Sesión</string>
+    <string name="perfil_editar_img">Editar Imagen</string>
+
+    <!-- Fragmento Contacto -->
+    <string name="ingresar_nombre_contacto">Ingrese su nombre</string>
+    <string name="ingresar_nombre_label_contacto">Ingrese su nombre:</string>
+    <string name="ingresar_tel_contacto">Ingrese su teléfono</string>
+    <string name="ingresar_tel_label_contacto">Ingrese su teléfono:</string>
+    <string name="ingresar_email_contacto">Ingrese su email</string>
+    <string name="ingresar_email_label_contacto">Ingrese su email:</string>
+    <string name="ingresar_msj_contacto">Ingrese su mensaje</string>
+    <string name="ingresar_msj_label_contacto">Ingrese su mensaje:</string>
+    <string name="whatsapp_contacto">WhatsApp de contacto</string>
+    <string name="titulo_contacto">¡CONTACTANOS!</string>
+    <string name="subtitulo_contacto">Nos comunicaremos a la brevedad!</string>
+    <string name="btn_enviar">Enviar</string>
+    <string name="num_whatsapp">3518542789</string>
+    <string name="instagram">\@petboutique</string>
+    <string name="facebook">Pet Boutique</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="usuario_id">Ingrese su usuario</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="loginB">Login</string>
+    <string name="forgot_pasword">Olvidé mi contraseña</string>
+    <string name="msjregistrate">¿No tienes cuenta?¡Registrate aqui!</string>
+    <string name="image_description_dog">perro</string>
+    <string name="welcome_msj">¡Bienvenido de nuevo!</string>
 
 </resources>
