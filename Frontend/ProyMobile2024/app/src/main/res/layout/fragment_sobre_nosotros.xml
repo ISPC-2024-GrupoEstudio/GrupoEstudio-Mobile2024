@@ -1,0 +1,259 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:paddingTop="?attr/actionBarSize"
+    android:background="@drawable/linear_gradient_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="32dp">
+
+        <!-- Título Sobre Nosotros -->
+        <TextView
+            android:id="@+id/textView_sobre_nosotros_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="144dp"
+            android:text="Sobre Nosotros: La Mejor Opción"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Imagen de una mujer con perro -->
+        <ImageView
+            android:id="@+id/imageView_sobre_nosotros"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Imagen sobre nosotros con una mujer y su perro"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_sobre_nosotros_title"/>
+
+        <!-- Descripción de Sobre Nosotros -->
+
+        <!-- Misión y Visión -->
+        <TextView
+            android:id="@+id/textView_sobre_nosotros_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:text="@string/sobre_nosotros_descripcion"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView_sobre_nosotros" />
+
+        <TextView
+            android:id="@+id/textView_mision_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sobre_nosotros_mision_titulo"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_sobre_nosotros_description"/>
+
+        <TextView
+            android:id="@+id/textView_mision"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sobre_nosotros_mision"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_mision_title"/>
+
+        <TextView
+            android:id="@+id/textView_vision"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sobre_nosotros_vision"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView_historia_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_mision" />
+
+        <!-- Historia de Pet Boutique -->
+        <TextView
+            android:id="@+id/textView_historia_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sobre_nosotros_historia_titulo"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_vision"/>
+
+        <TextView
+            android:id="@+id/textView_historia"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sobre_nosotros_historia"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_historia_title"/>
+
+        <!-- Nuestros Valores -->
+        <TextView
+            android:id="@+id/textView_valores_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sobre_nosotros_valores_titulo"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_historia"/>
+
+        <TextView
+            android:id="@+id/textView_valores"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sobre_nosotros_valores"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_valores_title"/>
+
+        <!-- Beneficios para el Cliente -->
+        <TextView
+            android:id="@+id/textView_beneficios_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sobre_nosotros_beneficios_titulo"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_valores"/>
+
+        <TextView
+            android:id="@+id/textView_beneficios"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sobre_nosotros_beneficios"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_beneficios_title" />
+
+        <!-- Soporte Técnico -->
+        <TextView
+            android:id="@+id/textView_soporte_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=" Soporte Técnico"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_beneficios"/>
+
+        <!-- Encuéntranos en Nuestro Local -->
+
+        <ImageView
+            android:id="@+id/icon_soporte"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="Icono de Soporte Técnico"
+            android:src="@drawable/iconosoporte"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_soporte_title" />
+
+        <TextView
+            android:id="@+id/textView_soporte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="email"
+            android:text="soporte@petboutique.com"
+            android:textColor="@color/verdeAgua"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/icon_soporte"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.146"
+            app:layout_constraintStart_toEndOf="@+id/icon_soporte"
+            app:layout_constraintTop_toTopOf="@+id/icon_soporte"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView            android:id="@+id/textView_local_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=" Encuéntranos en Nuestro Local"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_soporte"/>
+
+        <TextView
+            android:id="@+id/textView_local_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="123 Calle de las Mascotas, Ciudad Mascotaville"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_local_title"/>
+
+        <!-- Google Maps Button -->
+        <Button
+            android:id="@+id/button_google_maps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Ver en Google Maps"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_local_address" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+
+
+
+
+

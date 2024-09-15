@@ -12,14 +12,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -30,6 +26,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -40,6 +37,7 @@ public class MainActivity extends AppCompatActivity{
         navigationView = findViewById(R.id.nav_view);
         buttonDrawerToggle = findViewById(R.id.buttonDrawerToggle);
 
+        // Maneja la apertura del menú lateral
         buttonDrawerToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,8 +63,11 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        // Carga el fragmento de "Sobre Nosotros"
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content, new SobreNosotrosFragment())
+                .commit();
+
         System.out.println(">> MAIN ACTIVITY");
-
     }
-
 }
