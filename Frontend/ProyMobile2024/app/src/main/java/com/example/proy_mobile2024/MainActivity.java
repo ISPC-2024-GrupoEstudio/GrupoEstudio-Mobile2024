@@ -45,6 +45,11 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        // Aquí es donde cargas el fragmento de "Sobre Nosotros"
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content, new SobreNosotrosFragment())
+                .commit();
+
 
     }
 
