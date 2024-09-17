@@ -1,6 +1,7 @@
 package com.example.proy_mobile2024;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,10 +60,18 @@ public class MainActivity extends AppCompatActivity{
                     startActivity(intent);
                 }
 
+                if (id == R.id.nav_profile) {
+                    // Redirige a la actividad Perfil
+                    Intent intent = new Intent(MainActivity.this, PerfilActivity.class);
+                    startActivity(intent);
+                }
+
                 // Cierra el drawer después de seleccionar un ítem
                 drawerLayout.closeDrawers();
                 return true;
             }
+
+
         });
 
         System.out.println(">> MAIN ACTIVITY");

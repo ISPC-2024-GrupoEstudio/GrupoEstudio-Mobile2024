@@ -11,6 +11,8 @@
     <string name="itemnav_cerrsesion">Cerrar sesión</string>
     <string name="itemnav_contanctus">Contactanos</string>
     <string name="itemnav_home">Home</string>
+
+    <!--Activity Perfil-->
     <string name="perfil_nombreCompleto">Nombre Apellido</string>
     <string name="perfil_email">ejemplo@gmail.com</string>
     <string name="perfil_telefono_nro">+54 9 03541 123456</string>
@@ -23,6 +25,8 @@
     <string name="perfil_editar">Editar perfil</string>
     <string name="perfil_salir">Cerrar Sesión</string>
     <string name="perfil_editar_img">Editar Imagen</string>
+    <string name="perfil_flecha_volver">Regresar</string>
+
 
     <!-- Fragmento Contacto -->
     <string name="ingresar_nombre_contacto">Ingrese su nombre</string>

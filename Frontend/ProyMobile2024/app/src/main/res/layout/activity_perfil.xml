@@ -1,9 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".PerfilFragment"
+    tools:context=".PerfilActivity"
     android:background="@color/white">
 
     <LinearLayout
@@ -11,13 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/perfil_layout_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:orientation="vertical"
-            android:background="@color/white" />
 
         <FrameLayout
             android:id="@+id/perfil_semicirculo"
@@ -39,29 +34,41 @@
             android:contentDescription="@string/user_name" />
 
         <ImageView
+            android:id="@+id/btnVolverPerfil"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/flecha_volver"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="-70dp"
+            android:contentDescription="@string/perfil_flecha_volver"/>
+
+        <ImageView
             android:id="@+id/perfil_circulo_img"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="top|center"
             android:layout_marginTop="30dp"
-            android:padding="7dp"
-            android:background="@drawable/circulo"
             android:contentDescription="@string/tu_foto_descr"
-            android:elevation="10dp"
+            android:padding="2dp"
+            android:elevation="0dp"
+            android:background="@drawable/circulo"
             android:src="@drawable/foto_icon"
-            app:tint="@color/celeste_perfil_img" />
+            android:scaleType="centerCrop"/>
 
-        <ImageView
-            android:id="@+id/perfil_header_editar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="-50dp"
-            android:padding="5dp"
+            android:layout_marginTop="-40dp"
+            android:focusable="auto"
+            app:backgroundTint="@color/white"
+            android:src="@drawable/editar_icono"
             android:contentDescription="@string/perfil_editar_img"
-            android:elevation="10dp"
-            android:src="@drawable/editar_icono" />
+            android:layout_gravity="center"
+            app:rippleColor="@android:color/transparent"/>
+
 
 
         <RelativeLayout
@@ -73,11 +80,11 @@
 
             <ImageView
                 android:id="@+id/perfil_name_img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginStart="60dp"
+                android:layout_marginStart="30dp"
                 android:src="@drawable/foto_icon"
                 android:contentDescription="@string/perfil_nombreCompleto" />
 
@@ -89,7 +96,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="30dp"
                 android:text="@string/perfil_nombreCompleto"
-                android:textSize="26sp"
+                android:textSize="22sp"
                 android:textStyle="normal"
                 android:gravity="center_vertical"
                 android:textColor="@color/negro_texto_perfil"
@@ -103,11 +110,11 @@
 
             <ImageView
                 android:id="@+id/perfil_user_img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginStart="60dp"
+                android:layout_marginStart="30dp"
                 android:src="@drawable/usuario_icono"
                 android:contentDescription="@string/user_name"/>
             <TextView
@@ -118,7 +125,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="30dp"
                 android:text="@string/user_name"
-                android:textSize="26sp"
+                android:textSize="22sp"
                 android:gravity="center_vertical"
                 android:textColor="@color/negro_texto_perfil"
                 android:fontFamily="sans-serif-thin" />
@@ -136,11 +143,11 @@
 
             <ImageView
                 android:id="@+id/perfil_contrasena_img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginStart="60dp"
+                android:layout_marginStart="30dp"
                 android:src="@drawable/bloquear"
                 android:contentDescription="@string/perfil_contrasena"/>
             <TextView
@@ -151,7 +158,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="30dp"
                 android:text="@string/perfil_contrasena_encriptada"
-                android:textSize="26sp"
+                android:textSize="22sp"
                 android:gravity="center_vertical"
                 android:textColor="@color/negro_texto_perfil"
                 android:fontFamily="sans-serif-thin" />
@@ -169,11 +176,11 @@
 
             <ImageView
                 android:id="@+id/perfil_email_img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginStart="60dp"
+                android:layout_marginStart="30dp"
                 android:src="@drawable/mail_icono"
                 android:contentDescription="@string/perfil_email"/>
 
@@ -185,7 +192,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="30dp"
                 android:text="@string/perfil_email"
-                android:textSize="26sp"
+                android:textSize="22sp"
                 android:gravity="center_vertical"
                 android:textColor="@color/negro_texto_perfil"
                 android:fontFamily="sans-serif-thin" />
@@ -203,11 +210,11 @@
 
             <ImageView
                 android:id="@+id/perfil_telefono_img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginStart="60dp"
+                android:layout_marginStart="30dp"
                 android:src="@drawable/telefono_icono"
                 android:contentDescription="@string/perfil_telefono"/>
 
@@ -219,7 +226,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="30dp"
                 android:text="@string/perfil_telefono"
-                android:textSize="26sp"
+                android:textSize="22sp"
                 android:gravity="center_vertical"
                 android:textColor="@color/negro_texto_perfil"
                 android:fontFamily="sans-serif-thin" />
@@ -237,11 +244,11 @@
 
             <ImageView
                 android:id="@+id/perfil_direccion_img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginStart="60dp"
+                android:layout_marginStart="30dp"
                 android:src="@drawable/direccion_icono"
                 android:contentDescription="@string/perfil_direccion_label"/>
 
@@ -253,7 +260,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="30dp"
                 android:text="@string/perfil_direccion"
-                android:textSize="26sp"
+                android:textSize="22sp"
                 android:gravity="center_vertical"
                 android:textColor="@color/negro_texto_perfil"
                 android:fontFamily="sans-serif-thin" />
@@ -271,11 +278,11 @@
 
             <ImageView
                 android:id="@+id/perfil_dni_img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginStart="60dp"
+                android:layout_marginStart="30dp"
                 android:src="@drawable/dni"
                 android:contentDescription="@string/user_name"/>
 
@@ -287,7 +294,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="30dp"
                 android:text="@string/perfil_dni"
-                android:textSize="26sp"
+                android:textSize="22sp"
                 android:gravity="center_vertical"
                 android:textColor="@color/negro_texto_perfil"
                 android:fontFamily="sans-serif-thin" />
@@ -307,18 +314,17 @@
 
 
             <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="300dp"
-                android:layout_height="100dp"
-                android:text="@string/perfil_editar"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
                 android:layout_centerInParent="true"
+                android:background="@drawable/degrade_boton"
+                android:text="@string/perfil_editar"
                 android:textColor="@color/negro_texto_perfil"
-                android:textSize="24sp"
-                android:background="@drawable/degrade_boton"/>
+                android:textSize="16sp" />
 
         </RelativeLayout>
+
 
     </LinearLayout>
 
 </ScrollView>
-
-
