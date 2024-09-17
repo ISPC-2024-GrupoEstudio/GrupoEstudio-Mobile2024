@@ -97,9 +97,9 @@ public class LoginFragment extends Fragment {
             return;
         }
 
-        // Validar la longitud de la contraseña (mínimo 6 caracteres)
+        // Validar la longitud de la contraseña (mínimo 8 caracteres)
         if (password.length() < 8) {
-            etPassword.setError("La contraseña debe tener al menos 6 caracteres");
+            etPassword.setError("La contraseña debe tener al menos 8 caracteres");
             return;
         }
 
