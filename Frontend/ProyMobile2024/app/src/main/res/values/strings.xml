@@ -39,7 +39,7 @@
     <string name="ingresar_msj_label_contacto">Ingrese su mensaje:</string>
     <string name="whatsapp_contacto">WhatsApp de contacto</string>
     <string name="titulo_contacto">¡CONTACTANOS!</string>
-    <string name="subtitulo_contacto">Nos comunicaremos a la brevedad!</string>
+    <string name="subtitulo_contacto">¡Nos comunicaremos a la brevedad!</string>
     <string name="btn_enviar">Enviar</string>
     <string name="num_whatsapp">3518542789</string>
     <string name="instagram">\@petboutique</string>
@@ -55,5 +55,30 @@
     <string name="msjregistrate">¿No tienes cuenta?¡Registrate aqui!</string>
     <string name="image_description_dog">perro</string>
     <string name="welcome_msj">¡Bienvenido de nuevo!</string>
+
+    <!-- Fragmento sobre_nosotros -->
+    <string name="sobre_nosotros_descripcion">Somos un equipo de amantes de los animales que entiende la importancia de proporcionar a las mascotas el mejor cuidado y atención.
+        En PetBoutique, nos enorgullece ofrecer productos seleccionados cuidadosamente para garantizar la satisfacción tanto de los dueños como de sus queridas mascotas.
+        Nuestra pasión por los animales nos impulsa a brindar un servicio excepcional y una selección diversa de productos que hacen que la vida de los perros sea aún más emocionante y cómoda.
+        Nuestro compromiso es brindarte productos de alta calidad que combinen estilo y funcionalidad.
+        Ya sea que estés buscando un regalo especial para tu mejor amigo peludo o simplemente quieras mimarlo un poco más,
+        en PetBoutique estamos aquí para ayudarte.
+    </string>
+    <string name="sobre_nosotros_mision_titulo">Misión:</string>
+    <string name="sobre_nosotros_mision">En Pet Boutique, nuestro objetivo es ofrecer productos de alta calidad y servicios confiables que aseguren el bienestar y la felicidad de tu mascota.
+        Convertirnos en la tienda líder de productos para mascotas, ofreciendo soluciones integrales que promuevan la salud, el cuidado y la alegría de las mascotas y sus dueños.</string>
+
+    <string name="sobre_nosotros_vision_titulo">Visión:</string>
+    <string name="sobre_nosotros_vision">Convertirnos en la tienda líder de productos para mascotas, ofreciendo soluciones integrales que promuevan la salud, el cuidado y la alegría de las mascotas y sus dueños.</string>
+
+    <string name="sobre_nosotros_historia_titulo">Historia de Pet Boutique:</string>
+    <string name="sobre_nosotros_historia">Desde su fundación en 2020, Pet Boutique ha recorrido un emocionante viaje, empezando como una pequeña tienda online y creciendo hasta convertirse en una plataforma confiable para miles de dueños de mascotas en todo el país.</string>
+
+    <string name="sobre_nosotros_valores_titulo">Nuestros Valores:</string>
+    <string name="sobre_nosotros_valores">Nos enorgullecemos de trabajar bajo los siguientes valores: Calidad, Confianza y Compromiso.</string>
+
+
+    <string name="sobre_nosotros_beneficios_titulo">Beneficios para el Cliente:</string>
+    <string name="sobre_nosotros_beneficios">Nos preocupamos por brindarte una experiencia única y cómoda. Al comprar en Pet Boutique, obtienes envío rápido, productos garantizados y atención personalizada.</string>
 
 </resources>

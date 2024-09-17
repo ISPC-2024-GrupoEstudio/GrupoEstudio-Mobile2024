@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#DA8FEDE4"
+        android:background="@drawable/gradient"
         android:paddingTop="0dp"
         android:paddingBottom="0dp">
 
@@ -16,11 +15,10 @@
             android:id="@+id/buttonDrawerToggle"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/menu_icon"
             android:background="@android:color/transparent"
-            android:padding="10dp"
             android:contentDescription="@string/drawer_toggle_description"
-            />
+            android:padding="10dp"
+            android:src="@drawable/menu_icon" />
 
     </androidx.appcompat.widget.Toolbar>
 

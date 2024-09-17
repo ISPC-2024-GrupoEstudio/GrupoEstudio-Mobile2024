@@ -4,10 +4,13 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.EditText;
+import android.widget.Button;
+import android.widget.Toast;
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link LoginFragment#newInstance} factory method to
@@ -28,6 +31,9 @@ public class LoginFragment extends Fragment {
         // Required empty public constructor
     }
 
+    private EditText etUsername;
+    private EditText etPassword;
+    private Button btnLogin;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -59,6 +65,47 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+
+        etUsername = view.findViewById(R.id.user_id);
+        etPassword = view.findViewById(R.id.contrasenalog);
+        btnLogin = view.findViewById(R.id.loginButton);
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                validateLogin();
+            }
+        });
+        return view;
+    }
+
+    private void validateLogin() {
+        String username = etUsername.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+
+        // Validar que el campo username no esté vacío
+        if (TextUtils.isEmpty(username)) {
+            etUsername.setError("El nombre de usuario es requerido");
+            return;
+        }
+
+        // Validar que el campo password no esté vacío
+        if (TextUtils.isEmpty(password)) {
+            etPassword.setError("La contraseña es requerida");
+            return;
+        }
+
+        // Validar la longitud de la contraseña (mínimo 6 caracteres)
+        if (password.length() < 8) {
+            etPassword.setError("La contraseña debe tener al menos 6 caracteres");
+            return;
+        }
+
+        Toast.makeText(getActivity(), "Ingreso exitoso", Toast.LENGTH_SHORT).show();
+
+        // Luego agregaria la lógica para autenticar al usuario,
+        // una llamada a un servidor
     }
 }
