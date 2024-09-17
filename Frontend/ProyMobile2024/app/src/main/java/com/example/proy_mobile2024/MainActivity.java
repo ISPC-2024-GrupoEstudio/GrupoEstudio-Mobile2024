@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Configura el listener para el NavigationView
+        /* Configura el listener para el NavigationView
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -67,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.closeDrawers();
                 return true;
             }
-        });
+        });*/
 
         // Carga el fragmento de "Sobre Nosotros"
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content, new SobreNosotrosFragment())
+                .replace(R.id.fragment_container, new SobreNosotrosFragment())
                 .commit();
 
         System.out.println(">> MAIN ACTIVITY");//
@@ -93,12 +93,28 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new ContactoFragment();
                 }else if (id == R.id.nav_registro) {
                     selectedFragment = new RegisterFragment();
+                }else if (id == R.id.nav_home){
+                    selectedFragment = new SobreNosotrosFragment();
                 }
                 if (selectedFragment !=null){
                     replaceFragment(selectedFragment);
                 }
+
+                if (id == R.id.nav_products) {
+                    Intent intent = new Intent(MainActivity.this, GaleriaProductosActivity.class);
+                    startActivity(intent);
+                }/* if (id == R.id.nav_home) {
+                    // Redirige a otra actividad si tienes más
+                    Intent intent = new Intent(MainActivity.this, LandingActivity.class);
+                    startActivity(intent);
+                }*/
+
+                // Cierra el drawer después de seleccionar un ítem
+                drawerLayout.closeDrawers();
+
                 return true;
             }
+
         });
     }
 
