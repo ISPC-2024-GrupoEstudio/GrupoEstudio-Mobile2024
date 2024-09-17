@@ -78,10 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 item.setChecked(true);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 Fragment selectedFragment = null;
-                if (id == R.id.nav_profile) {
-                    Log.d("MainActivity", "Perfil seleccionado");
-                    selectedFragment = new PerfilFragment();
-                } else if (id == R.id.nav_login) {
+                if (id == R.id.nav_login) {
                     selectedFragment = new LoginFragment();
                 }else if (id == R.id.nav_contactus) {
                     selectedFragment = new ContactoFragment();
@@ -96,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if (id == R.id.nav_products) {
                     Intent intent = new Intent(MainActivity.this, GaleriaProductosActivity.class);
+                    startActivity(intent);
+                }
+                if (id == R.id.nav_profile) {
+                    Intent intent = new Intent(MainActivity.this, PerfilActivity.class);
                     startActivity(intent);
                 }/* if (id == R.id.nav_home) {
                     // Redirige a otra actividad si tienes más
