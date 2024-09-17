@@ -51,28 +51,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /* Configura el listener para el NavigationView
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                int id = item.getItemId();
 
-                if (id == R.id.nav_products) {
-                    // Redirige a la actividad GaleriaProducto
-                    Intent intent = new Intent(MainActivity.this, GaleriaProductosActivity.class);
-                    startActivity(intent);
-                }
 
-                // Cierra el drawer después de seleccionar un ítem
-                drawerLayout.closeDrawers();
-                return true;
+        if (savedInstanceState == null) {
+            // Carga el fragmento de "Sobre Nosotros" solo si no hay un estado guardado
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new SobreNosotrosFragment())
+                    .commit();
+        } else {
+            // Restaura el estado del fragmento desde savedInstanceState
+            Fragment fragment = getSupportFragmentManager().getFragment(savedInstanceState, "currentFragment");
+            if (fragment != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .commit();
             }
-        });*/
-
-        // Carga el fragmento de "Sobre Nosotros"
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new SobreNosotrosFragment())
-                .commit();
+        }
 
         System.out.println(">> MAIN ACTIVITY");//
 
@@ -116,6 +110,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Guarda el fragmento actual en el estado
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (currentFragment != null) {
+            getSupportFragmentManager().putFragment(outState, "currentFragment", currentFragment);
+        }
     }
 
     private void replaceFragment(Fragment fragment){
