@@ -2,16 +2,22 @@ package com.example.proy_mobile2024;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -68,6 +74,40 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.content, new SobreNosotrosFragment())
                 .commit();
 
-        System.out.println(">> MAIN ACTIVITY");
+        System.out.println(">> MAIN ACTIVITY");//
+
+        //Navegacion con fragments
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull @org.jetbrains.annotations.NotNull MenuItem item) {
+                int id = item.getItemId();
+                item.setChecked(true);
+                drawerLayout.closeDrawer(GravityCompat.START);
+                Fragment selectedFragment = null;
+                if (id == R.id.nav_profile) {
+                    Log.d("MainActivity", "Perfil seleccionado");
+                    selectedFragment = new PerfilFragment();
+                } else if (id == R.id.nav_login) {
+                    selectedFragment = new LoginFragment();
+                }else if (id == R.id.nav_contactus) {
+                    selectedFragment = new ContactoFragment();
+                }else if (id == R.id.nav_registro) {
+                    selectedFragment = new RegisterFragment();
+                }
+                if (selectedFragment !=null){
+                    replaceFragment(selectedFragment);
+                }
+                return true;
+            }
+        });
+    }
+
+    private void replaceFragment(Fragment fragment){
+        Log.d("MainActivity", "Reemplazando el fragmento");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container,fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
