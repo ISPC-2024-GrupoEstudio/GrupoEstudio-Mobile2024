@@ -87,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
                 }else if (id == R.id.nav_home){
                     selectedFragment = new SobreNosotrosFragment();
                 }
+                else if (id == R.id.nav_cart){
+                selectedFragment = new CarritoFragment();
+                }
                 if (selectedFragment !=null){
                     replaceFragment(selectedFragment);
                 }
