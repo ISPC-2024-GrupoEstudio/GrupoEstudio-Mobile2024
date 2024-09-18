@@ -93,7 +93,9 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintWidth_max="488dp" />
+                            app:layout_constraintWidth_max="488dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -132,7 +134,9 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintWidth_max="488dp" />
+                            app:layout_constraintWidth_max="488dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -171,7 +175,9 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintWidth_max="488dp" />
+                            app:layout_constraintWidth_max="488dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -183,8 +189,8 @@
                         android:layout_marginTop="15dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/ingresar_msj_label_contacto"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -210,7 +216,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintWidth_max="488dp" />
+                            app:layout_constraintWidth_max="488dp"
+                            android:textColorHint="@color/black"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
