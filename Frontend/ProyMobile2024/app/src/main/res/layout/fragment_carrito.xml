@@ -8,12 +8,13 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -40,7 +41,7 @@
                         android:id="@+id/divider2"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
+                        android:background="@color/black" />
 
                     <LinearLayout
                         android:id="@+id/linearLayout"
@@ -70,19 +71,22 @@
                                 android:id="@+id/nombreProducto"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Correa extensible" />
+                                android:text="Correa extensible"
+                                android:textColor="@color/black"/>
 
                             <TextView
                                 android:id="@+id/textprecio"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="$20.000" />
+                                android:text="$20.000"
+                                android:textColor="@color/black"/>
 
                             <TextView
                                 android:id="@+id/textcantidad"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Cantidad: 1" />
+                                android:text="Cantidad: 1"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <ImageButton
@@ -105,7 +109,7 @@
                         android:id="@+id/divider3"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
+                        android:background="@color/black" />
 
 
                     <LinearLayout
@@ -136,19 +140,22 @@
                                 android:id="@+id/nombreProducto2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Comedor + Dispenser" />
+                                android:text="Comedor + Dispenser"
+                                android:textColor="@color/black"/>
 
                             <TextView
                                 android:id="@+id/textprecio2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="$25.000" />
+                                android:text="$25.000"
+                                android:textColor="@color/black"/>
 
                             <TextView
                                 android:id="@+id/textcantidad2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Cantidad: 1" />
+                                android:text="Cantidad: 1"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <ImageButton
@@ -171,7 +178,7 @@
                         android:id="@+id/divider4"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
+                        android:background="@color/black" />
 
                     <TextView
                         android:id="@+id/orderTotalTextView"
@@ -196,7 +203,8 @@
                         android:text="Finalizar Compra"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
 
                 </LinearLayout>
 
