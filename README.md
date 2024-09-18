@@ -11,7 +11,7 @@ Este proyecto es una aplicación móvil desarrollada con Android Studio, enfocad
 - [Tecnologia](#tecnologías-utilizadas)
 - [Capturas de pantalla](#capturas-de-pantalla)
 - [Autores](#autores)
-- [Licencia](#licencia)
+
 
 ## Instalación
 1. Clona el repositorio:
@@ -36,11 +36,15 @@ Este proyecto es una aplicación móvil desarrollada con Android Studio, enfocad
 
 
 ## Capturas de pantalla
+![Landing Page](https://github.com/JavierCarranza0101/imagenes-dresscodehost/blob/main/img_petboutique/screenshots/Screenshot_20240917_192837LANDING.png)
 ![Menu de navegacion](https://github.com/JavierCarranza0101/imagenes-dresscodehost/blob/main/img_petboutique/screenshots/Screenshot_20240911_134611b.png)
-![Carrito de Compras](https://github.com/JavierCarranza0101/imagenes-dresscodehost/blob/main/img_petboutique/screenshots/carito%201.png)
+![Login](https://github.com/JavierCarranza0101/imagenes-dresscodehost/blob/main/img_petboutique/screenshots/Screenshot_20240917_192858LOGIN.png)
+![Registro](https://github.com/JavierCarranza0101/imagenes-dresscodehost/blob/main/img_petboutique/screenshots/Screenshot_20240917_192916REGISTRO.png)
 ![Productos](https://github.com/JavierCarranza0101/imagenes-dresscodehost/blob/main/img_petboutique/screenshots/Screenshot_20240914_160820productos.png)
+![Carrito de Compras](https://github.com/JavierCarranza0101/imagenes-dresscodehost/blob/main/img_petboutique/screenshots/carito%201.png)
 ![Contacto](https://github.com/JavierCarranza0101/imagenes-dresscodehost/blob/main/img_petboutique/screenshots/Screenshot_20240911_195741contacto.png)
 ![Perfil](https://github.com/JavierCarranza0101/imagenes-dresscodehost/blob/main/img_petboutique/screenshots/Screenshot_20240914_163445perfil1.png)
+
 
 ## Autores
 
