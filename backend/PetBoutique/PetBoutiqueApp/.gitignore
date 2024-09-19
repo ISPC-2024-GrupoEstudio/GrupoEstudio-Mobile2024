@@ -1,0 +1,4 @@
+# Ignorar la carpeta __pycache__ en esta ubicación
+__pycache__/
+migrations/__pycache__/
+migrations/__init__.py

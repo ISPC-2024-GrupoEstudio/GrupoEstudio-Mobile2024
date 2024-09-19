@@ -1,0 +1,160 @@
+class Categoriaproductos(models.Model):
+    idcategoriaproducto = models.AutoField(db_column='IdCategoriaProducto', primary_key=True)  # Field name made lowercase.
+    nombre = models.CharField(max_length=45, blank=True, null=True)
+    descripcion = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'categoriaproductos'
+
+
+class Estadopedido(models.Model):
+    idestado = models.IntegerField(db_column='idEstado', primary_key=True)  # Field name made lowercase.
+    nombre = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'estadopedido'
+
+
+class Formadepago(models.Model):
+    idformadepago = models.IntegerField(db_column='idFormaDePago', primary_key=True)  # Field name made lowercase.
+    desc = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'formadepago'
+
+
+class Pedidos(models.Model):
+    nropedido = models.IntegerField(db_column='nroPedido', primary_key=True)  # Field name made lowercase.
+    fecha = models.DateTimeField(blank=True, null=True)
+    estado = models.ForeignKey(Estadopedido, models.DO_NOTHING, db_column='estado', blank=True, null=True)
+    usuario = models.ForeignKey('Usuarios', models.DO_NOTHING, db_column='usuario', blank=True, null=True)
+    tipodeenvio = models.ForeignKey('Tipoenvio', models.DO_NOTHING, db_column='tipoDeEnvio', blank=True, null=True)  # Field name made lowercase.
+    domicilioenvio = models.CharField(db_column='domicilioEnvio', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    formadepago = models.ForeignKey(Formadepago, models.DO_NOTHING, db_column='formaDePago', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'pedidos'
+
+
+class Productos(models.Model):
+    idproducto = models.AutoField(db_column='idProducto', primary_key=True)  # Field name made lowercase.
+    nombre = models.CharField(max_length=45, blank=True, null=True)
+    descripcion = models.CharField(max_length=45, blank=True, null=True)
+    precio = models.CharField(max_length=45, blank=True, null=True)
+    stock_actual = models.IntegerField(blank=True, null=True)
+    proveedor = models.ForeignKey('Proveedores', models.DO_NOTHING, db_column='proveedor', blank=True, null=True)
+    stock_min = models.CharField(max_length=45, blank=True, null=True)
+    categoria = models.ForeignKey(Categoriaproductos, models.DO_NOTHING, db_column='categoria', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'productos'
+
+
+class Productosxcarrito(models.Model):
+    nombredeusuario = models.OneToOneField('Usuarios', models.DO_NOTHING, db_column='nombreDeUsuario', primary_key=True)  # Field name made lowercase. The composite primary key (nombreDeUsuario, idProducto) found, that is not supported. The first column is selected.
+    idproducto = models.ForeignKey(Productos, models.DO_NOTHING, db_column='idProducto')  # Field name made lowercase.
+    cant = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'productosxcarrito'
+        unique_together = (('nombredeusuario', 'idproducto'),)
+
+
+class Productosxpedido(models.Model):
+    idproducto = models.OneToOneField(Productos, models.DO_NOTHING, db_column='idProducto', primary_key=True)  # Field name made lowercase. The composite primary key (idProducto, nroPedido) found, that is not supported. The first column is selected.
+    nropedido = models.ForeignKey(Pedidos, models.DO_NOTHING, db_column='nroPedido')  # Field name made lowercase.
+    cantidad = models.IntegerField()
+    precio = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'productosxpedido'
+        unique_together = (('idproducto', 'nropedido'),)
+
+
+class Productosxventa(models.Model):
+    nrofactura = models.OneToOneField('Ventas', models.DO_NOTHING, db_column='nroFactura', primary_key=True)  # Field name made lowercase. The composite primary key (nroFactura, idProducto) found, that is not supported. The first column is selected.
+    monto = models.CharField(max_length=45, blank=True, null=True)
+    cantidad = models.CharField(max_length=45, blank=True, null=True)
+    idproducto = models.ForeignKey(Productos, models.DO_NOTHING, db_column='idProducto')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'productosxventa'
+        unique_together = (('nrofactura', 'idproducto'),)
+
+
+class Proveedores(models.Model):
+    idproveedores = models.AutoField(db_column='idProveedores', primary_key=True)  # Field name made lowercase.
+    nombre = models.CharField(max_length=45, blank=True, null=True)
+    direccion = models.CharField(max_length=45, blank=True, null=True)
+    telefono = models.CharField(max_length=45, blank=True, null=True)
+    mail = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'proveedores'
+
+
+class Roles(models.Model):
+    idrol = models.AutoField(db_column='idRol', primary_key=True)  # Field name made lowercase.
+    nombre_del_rol = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'roles'
+
+
+class Tipodoc(models.Model):
+    idtipodoc = models.AutoField(db_column='idTipoDoc', primary_key=True)  # Field name made lowercase.
+    nombre = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tipodoc'
+
+
+class Tipoenvio(models.Model):
+    idtipoenvio = models.IntegerField(db_column='idTipoEnvio', primary_key=True)  # Field name made lowercase.
+    desc = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tipoenvio'
+
+
+class Usuarios(models.Model):
+    nombreusuario = models.CharField(db_column='nombreUsuario', primary_key=True, max_length=12)  # Field name made lowercase.
+    nombre = models.CharField(max_length=45, blank=True, null=True)
+    direccion = models.CharField(max_length=45, blank=True, null=True)
+    telefono = models.IntegerField(blank=True, null=True)
+    email = models.CharField(max_length=45, blank=True, null=True)
+    apellido = models.CharField(max_length=45, blank=True, null=True)
+    tipodoc = models.ForeignKey(Tipodoc, models.DO_NOTHING, db_column='tipoDoc', blank=True, null=True)  # Field name made lowercase.
+    nrodoc = models.IntegerField(db_column='nroDoc', blank=True, null=True)  # Field name made lowercase.
+    nrocliente = models.IntegerField(db_column='nroCliente', blank=True, null=True)  # Field name made lowercase.
+    rol = models.ForeignKey(Roles, models.DO_NOTHING, db_column='rol', blank=True, null=True)
+    estado = models.TextField(blank=True, null=True)  # This field type is a guess.
+    password = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'usuarios'
+
+
+class Ventas(models.Model):
+    nrofactura = models.IntegerField(db_column='nroFactura', primary_key=True)  # Field name made lowercase.
+    fecha = models.CharField(max_length=45, blank=True, null=True)
+    usuario = models.ForeignKey(Usuarios, models.DO_NOTHING, db_column='usuario', blank=True, null=True)
+    nropedido = models.ForeignKey(Pedidos, models.DO_NOTHING, db_column='nroPedido', blank=True, null=True)  # Field name made lowercase.
+    preciofinal = models.FloatField(db_column='precioFinal', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'ventas'
