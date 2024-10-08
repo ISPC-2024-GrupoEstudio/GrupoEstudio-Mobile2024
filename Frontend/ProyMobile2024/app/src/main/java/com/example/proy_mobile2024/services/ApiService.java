@@ -8,11 +8,14 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import java.util.List;
-import com.example.proy_mobile2024.model.LoginData;
+//import com.example.proy_mobile2024.model.LoginData;
+import com.example.proy_mobile2024.model.Perfil;
 
 
 public interface ApiService {
     // 1. Solicitud de inicio de sesión (POST)
-    @POST("api/login/")
-    Call<Void> loginUser(@Body LoginData loginData);
+//    @POST("api/login/")
+//    Call<Void> loginUser(@Body LoginData loginData);
+    @GET("api/perfil/")
+    Call<Perfil> getPerfil();
 }
