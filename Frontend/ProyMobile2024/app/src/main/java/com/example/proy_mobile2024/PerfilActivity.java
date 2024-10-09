@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 
@@ -19,6 +20,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,12 +80,14 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
 
         textViewPerfil = findViewById(R.id.perfil_header_username);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+
         perfilViewModel = new PerfilViewModel();
 
         perfilViewModel.getPerfilLiveData().observe(this, perfil -> {
             textViewPerfil.setText(perfil.getNombre_apellido());
             textViewPerfil.setText(perfil.getUser_name());
-            textViewPerfil.setText(perfil.getPassword());
+            //textViewPerfil.setText(perfil.getPassword());
             textViewPerfil.setText(perfil.getEmail());
             textViewPerfil.setText(perfil.getNro_telefono());
             textViewPerfil.setText(perfil.getDireccion());
@@ -91,11 +95,20 @@ public class PerfilActivity extends AppCompatActivity {
         });
 
         perfilViewModel.getCargando().observe(this, cargando -> {
-
+            if (cargando != null && cargando) {
+                // Mostrar el ProgressBar
+                progressBar.setVisibility(View.VISIBLE);
+            } else {
+                // Ocultar el ProgressBar
+                progressBar.setVisibility(View.GONE);
+            }
         });
 
         perfilViewModel.getMensajeError().observe(this, mensajeError -> {
+            if (mensajeError != null) {
+                Toast.makeText(this, mensajeError, Toast.LENGTH_LONG).show();
 
+            };
         });
 
         perfilViewModel.fetchPerfil();
