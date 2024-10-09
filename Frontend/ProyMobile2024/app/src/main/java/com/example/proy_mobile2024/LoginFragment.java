@@ -11,12 +11,21 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.proy_mobile2024.R;
+import com.example.proy_mobile2024.viewsmodels.LoginViewModel;
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class LoginFragment extends Fragment {
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,7 +39,7 @@ public class LoginFragment extends Fragment {
     public LoginFragment() {
         // Required empty public constructor
     }
-
+    private LoginViewModel loginViewModel;
     private EditText etUsername;
     private EditText etPassword;
     private Button btnLogin;
@@ -72,6 +81,23 @@ public class LoginFragment extends Fragment {
         etPassword = view.findViewById(R.id.contrasenalog);
         btnLogin = view.findViewById(R.id.loginButton);
 
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+
+        loginViewModel.getLoginSuccess().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean success) {
+                if (success) {
+                    // Login exitoso
+                    Toast.makeText(getActivity(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+                    // Aquí puedes navegar a otra actividad o fragmento
+                } else {
+                    // Fallo en el inicio de sesión
+                    Toast.makeText(getActivity(), "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,10 +128,8 @@ public class LoginFragment extends Fragment {
             etPassword.setError("La contraseña debe tener al menos 8 caracteres");
             return;
         }
+        loginViewModel.login(username, password);
 
         Toast.makeText(getActivity(), "Ingreso exitoso", Toast.LENGTH_SHORT).show();
-
-        // Luego agregaria la lógica para autenticar al usuario,
-        // una llamada a un servidor
     }
 }

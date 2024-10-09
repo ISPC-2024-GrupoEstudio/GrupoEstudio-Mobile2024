@@ -7,7 +7,13 @@ public class RetrofitClient {
     private static Retrofit retrofit = null;
     private static RetrofitClient instance = null;
     private ApiService apiService;
-    private static final String BASE_URL = "http://<tu_ip_local>:8000/api/";
+    private static final String BASE_URL = "http://192.168.0.99:8000/api/";;
+
+    private RetrofitClient() {
+        // Inicializa la API service aquí
+        retrofit = getClient(BASE_URL);
+        apiService = retrofit.create(ApiService.class);
+    }
 
     public static Retrofit getClient(String baseUrl) {
         if (retrofit == null) {
