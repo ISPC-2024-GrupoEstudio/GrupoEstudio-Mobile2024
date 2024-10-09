@@ -27,7 +27,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Añadir placeholders del manifiesto
         manifestPlaceholders.putAll(mapOf(
             "auth0Domain" to "dev-beq8aquv5nb4mfcn.us.auth0.com",
             "auth0Scheme" to "https"
@@ -76,6 +75,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.14")
     implementation("com.auth0.android:auth0:2.11.0")
     implementation("com.auth0.android:lock:3.2.2")
+    implementation("com.auth0.android:jwtdecode:2.0.0")
 
     //implementation(libs.coordinatorlayout)
 }
