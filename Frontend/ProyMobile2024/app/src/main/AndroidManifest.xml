@@ -48,6 +48,13 @@
             android:exported="true">
         </activity>
 
+        <meta-data
+            android:name="com.auth0.client_id"
+            android:value="AGgSJc6ahkAxIvjBbQ3vgrgZkKSHoc2N" />
+        <meta-data
+            android:name="com.auth0.domain"
+            android:value="dev-beq8aquv5nb4mfcn.us.auth0.com"/>
+
     </application>
 </manifest>
 
