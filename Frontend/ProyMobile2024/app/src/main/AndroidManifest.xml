@@ -20,6 +20,7 @@
         tools:replace="android:appComponentFactory"
         tools:targetApi="31">
 
+
         <!-- DetalleProductoActivity -->
         <activity
             android:name=".PerfilActivity"
