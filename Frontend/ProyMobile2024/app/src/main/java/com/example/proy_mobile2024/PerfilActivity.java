@@ -82,6 +82,12 @@ public class PerfilActivity extends AppCompatActivity {
 
         perfilViewModel.getPerfilLiveData().observe(this, perfil -> {
             textViewPerfil.setText(perfil.getNombre_apellido());
+            textViewPerfil.setText(perfil.getUser_name());
+            textViewPerfil.setText(perfil.getPassword());
+            textViewPerfil.setText(perfil.getEmail());
+            textViewPerfil.setText(perfil.getNro_telefono());
+            textViewPerfil.setText(perfil.getDireccion());
+            textViewPerfil.setText(perfil.getDni());
         });
 
         perfilViewModel.getCargando().observe(this, cargando -> {
