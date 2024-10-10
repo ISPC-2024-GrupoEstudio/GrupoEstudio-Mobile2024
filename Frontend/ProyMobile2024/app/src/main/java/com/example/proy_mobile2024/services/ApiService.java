@@ -13,6 +13,6 @@ import com.example.proy_mobile2024.model.LoginData;
 
 public interface ApiService {
     // 1. Solicitud de inicio de sesión (POST)
-    @POST("login/")
+    @POST("api/auth/login/")
     Call<Void> loginUser(@Body LoginData loginData);
 }

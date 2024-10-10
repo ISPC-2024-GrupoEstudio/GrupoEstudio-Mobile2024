@@ -16,8 +16,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import com.example.proy_mobile2024.R;
+import com.example.proy_mobile2024.model.LoginData;
+import com.example.proy_mobile2024.services.ApiService;
+import com.example.proy_mobile2024.services.RetrofitClient;
 import com.example.proy_mobile2024.viewsmodels.LoginViewModel;
 /**
  * A simple {@link Fragment} subclass.
@@ -40,8 +48,7 @@ public class LoginFragment extends Fragment {
         // Required empty public constructor
     }
     private LoginViewModel loginViewModel;
-    private EditText etUsername;
-    private EditText etPassword;
+    private EditText etUsername, etPassword;
     private Button btnLogin;
     /**
      * Use this factory method to create a new instance of
@@ -96,7 +103,14 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
-
+        loginViewModel.getErrorMessage().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String message) {
+                if (message != null) {
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,8 +142,9 @@ public class LoginFragment extends Fragment {
             etPassword.setError("La contraseña debe tener al menos 8 caracteres");
             return;
         }
+
+
         loginViewModel.login(username, password);
 
-        Toast.makeText(getActivity(), "Ingreso exitoso", Toast.LENGTH_SHORT).show();
     }
 }

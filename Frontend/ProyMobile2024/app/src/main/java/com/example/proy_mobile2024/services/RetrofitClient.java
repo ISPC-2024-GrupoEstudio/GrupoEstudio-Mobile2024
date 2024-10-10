@@ -7,18 +7,18 @@ public class RetrofitClient {
     private static Retrofit retrofit = null;
     private static RetrofitClient instance = null;
     private ApiService apiService;
-    private static final String BASE_URL = "http://192.168.0.99:8000/api/";;
+    private static final String BASE_URL = "https://bda6-190-136-244-190.ngrok-free.app";
 
     private RetrofitClient() {
         // Inicializa la API service aquí
-        retrofit = getClient(BASE_URL);
+        retrofit = getClient();
         apiService = retrofit.create(ApiService.class);
     }
 
-    public static Retrofit getClient(String baseUrl) {
+    public static Retrofit getClient() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(baseUrl)
+                    .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

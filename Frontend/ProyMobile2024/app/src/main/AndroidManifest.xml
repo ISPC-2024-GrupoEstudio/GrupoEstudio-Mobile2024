@@ -17,7 +17,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyMobile2024"
-        tools:replace="android:appComponentFactory"
         tools:targetApi="31">
 
 

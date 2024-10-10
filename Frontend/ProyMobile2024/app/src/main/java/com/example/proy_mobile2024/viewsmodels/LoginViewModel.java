@@ -61,4 +61,8 @@ public class LoginViewModel extends ViewModel {
     public LiveData<Boolean> isLoading() {
         return isLoading;
     }
+
+    public void setLoginSuccess(boolean success) {
+        loginSuccess.setValue(success);
+    }
 }
