@@ -83,4 +83,10 @@
 
     <string name="com_auth0_client_id">AGgSJc6ahkAxIvjBbQ3vgrgZkKSHoc2N</string>
     <string name="com_auth0_domain">dev-beq8aquv5nb4mfcn.us.auth0.com</string>
+
+    <!--Activity Landing-->
+    <string name="landing_descripcionBanderin">Logo de Pet Boutique</string>
+    <string name="landing_bienvenida">Bienvenid@s a Pet Boutique</string>
+    <string name="landing_boton">Empezar</string>
+
 </resources>
