@@ -4,25 +4,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static Retrofit retrofit = null;
+    private Retrofit retrofit = null;
     private static RetrofitClient instance = null;
     private ApiService apiService;
-    private static final String BASE_URL = "https://64e3-190-136-244-190.ngrok-free.app";
+    private static final String BASE_URL = "http://10.0.2.2:8000/api/";
 
-    private RetrofitClient() {
-        // Inicializa la API service aquí
-        retrofit = getClient();
-        apiService = retrofit.create(ApiService.class);
-    }
 
-    public static Retrofit getClient() {
-        if (retrofit == null) {
+    private RetrofitClient()
+    {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-        }
-        return retrofit;
+                    apiService=retrofit.create(ApiService.class);
     }
 
     public static RetrofitClient getInstance() {
