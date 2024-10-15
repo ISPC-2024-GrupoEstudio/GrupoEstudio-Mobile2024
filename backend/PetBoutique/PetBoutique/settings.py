@@ -27,7 +27,9 @@ SECRET_KEY = 'django-insecure-4l#6bdx6tmem#&^&&850i&ny(mfc$etbdj7zn&!!ok3$9c*l#b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '10.0.2.2',
+]
 
 
 # Application definition
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'PetBoutiqueApp',
     'rest_framework',
     'corsheaders',
+    'sslserver',
 ]
 
 MIDDLEWARE = [
