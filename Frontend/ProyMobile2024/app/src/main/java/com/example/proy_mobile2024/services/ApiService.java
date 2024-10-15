@@ -13,13 +13,12 @@ import retrofit2.http.POST;
 
 public interface ApiService {
 //    // 1. Solicitud de inicio de sesión (POST)
-//    @POST("api/login/")
 //    Call<Void> loginUser(@Body LoginData loginData);
 
     //2.solicitud de productos para galería (GET)
     @GET("productos")
     Call<List<Producto>> obtenerProductos();
     
-    @POST("/api/auth/login/")
+    @POST("auth/login/")
     Call<Void> loginUser(@Body LoginData loginData);
 }
