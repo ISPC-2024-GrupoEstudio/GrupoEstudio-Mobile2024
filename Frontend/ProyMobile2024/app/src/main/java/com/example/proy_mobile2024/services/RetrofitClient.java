@@ -7,7 +7,7 @@ public class RetrofitClient {
     private static Retrofit retrofit = null;
     private static RetrofitClient instance = null;
     private ApiService apiService;
-    private static final String BASE_URL = "https://bda6-190-136-244-190.ngrok-free.app";
+    private static final String BASE_URL = "https://64e3-190-136-244-190.ngrok-free.app";
 
     private RetrofitClient() {
         // Inicializa la API service aquí
