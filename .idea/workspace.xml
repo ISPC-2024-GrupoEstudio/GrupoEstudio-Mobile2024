@@ -2,9 +2,26 @@
 <project version="4">
   <component name="AndroidLayouts">
     <shared>
-      <config />
+      <config>
+        <target>android-34</target>
+      </config>
     </shared>
     <layouts>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_detalle_producto.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_galeria_productos.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_landing.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_main.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
@@ -15,7 +32,22 @@
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_productos.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_carrito.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_register.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_sobre_nosotros.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
@@ -31,9 +63,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+    <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="correccion estilos landing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/ApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/ApiService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/gradle.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -111,7 +143,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="_Designer_Tab" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -224,11 +256,29 @@
       <option name="project" value="LOCAL" />
       <updated>1726604682842</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="correccion errores">
+      <option name="closed" value="true" />
+      <created>1728547858783</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1728547858783</updated>
+    </task>
+    <task id="LOCAL-00003" summary="correccion estilos landing">
+      <option name="closed" value="true" />
+      <created>1728550017868</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1728550017868</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Funcionalidad Editar imagen de perfil" />
-    <option name="LAST_COMMIT_MESSAGE" value="Funcionalidad Editar imagen de perfil" />
+    <MESSAGE value="correccion errores" />
+    <MESSAGE value="correccion estilos landing" />
+    <option name="LAST_COMMIT_MESSAGE" value="correccion estilos landing" />
   </component>
 </project>
