@@ -5,15 +5,15 @@ public class Producto {
     private String nombre;
     private String descripcion;
     private double precio;
-    private String imagen;
+    private String image_url;
     private int categoria; // Nuevo atributo para la categoría
 
-    public Producto(int id_producto, String nombre, String descripcion, double precio, String imagen, int categoria) {
+    public Producto(int id_producto, String nombre, String descripcion, double precio, String image_url, int categoria) {
         this.id_producto = id_producto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.imagen = imagen;
+        this.image_url = image_url;
         this.categoria = categoria;
     }
 
@@ -52,11 +52,11 @@ public class Producto {
     }
 
     public String getImagen() {
-        return imagen;
+        return image_url;
     }
 
     public void setImagen(String imagen) {
-        this.imagen = imagen;
+        this.image_url = imagen;
     }
 
     public int getCategoria() {

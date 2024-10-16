@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -105,7 +106,9 @@ class ProcessPaymentView(APIView):
     
 # Vistas login / logout
 class LoginView(APIView):
+    @csrf_exempt
     def post (self, request):
+        print("Solicitud recibida en LoginView1")  # Confirmar solicitud
         # Recuperamos las credenciales y autenticamos al usuario
         username = request.data.get('username', None)
         password = request.data.get('password', None)
@@ -273,9 +276,13 @@ class CheckoutView(APIView):
 # Vistas login / logout #####################################################################################
 class LoginView(APIView):
     def post (self, request):
+        print("Solicitud recibida en LoginView2")  # Confirmar solicitud
         # Recuperamos las credenciales y autenticamos al usuario
         username = request.data.get('username', None)
         password = request.data.get('password', None)
+
+        if username is None or password is None:
+            return Response({"error": "Datos incompletos"}, status=status.HTTP_400_BAD_REQUEST)
 
         user = authenticate(username=username, password=password)
 
@@ -283,11 +290,11 @@ class LoginView(APIView):
         if user:
             login(request, user)
             return Response(
-                status=status.HTTP_200_OK)
+                {"message": "Login exitoso"},status=status.HTTP_200_OK)
         
         # Si no es correcto, devolvemos un error en la petición
         return Response(
-            status=status.HTTP_404_NOT_FOUND)
+            {"error": "Credenciales incorrectas"}, status=status.HTTP_404_NOT_FOUND)
 
 class LogoutView(APIView):
     def post(self, request):

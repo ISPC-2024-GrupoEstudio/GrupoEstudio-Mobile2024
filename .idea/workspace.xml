@@ -2,9 +2,7 @@
 <project version="4">
   <component name="AndroidLayouts">
     <shared>
-      <config>
-        <target>android-34</target>
-      </config>
+      <config />
     </shared>
     <layouts>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_detalle_producto.xml">
@@ -17,17 +15,7 @@
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_landing.xml">
-        <config>
-          <theme>@style/Theme.ProyMobile2024</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_main.xml">
-        <config>
-          <theme>@style/Theme.ProyMobile2024</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_perfil.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
@@ -37,22 +25,22 @@
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_carrito.xml">
-        <config>
-          <theme>@style/Theme.ProyMobile2024</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_register.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_sobre_nosotros.xml">
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/tarjeta_producto.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/toolbar.xml">
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/menu/drawer_menu.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/xml/network_security_config.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
@@ -63,10 +51,24 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="correccion estilos landing">
+    <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="Se agrega funcionalidad de RetrofitClient para traer la lista de productos, se agregan permisos para acceder a la api">
+      <change afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/model/LoginData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/viewsmodels/LoginViewModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/xml/network_security_config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/other.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/GaleriaProductosActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/GaleriaProductosActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/LoginFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/LoginFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/model/Producto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/model/Producto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/ApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/ApiService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/RetrofitClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/RetrofitClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/viewsmodels/LoginView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_detalle_producto.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_detalle_producto.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/PetBoutique/PetBoutique/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/PetBoutique/PetBoutique/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/PetBoutique/PetBoutiqueApp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/PetBoutique/PetBoutiqueApp/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +78,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=R58RC21S7GM)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/Frontend/ProyMobile2024">
       <ProjectState />
@@ -123,11 +125,16 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Developer" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -139,11 +146,11 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/ISPC-2024-GrupoEstudio/GrupoEstudio-Mobile2024.git&quot;,
-    &quot;accountId&quot;: &quot;86026e95-3944-4d0e-9117-d3dd58fd47da&quot;
+    &quot;accountId&quot;: &quot;f02d02ae-b0f6-4b05-8704-19811c339001&quot;
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="_Designer_Tab" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -156,6 +163,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Android App.MainActivity.executor": "Run",
     "Android App.app.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
@@ -163,15 +171,78 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "ValeAngeletti",
+    "git-widget-placeholder": "Merging ValeAngeletti",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/valea/AndroidStudioProjects/GrupoEstudio-Mobile2024/Frontend/ProyMobile2024/app",
-    "project.structure.last.edited": "Suggestions",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2"
+    "last_opened_file_path": "C:/Users/valen/OneDrive/Documentos/proyecto.mobile2/GrupoEstudio-Mobile2024"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Android App.MainActivity">
+    <configuration name="MainActivity" type="AndroidRunConfigurationType" factoryName="Android App" temporary="true">
+      <module name="Proy-Mobile2024.app.main" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="specific_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Hybrid>
+      <Java>
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Java>
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="com.example.proy_mobile2024.MainActivity" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="Proy-Mobile2024.app.main" />
       <option name="DEPLOY" value="true" />
@@ -238,6 +309,11 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Android App.MainActivity" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -248,37 +324,21 @@
       <option name="presentableId" value="Default" />
       <updated>1726342565213</updated>
     </task>
-    <task id="LOCAL-00001" summary="Funcionalidad Editar imagen de perfil">
-      <option name="closed" value="true" />
-      <created>1726604682841</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1726604682842</updated>
-    </task>
-    <task id="LOCAL-00002" summary="correccion errores">
-      <option name="closed" value="true" />
-      <created>1728547858783</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1728547858783</updated>
-    </task>
-    <task id="LOCAL-00003" summary="correccion estilos landing">
-      <option name="closed" value="true" />
-      <created>1728550017868</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1728550017868</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Funcionalidad Editar imagen de perfil" />
-    <MESSAGE value="correccion errores" />
-    <MESSAGE value="correccion estilos landing" />
-    <option name="LAST_COMMIT_MESSAGE" value="correccion estilos landing" />
+    <MESSAGE value="Se agrega funcionalidad de RetrofitClient para traer la lista de productos, se agregan permisos para acceder a la api" />
+    <option name="LAST_COMMIT_MESSAGE" value="Se agrega funcionalidad de RetrofitClient para traer la lista de productos, se agregan permisos para acceder a la api" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/build.gradle.kts</url>
+          <line>23</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
