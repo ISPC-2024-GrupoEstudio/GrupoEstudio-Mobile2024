@@ -81,6 +81,5 @@
     <string name="sobre_nosotros_beneficios_titulo">Beneficios para el Cliente:</string>
     <string name="sobre_nosotros_beneficios">Nos preocupamos por brindarte una experiencia única y cómoda. Al comprar en Pet Boutique, obtienes envío rápido, productos garantizados y atención personalizada.</string>
 
-    <string name="com_auth0_client_id">AGgSJc6ahkAxIvjBbQ3vgrgZkKSHoc2N</string>
-    <string name="com_auth0_domain">dev-beq8aquv5nb4mfcn.us.auth0.com</string>
+    <string name="com_auth0_domain">dev-8sbfkudmbgtmv2.us.auth0.com</string>
 </resources>

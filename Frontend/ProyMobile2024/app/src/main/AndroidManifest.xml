@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.proy_mobile2024">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
@@ -47,14 +48,29 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
+            <!-- Intent-filter para manejar el esquema de redirección de Auth0 -->
+            <!-- <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="demo"
+                    android:host="dev-8sbfkudmbgtmvw2a.us.auth0.com"
+                    android:pathPrefix="/android/com.example.proy_mobile2024/callback" />
+            </intent-filter> -->
         </activity>
+
+        <activity
+            android:name="com.auth0.android.provider.AuthenticationActivity"
+            android:exported="true"
+            tools:replace="android:exported" />
 
         <meta-data
             android:name="com.auth0.client_id"
-            android:value="AGgSJc6ahkAxIvjBbQ3vgrgZkKSHoc2N" />
+            android:value="sbIAeWFgwDvAziopRlM1gczznHltFHnK" />
         <meta-data
             android:name="com.auth0.domain"
-            android:value="dev-beq8aquv5nb4mfcn.us.auth0.com"/>
+            android:value="dev-8sbfkudmbgtmvw2a.us.auth0.com"/>
 
     </application>
 </manifest>
