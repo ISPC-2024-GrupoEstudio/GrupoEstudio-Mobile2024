@@ -52,10 +52,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="Se agrega funcionalidad de RetrofitClient para traer la lista de productos, se agregan permisos para acceder a la api">
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/other.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/model/Usuario.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/RegisterFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/RegisterFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/ApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/ApiService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_register.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/PetBoutique/PetBoutique/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/PetBoutique/PetBoutique/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +67,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\valen\.android\avd\Pixel_7_API_27.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=/Users/florencianoelcarrillo/.android/avd/Pixel_8_API_35.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/Frontend/ProyMobile2024">
       <ProjectState />
@@ -113,6 +115,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="resourceFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -157,9 +160,13 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "ValenBalladares",
+    "com.codeium.enabled": "true",
+    "git-widget-placeholder": "FlorenciaCarrillo",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/valen/OneDrive/Documentos/proyecto.mobile2/GrupoEstudio-Mobile2024"
+    "last_opened_file_path": "C:/Users/valen/OneDrive/Documentos/proyecto.mobile2/GrupoEstudio-Mobile2024",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
   <component name="RunManager" selected="Android App.MainActivity">
