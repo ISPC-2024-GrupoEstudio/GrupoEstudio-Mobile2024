@@ -4,6 +4,7 @@ import com.example.proy_mobile2024.model.Producto;
 import java.util.List;
 
 import com.example.proy_mobile2024.model.LoginData;
+import com.example.proy_mobile2024.model.Usuario;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -21,4 +22,9 @@ public interface ApiService {
     
     @POST("auth/login/")
     Call<Void> loginUser(@Body LoginData loginData);
+
+    @POST("auth/register/")
+    Call<Usuario> registerUser(@Body Usuario usuario);
+
 }
+
