@@ -3,9 +3,9 @@ package com.example.proy_mobile2024;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,6 +52,18 @@ public class GaleriaProductosActivity extends AppCompatActivity {
         });
 
         init();
+
+        View botonCarrito = findViewById(R.id.botonCarrito);
+
+        // Configuramos el click listener para el botón del carrito
+        botonCarrito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crear un Intent para ir a la actividad del carrito
+                Intent intent = new Intent(GaleriaProductosActivity.this, CarritoActivity.class);
+                startActivity(intent);  // Iniciar la actividad del carrito
+            }
+        });
     }
 
     public void init(){
@@ -59,7 +71,7 @@ public class GaleriaProductosActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewProductos);
         progressBarProductos = findViewById(R.id.progressBarProductos);
         tblCategorias = findViewById(R.id.tblCategorias);
-        btnVolverGaleria = findViewById(R.id.btnVolverGaleria);
+        btnVolverGaleria = findViewById(R.id.btnVolver);
 
         btnVolverGaleria.setOnClickListener(v -> {
             Intent resultIntent = new Intent();
@@ -154,5 +166,8 @@ public class GaleriaProductosActivity extends AppCompatActivity {
         filteredProductList = filteredList;
         productoAdapter.setProductosList(filteredProductList);
     }
+
+
+
 
 }
