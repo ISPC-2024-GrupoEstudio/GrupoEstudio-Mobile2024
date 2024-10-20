@@ -8,8 +8,6 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +16,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyMobile2024"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:networkSecurityConfig="@xml/network_security_config">
 
 
         <!-- DetalleProductoActivity -->
@@ -48,8 +47,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <!-- Intent-filter para manejar el esquema de redirección de Auth0 -->
-            <!-- <intent-filter>
+          <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -57,7 +55,7 @@
                     android:scheme="demo"
                     android:host="dev-8sbfkudmbgtmvw2a.us.auth0.com"
                     android:pathPrefix="/android/com.example.proy_mobile2024/callback" />
-            </intent-filter> -->
+            </intent-filter>
         </activity>
 
         <activity
