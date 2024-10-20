@@ -1,4 +1,5 @@
 package com.example.proy_mobile2024.services;
+import com.example.proy_mobile2024.model.Perfil;
 import com.example.proy_mobile2024.model.Producto;
 
 import java.util.List;
@@ -21,4 +22,7 @@ public interface ApiService {
     
     @POST("auth/login/")
     Call<Void> loginUser(@Body LoginData loginData);
+
+    @GET("auth/perfil/")
+    Call<Perfil> getPerfil();
 }
