@@ -3,60 +3,54 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
 
-
-
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyMobile2024"
-        android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="31">
-
-
+        <activity
+            android:name=".CarritoActivity"
+            android:exported="false" />
         <!-- DetalleProductoActivity -->
         <activity
             android:name=".PerfilActivity"
             android:exported="false" />
         <activity
             android:name=".DetalleProductoActivity"
-            android:exported="false" />
-
-        <!-- GaleriaProductosActivity -->
+            android:exported="false" /> <!-- GaleriaProductosActivity -->
         <activity
             android:name=".GaleriaProductosActivity"
-            android:exported="false" />
-
-        <!-- LandingActivity: Pantalla inicial -->
+            android:exported="false" /> <!-- LandingActivity: Pantalla inicial -->
         <activity
             android:name=".LandingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- MainActivity -->
+        </activity> <!-- MainActivity -->
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
 
         <meta-data
             android:name="com.auth0.client_id"
             android:value="AGgSJc6ahkAxIvjBbQ3vgrgZkKSHoc2N" />
         <meta-data
             android:name="com.auth0.domain"
-            android:value="dev-beq8aquv5nb4mfcn.us.auth0.com"/>
-
+            android:value="dev-beq8aquv5nb4mfcn.us.auth0.com" />
     </application>
-</manifest>
 
+</manifest>

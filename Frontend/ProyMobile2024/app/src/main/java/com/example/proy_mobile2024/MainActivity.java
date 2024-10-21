@@ -1,13 +1,12 @@
 package com.example.proy_mobile2024;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
+
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,12 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 item.setChecked(true);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 Fragment selectedFragment = null;
-
-                if (id == R.id.nav_logout) {
-                    // Llama al método logout
-                    logout();
-                    return true;
-                }if (id == R.id.nav_login) {
+                if (id == R.id.nav_login) {
                     selectedFragment = new LoginFragment();
                 }else if (id == R.id.nav_contactus) {
                     selectedFragment = new ContactoFragment();
@@ -96,15 +90,17 @@ public class MainActivity extends AppCompatActivity {
                 }else if (id == R.id.nav_home){
                     selectedFragment = new SobreNosotrosFragment();
                 }
-                else if (id == R.id.nav_cart){
-                selectedFragment = new CarritoFragment();
-                }
+
                 if (selectedFragment !=null){
                     replaceFragment(selectedFragment);
                 }
 
                 if (id == R.id.nav_products) {
                     Intent intent = new Intent(MainActivity.this, GaleriaProductosActivity.class);
+                    startActivity(intent);
+                }
+                if (id == R.id.nav_cart) {
+                    Intent intent = new Intent(MainActivity.this, CarritoActivity.class);
                     startActivity(intent);
                 }
                 if (id == R.id.nav_profile) {
@@ -124,26 +120,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
-
-    private void logout() {
-       try {
-        // Limpia las credenciales del usuario
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear(); // Elimina las credenciales
-        editor.apply();
-
-        // Redirige al fragmento de inicio de sesión
-        Fragment loginFragment = new LoginFragment();
-        replaceFragment(loginFragment);
-
-        Toast.makeText(this, "Sesión cerrada exitosamente", Toast.LENGTH_SHORT).show();
-    }catch (Exception e) {
-           // Manejo de errores
-           Toast.makeText(this, "Error al cerrar sesión: " + e.getMessage(), Toast.LENGTH_LONG).show();
-       }
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
