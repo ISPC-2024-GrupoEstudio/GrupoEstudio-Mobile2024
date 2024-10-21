@@ -9,7 +9,9 @@ import com.auth0.android.provider.WebAuthProvider;
 import com.auth0.android.result.Credentials;
 import com.auth0.android.callback.Callback;
 import com.auth0.android.authentication.AuthenticationException;
+import com.example.proy_mobile2024.LoginFragment;
 import com.example.proy_mobile2024.MainActivity;
+import com.example.proy_mobile2024.model.LoginData;
 
 import java.util.List;
 

@@ -3,6 +3,9 @@ from rest_framework import routers
 from PetBoutiqueApp import views
 from .views import RoleListCreateAPIView, RoleRetrieveUpdateDestroyAPIView ,ProcessPaymentView,CheckoutView
 from .views import registrar_usuario
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.urls import path
+from .views import validate_token
 
 router=routers.DefaultRouter()
 router.register(r'productos', views.ProductoViewSet)
@@ -42,7 +45,11 @@ urlpatterns = [
     path("delete-from-cart/<int:id_carrito>/",
          views.DeleteFromCartView.as_view(), name="cart"),
          
-    path('checkout/', CheckoutView.as_view(), name='checkout')
+    path('checkout/', CheckoutView.as_view(), name='checkout'),
+
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/validate_token/', validate_token, name='validate_token'),
 ]
 
 

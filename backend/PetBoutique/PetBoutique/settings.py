@@ -12,11 +12,27 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+AUTH0_DOMAIN = "dev-beq8aquv5nb4mfcn.us.auth0.com"  # Cambia con tu dominio Auth0
+API_IDENTIFIER = "https://mi-backend.com/api/"  # Asegúrate que coincide con la audiencia configurada
+JWT_ISSUER = f"https://{AUTH0_DOMAIN}/"
+AUTH0_CLIENT_ID = 'AGgSJc6ahkAxIvjBbQ3vgrgZkKSHoc2N'
+ALGORITHMS = ['RS256']
+PUBLICK_KEY = """
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxhTDrbeoLtO1L484cgiC
+59oOhSTlng4o4xitGhLa7oU2POcxgx61QrEi0scBnlaysxQ1JK21MW3q/m0K0shX
+bymHK6wfQGYg3lNa8/pfFQO/XEg0xhoCwJ/Fs96iXcQ4hNhrd+4ziWjEzKVDVeqD
+P0PosxDfWhwoHZL5ixTTCg1wOWZE0be7zo6Bqxw/CwO7NsBjFXRtmNAdTXZ2f30p
+JwRxmQc1PFipWwMOcHtil9guhL7HgUon0WnBMZrF01wy9/B6sIuOgDN6wrjR5829
+TE730hpQ9KqQ7mHI/FFEiK/UxzktijwW/db7vrLrN7HXiLIA2Lhbg11ZXtODgBeB
+XQIDAQAB
+-----END PUBLIC KEY-----
+"""
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -51,6 +67,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'PetBoutiqueApp',
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
     'sslserver',
 ]
@@ -66,6 +83,28 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # Permitir acceso a cualquier usuario
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # Usar autenticación JWT
+        'rest_framework.authentication.SessionAuthentication',
+        'PetBoutiqueApp.auth.JWTAuthentication',
+        #'users.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_RENDERER_CLASSES':[
+        'rest_framework.renderers.JSONRenderer',
+    ],
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Tiempo de vida del token de acceso
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Tiempo de vida del token de refresco
+}
+
+
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:4200',

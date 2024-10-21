@@ -31,6 +31,8 @@ android {
             "auth0Domain" to "dev-beq8aquv5nb4mfcn.us.auth0.com",
             "auth0Scheme" to "https"
         ))
+
+        
     }
 
     buildTypes {

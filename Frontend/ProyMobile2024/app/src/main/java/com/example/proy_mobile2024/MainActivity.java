@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.proy_mobile2024.utils.Auth0Utils;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        Auth0Utils.initialize(this);
+        checkAuthentication();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -126,22 +129,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logout() {
-       try {
-        // Limpia las credenciales del usuario
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear(); // Elimina las credenciales
-        editor.apply();
+        try {
+            // Limpia las credenciales del usuario
+            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear(); // Elimina las credenciales
+            editor.apply();
 
-        // Redirige al fragmento de inicio de sesión
-        Fragment loginFragment = new LoginFragment();
-        replaceFragment(loginFragment);
+            // Redirige al fragmento de inicio de sesión
+            Fragment loginFragment = new LoginFragment();
+            replaceFragment(loginFragment);
 
-        Toast.makeText(this, "Sesión cerrada exitosamente", Toast.LENGTH_SHORT).show();
-    }catch (Exception e) {
-           // Manejo de errores
-           Toast.makeText(this, "Error al cerrar sesión: " + e.getMessage(), Toast.LENGTH_LONG).show();
-       }
+            Toast.makeText(this, "Sesión cerrada exitosamente", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            // Manejo de errores
+            Toast.makeText(this, "Error al cerrar sesión: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -155,11 +158,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void replaceFragment(Fragment fragment){
-        Log.d("MainActivity", "Reemplazando el fragmento");
         FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_container);
+
+        // Verifica si el fragmento a cargar es diferente del actual
+        if (currentFragment != null && currentFragment.getClass().equals(fragment.getClass())) {
+            Log.d("MainActivity", "El fragmento ya está en pantalla");
+            return; // No hace nada si es el mismo fragmento
+        }
+
+        Log.d("MainActivity", "Reemplazando el fragmento");
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container,fragment);
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+    private void checkAuthentication() {
+        // Verifica si hay un token almacenado
+        SharedPreferences sharedPreferences = getSharedPreferences("app", MODE_PRIVATE);
+        String token = sharedPreferences.getString("id_token", null);
+
+        if (token != null) {
+            // El usuario está autenticado, redirige a la página principal
+            // Aquí puedes cargar el fragmento correspondiente
+            replaceFragment(new SobreNosotrosFragment());
+        } else {
+            // El usuario no está autenticado, redirige al inicio de sesión
+            replaceFragment(new LoginFragment());
+        }
+    }
+
 }

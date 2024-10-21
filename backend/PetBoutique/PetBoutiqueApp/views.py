@@ -21,6 +21,52 @@ from rest_framework import viewsets
 from .models import Producto, CategoriaProducto, Proveedor, Pedido, EstadoPedido, ProductoXPedido, FormaDePago, TipoEnvio, Carrito
 from .serializer import ProductoSerializer, CategoriaProductoSerializer, ProveedorSerializer, PedidoSerializer, EstadoPedidoSerializer, ProductoXPedidoSerializer, FormaDePagoSerializer, TipoEnvioSerializer, UserSerializer, UsuarioSerializer, CarritoSerializer
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+import requests
+from jose import jwt, JWTError
+from django.conf import settings
+import bcrypt
+
+
+# Función para validar el JWT
+def validar_jwt_token(token):
+    try:
+        # Obtener las claves públicas de Auth0
+        jwks_url = f'https://{settings.AUTH0_DOMAIN}/.well-known/jwks.json'
+        jwks = requests.get(jwks_url).json()
+
+        # Extraer la clave pública que corresponde al JWT
+        unverified_header = jwt.get_unverified_header(token)
+        rsa_key = {}
+        for key in jwks['keys']:
+            if key['kid'] == unverified_header['kid']:
+                rsa_key = {
+                    'kty': key['kty'],
+                    'kid': key['kid'],
+                    'use': key['use'],
+                    'n': key['n'],
+                    'e': key['e']
+                }
+                break
+
+        if rsa_key:
+            # Decodificar y validar el token
+            payload = jwt.decode(
+                token,
+                rsa_key,
+                algorithms=settings.ALGORITHMS,
+                audience=settings.API_IDENTIFIER,
+                issuer=f'https://{settings.AUTH0_DOMAIN}/'
+            )
+            return payload
+
+    except (JWTError, Exception) as e:
+        print(f'Error de validación de JWT: {e}')
+        return None
+
+    return None
 
 # Importaciones API autenticación
 
@@ -275,34 +321,27 @@ class CheckoutView(APIView):
     
 # Vistas login / logout #####################################################################################
 class LoginView(APIView):
-    def post (self, request):
-        print("Solicitud recibida en LoginView2")  # Confirmar solicitud
-        # Recuperamos las credenciales y autenticamos al usuario
-        username = request.data.get('username', None)
-        password = request.data.get('password', None)
-
-        if username is None or password is None:
-            return Response({"error": "Datos incompletos"}, status=status.HTTP_400_BAD_REQUEST)
-
-        user = authenticate(username=username, password=password)
-
-        # Si es correcto, añadimos a la request la información de sesión
-        if user:
-            login(request, user)
-            return Response(
-                {"message": "Login exitoso"},status=status.HTTP_200_OK)
-        
-        # Si no es correcto, devolvemos un error en la petición
-        return Response(
-            {"error": "Credenciales incorrectas"}, status=status.HTTP_404_NOT_FOUND)
-
-class LogoutView(APIView):
     def post(self, request):
-        # Borramos de la request la información de sesión
-        logout(request)
+        username = request.data.get('username')
+        password = request.data.get('password')
 
-        # Devolvemos la respuesta al cliente
-        return Response(status=status.HTTP_200_OK)
+        try:
+            user = Usuario.objects.get(nombre_usuario=username)
+            # Aquí asumiendo que la contraseña almacenada es la que se usó para el hash
+            if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+                # Autenticación exitosa
+                return Response({'message': 'Login exitoso!'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'Credenciales inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
+        except Usuario.DoesNotExist:
+            return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]  # Requiere autenticación
+
+    def post(self, request):
+        # No se necesita invalidar el token en Auth0 (a menos que implementes revocación)
+        return Response({"message": "Logout exitoso"}, status=status.HTTP_200_OK)
+
     
 class RegisterView (APIView):
     def post (self, request):
@@ -358,4 +397,9 @@ def registrar_usuario(request):
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])  # Asegura que el usuario esté autenticado
+def validate_token(request):
+    return Response({"status": "Token is valid"}, status=200)
         

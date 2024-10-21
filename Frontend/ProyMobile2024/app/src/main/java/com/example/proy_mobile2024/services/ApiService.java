@@ -1,4 +1,5 @@
 package com.example.proy_mobile2024.services;
+import com.example.proy_mobile2024.model.Credentials;
 import com.example.proy_mobile2024.model.Producto;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import com.example.proy_mobile2024.model.LoginData;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 
@@ -18,7 +20,10 @@ public interface ApiService {
     //2.solicitud de productos para galería (GET)
     @GET("productos")
     Call<List<Producto>> obtenerProductos();
-    
-    @POST("auth/login/")
-    Call<Void> loginUser(@Body LoginData loginData);
+
+    @POST("/api/auth/login/")
+    Call<Credentials> login(@Body LoginData loginData);
+
+    @POST("auth/validate-token/")
+    Call<Void> validateToken(@Header("Authorization") String token);
 }

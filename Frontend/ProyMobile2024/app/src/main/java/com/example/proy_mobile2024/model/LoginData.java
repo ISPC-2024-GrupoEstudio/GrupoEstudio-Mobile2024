@@ -1,5 +1,6 @@
 package com.example.proy_mobile2024.model;
 
+
 public class LoginData {
     private String username;
     private String password;
