@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.utils import timezone
+from rest_framework import status, permissions
 import uuid
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -320,21 +321,51 @@ class CheckoutView(APIView):
         return Response ({"message": "Pago procesado exitosamente"}, status=status.HTTP_200_OK) 
     
 # Vistas login / logout #####################################################################################
-class LoginView(APIView):
-    def post(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
+# class LoginView(APIView):
+#     permission_classes = [permissions.AllowAny]
+#     def post(self, request):
+#         username = request.data.get('username')
+#         password = request.data.get('password')
+#         print("Usuario",username)
+#         print("Password",password)
 
-        try:
-            user = Usuario.objects.get(nombre_usuario=username)
-            # Aquí asumiendo que la contraseña almacenada es la que se usó para el hash
-            if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
-                # Autenticación exitosa
-                return Response({'message': 'Login exitoso!'}, status=status.HTTP_200_OK)
-            else:
-                return Response({'error': 'Credenciales inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
-        except Usuario.DoesNotExist:
-            return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+#         try:
+#             user = Usuario.objects.get(nombre_usuario=username)
+#             # Aquí asumiendo que la contraseña almacenada es la que se usó para el hash
+#             if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+#                 # Autenticación exitosa
+#                 return Response({'message': 'Login exitoso!'}, status=status.HTTP_200_OK)
+#             else:
+#                 return Response({'error': 'Credenciales inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
+#         except Usuario.DoesNotExist:
+#             return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+class LoginView(APIView):
+    permission_classes = [permissions.AllowAny]
+    def post (self, request):
+        # Recuperamos las credenciales y autenticamos al usuario
+        username = request.data.get('username', None)
+        password = request.data.get('password', None)
+
+        user = authenticate(username=username, password=password)
+        print("User", user.pk)
+        print("Frist_name", user.first_name)
+        print("user_name", user.username)
+        # Si es correcto, añadimos a la request la información de sesión
+        if user:
+            login(request, user)
+            user_data = {
+                'id': user.pk,
+                'first_name': user.first_name,
+                'username': user.username,
+                'email': user.email
+            }
+            return Response(user_data, status=status.HTTP_200_OK)
+
+        
+        # Si no es correcto, devolvemos un error en la petición
+        return Response(
+            status=status.HTTP_404_NOT_FOUND)
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]  # Requiere autenticación
 
