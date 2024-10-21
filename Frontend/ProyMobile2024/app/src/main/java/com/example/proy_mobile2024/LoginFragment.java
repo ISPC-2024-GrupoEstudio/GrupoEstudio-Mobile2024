@@ -1,10 +1,12 @@
 package com.example.proy_mobile2024;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +35,6 @@ import com.example.proy_mobile2024.viewsmodels.LoginViewModel;
  * create an instance of this fragment.
  */
 public class LoginFragment extends Fragment {
-
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -125,6 +126,7 @@ public class LoginFragment extends Fragment {
         String username = etUsername.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
+
         // Validar que el campo username no esté vacío
         if (TextUtils.isEmpty(username)) {
             etUsername.setError("El nombre de usuario es requerido");
@@ -146,5 +148,14 @@ public class LoginFragment extends Fragment {
 
         loginViewModel.login(username, password);
 
+    }
+
+    private void guardarDatosLogin(String token) {
+        if (getActivity() != null) {
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPrefs", getActivity().MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("auth_token", token);
+            editor.apply();
+        }
     }
 }

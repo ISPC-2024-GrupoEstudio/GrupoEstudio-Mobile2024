@@ -1,5 +1,7 @@
 package com.example.proy_mobile2024.model;
 
+import android.util.Log;
+
 public class Perfil {
 
     private String nombre_apellido;
@@ -79,6 +81,7 @@ public class Perfil {
 
     @Override
     public String toString(){
+        Log.d("123","perfil activo");
         return "Perfil --> " + "nombre y apellido = " + nombre_apellido + '|' +
                 "nombre usuario = " + user_name + '|' +
                 "contrasena = " + password + '|' +
