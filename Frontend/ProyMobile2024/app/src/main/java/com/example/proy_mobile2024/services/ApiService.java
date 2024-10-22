@@ -1,4 +1,5 @@
 package com.example.proy_mobile2024.services;
+import com.example.proy_mobile2024.model.LoginResponse;
 import com.example.proy_mobile2024.model.Producto;
 
 import java.util.List;
@@ -19,9 +20,9 @@ public interface ApiService {
     //2.solicitud de productos para galería (GET)
     @GET("productos")
     Call<List<Producto>> obtenerProductos();
-    
+
     @POST("auth/login/")
-    Call<Void> loginUser(@Body LoginData loginData);
+    Call<LoginResponse> loginUser(@Body LoginData loginData);
 
     @POST("auth/register/")
     Call<Usuario> registerUser(@Body Usuario usuario);

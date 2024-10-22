@@ -62,7 +62,7 @@ dependencies {
     implementation("androidx.fragment:fragment:1.8.4")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.activity:activity:1.9.2")
+    implementation("androidx.activity:activity:1.9.3")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
@@ -75,7 +75,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.14")
     implementation("com.auth0.android:auth0:2.11.0")
     implementation("com.auth0.android:lock:3.2.2")
-    implementation("com.auth0.android:jwtdecode:2.0.0")
+    implementation("com.auth0.android:jwtdecode:2.0.2")
 
     //implementation(libs.coordinatorlayout)
 }

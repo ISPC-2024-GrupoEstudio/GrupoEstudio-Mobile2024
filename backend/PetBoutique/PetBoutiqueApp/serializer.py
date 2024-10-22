@@ -3,6 +3,8 @@ from .models import Producto, CategoriaProducto, Proveedor, Pedido, EstadoPedido
 # Importaciones referentes a Custom User
 from .models import CustomUser
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 # serializador creación usuarios
 from django.contrib.auth.models import User
@@ -102,5 +104,14 @@ class CustomUserSerializer(serializers.ModelSerializer):
         custom_user = CustomUser.objects.create(user=user, **validated_data)
         return custom_user
         
+# class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+#     @classmethod
+#     def get_token(cls, user):
+#         token = super().get_token(user)
 
+#         # Add custom claims
+#         token['name'] = user.name
+#         # ...
+
+#         return token
 

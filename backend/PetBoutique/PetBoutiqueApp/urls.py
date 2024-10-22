@@ -4,6 +4,12 @@ from PetBoutiqueApp import views
 from .views import RoleListCreateAPIView, RoleRetrieveUpdateDestroyAPIView ,ProcessPaymentView,CheckoutView
 from .views import registrar_usuario
 
+
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
 router=routers.DefaultRouter()
 router.register(r'productos', views.ProductoViewSet)
 router.register(r'categorias', views.CategoriaProductoViewSet)
@@ -42,7 +48,11 @@ urlpatterns = [
     path("delete-from-cart/<int:id_carrito>/",
          views.DeleteFromCartView.as_view(), name="cart"),
          
-    path('checkout/', CheckoutView.as_view(), name='checkout')
+    path('checkout/', CheckoutView.as_view(), name='checkout'),
+
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
 

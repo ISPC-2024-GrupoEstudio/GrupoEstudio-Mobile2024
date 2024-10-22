@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.proy_mobile2024.model.LoginData;
+import com.example.proy_mobile2024.model.LoginResponse;
 import com.example.proy_mobile2024.services.ApiService;
 import com.example.proy_mobile2024.services.RetrofitClient;
 import retrofit2.Call;
@@ -26,26 +27,29 @@ public class LoginViewModel extends ViewModel {
 
     // Método para hacer login
     public void login(String username, String password) {
-        isLoading.setValue(true); // Indica que la carga ha comenzado
+        isLoading.setValue(true);
         LoginData loginData = new LoginData(username, password);
-        Call<Void> call = apiService.loginUser(loginData);
-        call.enqueue(new Callback<Void>() {
+        Call<LoginResponse> call = apiService.loginUser(loginData);
+        call.enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                isLoading.setValue(false); // Finaliza el estado de carga
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                isLoading.setValue(false);
                 if (response.isSuccessful()) {
-                    loginSuccess.setValue(true);  // Login exitoso
+                    // Almacena el token en SharedPreferences o en una clase singleton
+                    String token = response.body().getToken();
+                    // Aquí puedes añadir el código para almacenar el token
+                    loginSuccess.setValue(true);
                 } else {
-                    loginSuccess.setValue(false); // Fallo en el login
-                    errorMessage.setValue("Error: " + response.message()); // Mensaje de error
+                    loginSuccess.setValue(false);
+                    errorMessage.setValue("Error: " + response.message());
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                isLoading.setValue(false); // Finaliza el estado de carga
-                loginSuccess.setValue(false); // Error en la conexión
-                errorMessage.setValue("Error de conexión: " + t.getMessage()); // Mensaje de error
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                isLoading.setValue(false);
+                loginSuccess.setValue(false);
+                errorMessage.setValue("Error de conexión: " + t.getMessage());
             }
         });
     }
