@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Inicializa el NavigationView
         navigationView = findViewById(R.id.nav_view);
+        // Llama a checkLoginStatus() para establecer el estado inicial de los ítems del menú
+        checkLoginStatus();
+
         // Obtén la vista del encabezado
         View headerView = navigationView.getHeaderView(0); // El índice 0 obtiene el primer encabezado
         navHeaderTitle = headerView.findViewById(R.id.nav_header_title); // Inicializa aquí
@@ -174,17 +177,15 @@ public class MainActivity extends AppCompatActivity {
         boolean isLoggedIn = preferences.getBoolean("isLoggedIn", false); // Cambia esto a la clave que uses para el estado de sesión
 
         // Oculta o muestra los ítems del menú de navegación según el estado de inicio de sesión
+        navigationView.getMenu().findItem(R.id.nav_login).setVisible(!isLoggedIn);
+        navigationView.getMenu().findItem(R.id.nav_registro).setVisible(!isLoggedIn);
+        // Puedes agregar un mensaje o redirigir a otra parte si lo deseas
         if (isLoggedIn) {
-            // Oculta los ítems de Login y Registro
-            navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
-            navigationView.getMenu().findItem(R.id.nav_registro).setVisible(false);
-            // Puedes agregar un mensaje o redirigir a otra parte si lo deseas
             Toast.makeText(this, "Bienvenido de nuevo", Toast.LENGTH_SHORT).show();
-        } else {
-            // Asegúrate de que los ítems sean visibles si no estás logueado
-            navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_registro).setVisible(true);
         }
+
+        // Forzar actualización del menú
+        invalidateOptionsMenu();
     }
 
     public void logoutClick() {
@@ -196,6 +197,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Actualiza el estado de los ítems de menú llamando a checkLoginStatus
         checkLoginStatus();
+        // Actualizar el NavigationView para que refleje los cambios
+        navigationView.getMenu().clear();
+        navigationView.inflateMenu(R.menu.drawer_menu);  // Inflar nuevamente el menú
 
         // Restablece el nombre de usuario en el TextView del header (si es necesario)
         if (navHeaderTitle != null) {
@@ -209,6 +213,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Reemplaza el fragmento actual por el LoginFragment
         replaceFragment(new LoginFragment());
+
+        // Forzar actualización del menú
+        invalidateOptionsMenu();
     }
 
 
