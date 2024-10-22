@@ -24,6 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import com.example.proy_mobile2024.R;
 import com.example.proy_mobile2024.model.LoginData;
+import com.example.proy_mobile2024.model.SessionManager;
 import com.example.proy_mobile2024.services.ApiService;
 import com.example.proy_mobile2024.services.RetrofitClient;
 import com.example.proy_mobile2024.viewsmodels.LoginViewModel;
@@ -83,6 +84,14 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
+        // Verificar si el usuario ya está logueado
+        if (SessionManager.getInstance().isLoggedIn()) {
+            // Mostrar un Toast y regresar, evitando mostrar el login
+            Toast.makeText(getActivity(), "Ya has iniciado sesión", Toast.LENGTH_SHORT).show();
+            // Aquí podrías redirigir al usuario a otra parte si prefieres:
+            // replaceFragment(new HomeFragment()); // o la pantalla que desees mostrar
+            return view;  // Detener la ejecución del código si ya está logueado
+        }
 
         etUsername = view.findViewById(R.id.user_id);
         etPassword = view.findViewById(R.id.contrasenalog);

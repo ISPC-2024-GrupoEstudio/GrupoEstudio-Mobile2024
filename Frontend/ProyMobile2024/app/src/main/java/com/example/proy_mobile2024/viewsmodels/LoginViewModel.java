@@ -5,11 +5,13 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.proy_mobile2024.model.LoginData;
 import com.example.proy_mobile2024.model.LoginResponse;
+import com.example.proy_mobile2024.model.SessionManager;
 import com.example.proy_mobile2024.services.ApiService;
 import com.example.proy_mobile2024.services.RetrofitClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 public class LoginViewModel extends ViewModel {
 
@@ -34,10 +36,10 @@ public class LoginViewModel extends ViewModel {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 isLoading.setValue(false);
-                if (response.isSuccessful()) {
-                    // Almacena el token en SharedPreferences o en una clase singleton
+                if (response.isSuccessful() && response.body() != null) {
+                    // Almacena el token en la clase SessionManager
                     String token = response.body().getToken();
-                    // Aquí puedes añadir el código para almacenar el token
+                    SessionManager.getInstance().saveToken(token);
                     loginSuccess.setValue(true);
                 } else {
                     loginSuccess.setValue(false);
@@ -66,7 +68,13 @@ public class LoginViewModel extends ViewModel {
         return isLoading;
     }
 
-    public void setLoginSuccess(boolean success) {
-        loginSuccess.setValue(success);
+    public boolean isUserLoggedIn() {
+        //return SessionManager.getInstance().isUserLoggedIn(); // Verifica si el usuario está logueado
+        LoginViewModel loginViewModel = new LoginViewModel(); // Asegúrate de que esto esté correctamente inicializado
+        return loginViewModel.isUserLoggedIn();
+    }
+
+    public String getToken() {
+        return SessionManager.getInstance().getToken(); // Obtiene el token
     }
 }
