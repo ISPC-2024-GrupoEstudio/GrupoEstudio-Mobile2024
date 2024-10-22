@@ -182,6 +182,7 @@ public class LoginFragment extends Fragment {
         editor.putString("apellido", apellido);
         editor.putString("email", email);
         editor.putString("username", username);
+        editor.putBoolean("isLoggedIn", true);
         editor.apply();
 
         // Datos de depuración
@@ -239,7 +240,7 @@ public class LoginFragment extends Fragment {
 
                     // Guardar tokens y cualquier otro dato necesario en SharedPreferences
                     saveTokens(token, refreshToken, id_usuario, nombre, apellido, email, username);
-
+                    ((MainActivity) getActivity()).checkLoginStatus();
                     // Redirigir a la actividad principal
                     //Intent intent = new Intent(getActivity(), LandingActivity.class);
                     // Puedes pasar datos adicionales si es necesario

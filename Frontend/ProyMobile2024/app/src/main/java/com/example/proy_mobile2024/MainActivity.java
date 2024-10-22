@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        // Verifica el estado de inicio de sesión al cargar la actividad
+        checkLoginStatus();  // Verifica si el usuario está logueado o no
 
         if (savedInstanceState == null) {
             // Carga el fragmento de "Sobre Nosotros" solo si no hay un estado guardado
@@ -94,8 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println(">> MAIN ACTIVITY");//
 
-        // Verifica el estado de inicio de sesión al cargar la actividad
-        checkLoginStatus();
+
 
         //Navegacion con fragments
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void checkLoginStatus() {
+    public void checkLoginStatus() {
         SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
         boolean isLoggedIn = preferences.getBoolean("isLoggedIn", false); // Cambia esto a la clave que uses para el estado de sesión
 
@@ -193,14 +193,21 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = preferences.edit();
             editor.clear(); // Elimina todos los datos de sesión
             editor.apply();
+            // Llama a checkLoginStatus() después de cerrar sesión
+            checkLoginStatus();
 
+            navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_registro).setVisible(true);
             // Restablecer el nombre de usuario en el TextView
             navHeaderTitle.setText("Usuario desconocido"); // Restablece el nombre en el TextView
+
+
 
             Toast.makeText(this, "Has cerrado tu sesión", Toast.LENGTH_SHORT).show();
 
             // Reemplazar el fragmento actual por el LoginFragment
             replaceFragment(new LoginFragment());
+
         } else {
             Log.e("MainActivity", "navHeaderTitle es null en logoutClick()");
         }
