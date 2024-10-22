@@ -63,7 +63,6 @@
   <component name="ChangeListManager">
     <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="Se agrega funcionalidad de RetrofitClient para traer la lista de productos, se agregan permisos para acceder a la api">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/LoginFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/LoginFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/MainActivity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -116,21 +115,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Android App.app.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "MilenaGimenez",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Users/Emiliano/OneDrive/Documentos/cloneRepo/GrupoEstudio-Mobile2024"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;MilenaGimenez&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Users/Emiliano/OneDrive/Documentos/cloneRepo/GrupoEstudio-Mobile2024&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="Proy-Mobile2024.app.main" />

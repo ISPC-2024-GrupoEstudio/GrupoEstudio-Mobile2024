@@ -188,30 +188,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logoutClick() {
-        if (navHeaderTitle != null) { // Verifica que navHeaderTitle no sea null
-            SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.clear(); // Elimina todos los datos de sesión
-            editor.apply();
-            // Llama a checkLoginStatus() después de cerrar sesión
-            checkLoginStatus();
+        // Limpia los datos de SharedPreferences (esto actualiza el estado de sesión)
+        SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear(); // Elimina todos los datos de sesión
+        editor.apply(); // Aplica los cambios (esto es clave)
 
-            navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_registro).setVisible(true);
-            // Restablecer el nombre de usuario en el TextView
-            navHeaderTitle.setText("Usuario desconocido"); // Restablece el nombre en el TextView
+        // Actualiza el estado de los ítems de menú llamando a checkLoginStatus
+        checkLoginStatus();
 
-
-
-            Toast.makeText(this, "Has cerrado tu sesión", Toast.LENGTH_SHORT).show();
-
-            // Reemplazar el fragmento actual por el LoginFragment
-            replaceFragment(new LoginFragment());
-
+        // Restablece el nombre de usuario en el TextView del header (si es necesario)
+        if (navHeaderTitle != null) {
+            navHeaderTitle.setText("Usuario desconocido");
         } else {
             Log.e("MainActivity", "navHeaderTitle es null en logoutClick()");
         }
+
+        // Muestra mensaje de logout exitoso
+        Toast.makeText(this, "Has cerrado tu sesión", Toast.LENGTH_SHORT).show();
+
+        // Reemplaza el fragmento actual por el LoginFragment
+        replaceFragment(new LoginFragment());
     }
+
 
 
 }
