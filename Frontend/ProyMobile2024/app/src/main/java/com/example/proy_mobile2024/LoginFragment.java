@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,11 +38,16 @@ import com.example.proy_mobile2024.services.ApiService;
 import com.example.proy_mobile2024.services.RetrofitClient;
 import com.example.proy_mobile2024.viewsmodels.LoginViewModel;
 import com.example.proy_mobile2024.viewsmodels.LoguinViewModelFactory;
+import com.google.android.material.navigation.NavigationView;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 import android.content.Context;
 
 import java.net.HttpCookie;
+
+import android.view.MenuItem;
+import com.google.android.material.navigation.NavigationView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,6 +72,7 @@ public class LoginFragment extends Fragment {
     private LoginViewModel loginViewModel;
     private EditText etUsername, etPassword;
     private Button btnLogin;
+    private String nombreDeUsuario;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -165,7 +172,7 @@ public class LoginFragment extends Fragment {
     }
 
 
-    private void saveTokens(String token, String refresh, String id_usuario, String nombre, String apellido, String email) {
+    private void saveTokens(String token, String refresh, String id_usuario, String nombre, String apellido, String email, String username) {
         SharedPreferences preferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("accessToken", token);
@@ -174,7 +181,7 @@ public class LoginFragment extends Fragment {
         editor.putString("nombre", nombre);
         editor.putString("apellido", apellido);
         editor.putString("email", email);
-
+        editor.putString("username", username);
         editor.apply();
 
         // Datos de depuración
@@ -209,6 +216,12 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback<TokenResponse>() {
             @Override
             public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+                // Añade esto en tu método onResponse de loginUser, justo después de guardar los tokens
+                NavigationView navigationView = getActivity().findViewById(R.id.nav_view); // Asegúrate de que este ID sea correcto
+                View headerView = navigationView.getHeaderView(0); // Obtiene la vista del encabezado
+                TextView navUsername = headerView.findViewById(R.id.nav_header_title); // Asegúrate de que este ID sea correcto
+                navUsername.setText("Usuario " + loginData.getUsername());
+
                 Log.d("LoginUser", "Respuesta recibida del servidor");
                 if (response.isSuccessful() && response.body() != null) {
                     Log.d("LoginUser", "Login exitoso");
@@ -216,13 +229,16 @@ public class LoginFragment extends Fragment {
                     String token = response.body().getToken();
                     String refreshToken = response.body().getRefreshToken();
 
+                    nombreDeUsuario = tokenResponse.getUsuario().getNombre(); // Guardar el nombre en la variable de instancia
+                    Log.d("LoginUser", "Nombre de usuario obtenido: " + nombreDeUsuario);
+
                     String nombre = response.body().getUsuario().getNombre();
                     String apellido = response.body().getUsuario().getApellido();
                     String email = response.body().getUsuario().getEmail();
                     String id_usuario = response.body().getUsuario().getNombreUsuario();
 
                     // Guardar tokens y cualquier otro dato necesario en SharedPreferences
-                    saveTokens(token, refreshToken, id_usuario, nombre, apellido, email);
+                    saveTokens(token, refreshToken, id_usuario, nombre, apellido, email, username);
 
                     // Redirigir a la actividad principal
                     //Intent intent = new Intent(getActivity(), LandingActivity.class);
@@ -240,6 +256,8 @@ public class LoginFragment extends Fragment {
                     // Manejar errores de respuesta
                     showAlert("Error", "Credenciales incorrectas");
                 }
+
+
             }
 
             @Override
