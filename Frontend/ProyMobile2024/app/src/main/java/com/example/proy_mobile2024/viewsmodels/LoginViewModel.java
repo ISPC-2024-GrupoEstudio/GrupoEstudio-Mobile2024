@@ -1,9 +1,12 @@
 package com.example.proy_mobile2024.viewsmodels;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.proy_mobile2024.model.LoginData;
+import com.example.proy_mobile2024.model.TokenResponse;
 import com.example.proy_mobile2024.services.ApiService;
 import com.example.proy_mobile2024.services.RetrofitClient;
 import retrofit2.Call;
@@ -17,9 +20,9 @@ public class LoginViewModel extends ViewModel {
     private MutableLiveData<Boolean> isLoading;
     private MutableLiveData<String> errorMessage;
 
-    public LoginViewModel() {
+    public LoginViewModel(Context context) {
         loginSuccess = new MutableLiveData<>();
-        apiService = RetrofitClient.getInstance().getApiService();
+        apiService = RetrofitClient.getInstance(context).getApiService();
         errorMessage = new MutableLiveData<>();
         isLoading = new MutableLiveData<>();
     }
@@ -28,24 +31,26 @@ public class LoginViewModel extends ViewModel {
     public void login(String username, String password) {
         isLoading.setValue(true); // Indica que la carga ha comenzado
         LoginData loginData = new LoginData(username, password);
-        Call<Void> call = apiService.loginUser(loginData);
-        call.enqueue(new Callback<Void>() {
+        Call<TokenResponse> call = apiService.loginUser(loginData);
+
+        call.enqueue(new Callback<TokenResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                isLoading.setValue(false); // Finaliza el estado de carga
-                if (response.isSuccessful()) {
-                    loginSuccess.setValue(true);  // Login exitoso
+            public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+                isLoading.setValue(false); // Indica que la carga ha terminado
+                if (response.isSuccessful() && response.body() != null) {
+                    TokenResponse tokenResponse = response.body();
+                    // Manejar el token aquí (guardarlo, usarlo, etc.)
+                    String accessToken = tokenResponse.getToken(); // Obtener el token de acceso
+                    // Aquí puedes guardar el token en SharedPreferences o en otro lugar
                 } else {
-                    loginSuccess.setValue(false); // Fallo en el login
-                    errorMessage.setValue("Error: " + response.message()); // Mensaje de error
+                    // Manejar el error de inicio de sesión
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                isLoading.setValue(false); // Finaliza el estado de carga
-                loginSuccess.setValue(false); // Error en la conexión
-                errorMessage.setValue("Error de conexión: " + t.getMessage()); // Mensaje de error
+            public void onFailure(Call<TokenResponse> call, Throwable t) {
+                isLoading.setValue(false); // Indica que la carga ha terminado
+                // Manejar el error de conexión o de la llamada
             }
         });
     }

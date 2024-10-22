@@ -3,6 +3,13 @@ from rest_framework import routers
 from PetBoutiqueApp import views
 from .views import RoleListCreateAPIView, RoleRetrieveUpdateDestroyAPIView ,ProcessPaymentView,CheckoutView
 from .views import registrar_usuario
+from .views import CustomTokenObtainPairView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    
+)
+from .views import Login, CustomTokenObtainPairView 
 
 router=routers.DefaultRouter()
 router.register(r'productos', views.ProductoViewSet)
@@ -21,11 +28,8 @@ urlpatterns = [
     path('roles/<int:pk>/', RoleRetrieveUpdateDestroyAPIView.as_view(), name='role-retrieve-update-destroy'),
     path('process-payment/', ProcessPaymentView.as_view(), name='process_payment'),
 
-    path('auth/login/',
-        views.LoginView.as_view(), name='auth_login'),
-
-    path('auth/logout/',
-        views.LogoutView.as_view(), name='auth_logout'),
+    path('auth/login/', Login.as_view(), name='auth_login'),  # Asegúrate de que esto apunte a tu nueva vista
+    path('auth/logout/', views.LogoutView.as_view(), name='auth_logout'),
 
     path('auth/register/', 
        views. RegisterView.as_view(),name= "auth_register"),
@@ -42,7 +46,10 @@ urlpatterns = [
     path("delete-from-cart/<int:id_carrito>/",
          views.DeleteFromCartView.as_view(), name="cart"),
          
-    path('checkout/', CheckoutView.as_view(), name='checkout')
+    path('checkout/', CheckoutView.as_view(), name='checkout'),
+
+    path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
 

@@ -114,7 +114,7 @@ public class RegisterFragment extends Fragment {
                 //saveUserToDatabase(nombre, apellido, tipoDni, dni, usuario, email, contrasena);
 
                 Usuario newUser = new Usuario(nombre, apellido, tipoDni, Integer.parseInt(dni), usuario, email, contrasena);
-                ApiService apiService = RetrofitClient.getInstance().getApiService();
+                ApiService apiService = RetrofitClient.getInstance(getActivity()).getApiService();
                 Call<Usuario> call = apiService.registerUser(newUser);
                 call.enqueue(new Callback<Usuario>() {
                     @Override
