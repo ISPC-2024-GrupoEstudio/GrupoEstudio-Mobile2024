@@ -1,21 +1,30 @@
 package com.example.proy_mobile2024.services;
+import com.example.proy_mobile2024.model.Producto;
+
+import java.util.List;
+
+import com.example.proy_mobile2024.model.LoginData;
+import com.example.proy_mobile2024.model.Usuario;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.DELETE;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import java.util.List;
-//import com.example.proy_mobile2024.model.LoginData;
-import com.example.proy_mobile2024.model.Perfil;
 
 
 public interface ApiService {
-    // 1. Solicitud de inicio de sesión (POST)
-//    @POST("api/login/")
+//    // 1. Solicitud de inicio de sesión (POST)
 //    Call<Void> loginUser(@Body LoginData loginData);
-    @GET("api/perfil/")
-    Call<Perfil> getPerfil();
+
+    //2.solicitud de productos para galería (GET)
+    @GET("productos")
+    Call<List<Producto>> obtenerProductos();
+    
+    @POST("auth/login/")
+    Call<Void> loginUser(@Body LoginData loginData);
+
+    @POST("auth/register/")
+    Call<Usuario> registerUser(@Body Usuario usuario);
+
 }
+

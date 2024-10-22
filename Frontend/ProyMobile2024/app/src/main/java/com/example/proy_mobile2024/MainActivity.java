@@ -90,15 +90,17 @@ public class MainActivity extends AppCompatActivity {
                 }else if (id == R.id.nav_home){
                     selectedFragment = new SobreNosotrosFragment();
                 }
-                else if (id == R.id.nav_cart){
-                selectedFragment = new CarritoFragment();
-                }
+
                 if (selectedFragment !=null){
                     replaceFragment(selectedFragment);
                 }
 
                 if (id == R.id.nav_products) {
                     Intent intent = new Intent(MainActivity.this, GaleriaProductosActivity.class);
+                    startActivity(intent);
+                }
+                if (id == R.id.nav_cart) {
+                    Intent intent = new Intent(MainActivity.this, CarritoActivity.class);
                     startActivity(intent);
                 }
                 if (id == R.id.nav_profile) {

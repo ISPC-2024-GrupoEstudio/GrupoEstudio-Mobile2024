@@ -27,7 +27,17 @@ SECRET_KEY = 'django-insecure-4l#6bdx6tmem#&^&&850i&ny(mfc$etbdj7zn&!!ok3$9c*l#b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 
+    'localhost',
+    '127.0.0.1',
+    '10.0.2.2',
+    'ae5a-190-136-244-190.ngrok-free.app'
+    ]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://ae5a-190-136-244-190.ngrok-free.app',
+]
+
 
 
 # Application definition
@@ -42,6 +52,7 @@ INSTALLED_APPS = [
     'PetBoutiqueApp',
     'rest_framework',
     'corsheaders',
+    'sslserver',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +69,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:4200',
+    "https://ae5a-190-136-244-190.ngrok-free.app"
 ]
 
 ROOT_URLCONF = 'PetBoutique.urls'
