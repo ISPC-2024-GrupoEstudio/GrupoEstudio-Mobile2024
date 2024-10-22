@@ -109,6 +109,12 @@ public class LoginFragment extends Fragment {
             public void onChanged(String message) {
                 if (message != null) {
                     Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                    String username = etUsername.getText().toString();
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("nombre_pref", getContext().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("username", username);
+                    editor.apply();
+                    Log.d("username", "->" + username);
                 }
             }
         });
@@ -150,12 +156,6 @@ public class LoginFragment extends Fragment {
 
     }
 
-    private void guardarDatosLogin(String token) {
-        if (getActivity() != null) {
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppPrefs", getActivity().MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("auth_token", token);
-            editor.apply();
-        }
-    }
+
+
 }

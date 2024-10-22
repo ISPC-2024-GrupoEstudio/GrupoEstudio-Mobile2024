@@ -1,5 +1,7 @@
 package com.example.proy_mobile2024.viewsmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -48,6 +50,8 @@ public class LoginViewModel extends ViewModel {
                 errorMessage.setValue("Error de conexión: " + t.getMessage()); // Mensaje de error
             }
         });
+        Log.d("username en viewmodel", "->" + username);
+
     }
 
     public LiveData<Boolean> getLoginSuccess() {
@@ -57,6 +61,8 @@ public class LoginViewModel extends ViewModel {
     public LiveData<String> getErrorMessage() {
         return errorMessage;
     }
+
+
 
     public LiveData<Boolean> isLoading() {
         return isLoading;

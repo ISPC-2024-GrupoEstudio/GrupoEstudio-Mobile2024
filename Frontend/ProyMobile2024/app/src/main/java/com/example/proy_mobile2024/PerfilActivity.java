@@ -110,7 +110,7 @@ public class PerfilActivity extends AppCompatActivity {
 
             };
         });
-
+        Log.e("entrando", "perfil en la activity");
         perfilViewModel.fetchPerfil();
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

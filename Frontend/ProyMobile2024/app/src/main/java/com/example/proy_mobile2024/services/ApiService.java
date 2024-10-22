@@ -29,4 +29,5 @@ public interface ApiService {
 
     @POST("/api/register/")
     Call<Usuario> registerUser(@Body Usuario usuario);
-}
+
+   }

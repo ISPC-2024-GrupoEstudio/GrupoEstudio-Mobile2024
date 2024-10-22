@@ -1,5 +1,7 @@
 package com.example.proy_mobile2024.viewsmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -53,6 +55,7 @@ public class PerfilViewModel extends ViewModel {
                 cargando.setValue(false);
             }
         });
+        Log.e("entrando", "perfil");
     }
 }
 
