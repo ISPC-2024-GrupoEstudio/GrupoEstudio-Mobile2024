@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -89,16 +91,21 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new RegisterFragment();
                 }else if (id == R.id.nav_home){
                     selectedFragment = new SobreNosotrosFragment();
-                }
-                else if (id == R.id.nav_cart){
-                    selectedFragment = new CarritoFragment();
-                }
+                } else if (id == R.id.nav_logout) { // Manejo del logout
+                logoutClick();
+                return true; // No es necesario continuar con el procesamiento
+            }
+
                 if (selectedFragment !=null){
                     replaceFragment(selectedFragment);
                 }
 
                 if (id == R.id.nav_products) {
                     Intent intent = new Intent(MainActivity.this, GaleriaProductosActivity.class);
+                    startActivity(intent);
+                }
+                if (id == R.id.nav_cart) {
+                    Intent intent = new Intent(MainActivity.this, CarritoActivity.class);
                     startActivity(intent);
                 }
                 if (id == R.id.nav_profile) {
@@ -136,4 +143,19 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+    public void logoutClick() {
+        SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear(); // Elimina todos los datos de sesión
+        editor.apply();
+
+        Toast.makeText(this, "Has cerrado tu sesión", Toast.LENGTH_SHORT).show();
+
+        // Reemplazar el fragmento actual por el LoginFragment
+        replaceFragment(new LoginFragment());
+    }
+
+
+
 }

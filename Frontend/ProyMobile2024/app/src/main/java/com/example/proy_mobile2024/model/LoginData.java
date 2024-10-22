@@ -4,11 +4,13 @@ public class LoginData {
     private String username;
     private String password;
 
+    // Constructor
     public LoginData(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
+    // Getters y Setters
     public String getUsername() {
         return username;
     }

@@ -1,27 +1,68 @@
 package com.example.proy_mobile2024;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-import com.auth0.android.Auth0;
-import com.auth0.android.provider.WebAuthProvider;
-import com.auth0.android.result.Credentials;
-import com.auth0.android.callback.Callback;
-import com.auth0.android.authentication.AuthenticationException;
-import com.example.proy_mobile2024.viewsmodels.LoginView;
+import com.example.proy_mobile2024.R;
+import com.example.proy_mobile2024.model.LoginData;
+import com.example.proy_mobile2024.model.TokenResponse;
+import com.example.proy_mobile2024.services.ApiService;
+import com.example.proy_mobile2024.services.RetrofitClient;
+import com.example.proy_mobile2024.viewsmodels.LoginViewModel;
+import com.example.proy_mobile2024.viewsmodels.LoguinViewModelFactory;
+import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.ViewModelProvider;
+import android.content.Context;
 
+import java.net.HttpCookie;
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link LoginFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
 public class LoginFragment extends Fragment {
 
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    public LoginFragment() {
+        // Required empty public constructor
+    }
+    private LoginViewModel loginViewModel;
+    private EditText etUsername, etPassword;
     private Button btnLogin;
     private Auth0 auth0;
 
@@ -32,132 +73,151 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        showAccessToken();
+
+        LoguinViewModelFactory factory = new LoguinViewModelFactory(requireContext());
+        loginViewModel = new ViewModelProvider(this, factory).get(LoginViewModel.class);
+        etUsername = view.findViewById(R.id.user_id);
+        etPassword = view.findViewById(R.id.contrasenalog);
         btnLogin = view.findViewById(R.id.loginButton);
 
-        auth0 = new Auth0(
-                getString(R.string.com_auth0_client_id),
-                getString(R.string.com_auth0_domain)
-        );
 
-        btnLogin.setOnClickListener(v -> loginWithAuth0());
+        loginViewModel.getLoginSuccess().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean success) {
+                if (success) {
+                    // Login exitoso
+                    Toast.makeText(getActivity(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+                    // Aquí puedes navegar a otra actividad o fragmento
+                } else {
+                    // Fallo en el inicio de sesión
+                    Toast.makeText(getActivity(), "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        loginViewModel.getErrorMessage().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String message) {
+                if (message != null) {
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-        checkIfUserIsLoggedIn();
-
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                validateLogin();
+            }
+        });
         return view;
     }
 
-    private void loginWithAuth0() {
-        WebAuthProvider.login(auth0)
-                .withScheme("demo")
-                .withScope("openid profile email")
-                .withAudience("https://pet-boutique-api")
-                .withRedirectUri("demo://dev-8sbfkudmbgtmvw2a.us.auth0.com/android/com.example.proy_mobile2024/callback")
-                .start(requireActivity(), new Callback<Credentials, AuthenticationException>() {
-                    @Override
-                    public void onSuccess(Credentials credentials) {
-                        String accessToken = credentials.getAccessToken();
-                        saveAccessToken(accessToken);
-                        Toast.makeText(requireContext(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
-                        loginUserWithToken(accessToken);
-                        Log.d("AuthToken", "Token de acceso: " + accessToken);
-                    }
+    private void validateLogin() {
+        String username = etUsername.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
 
-                    @Override
-                    public void onFailure(AuthenticationException exception) {
-                        Toast.makeText(requireContext(), "Error en la autenticación: " + exception.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
-
-
-    private void saveAccessToken(String accessToken) {
-        SharedPreferences preferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("access_token", accessToken);
-        editor.apply();
-    }
-
-    private void checkIfUserIsLoggedIn() {
-        SharedPreferences preferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
-        String accessToken = preferences.getString("access_token", null);
-        if (accessToken != null) {
-
-            Toast.makeText(requireContext(), "Usuario ya logueado", Toast.LENGTH_SHORT).show();
-
+        // Validar que el campo username no esté vacío
+        if (TextUtils.isEmpty(username)) {
+            etUsername.setError("El nombre de usuario es requerido");
+            return;
         }
-    }
 
-    private void loginUserWithToken(String accessToken) {
-
-        LoginView viewModel = new ViewModelProvider(this).get(LoginView.class);
-
-        viewModel.loginWithToken(accessToken);
-
-        viewModel.getLoginSuccess().observe(getViewLifecycleOwner(), success -> {
-            if (success) {
-                Log.d("LoginFragment", "Inicio de sesión exitoso");
-                Toast.makeText(requireContext(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        viewModel.getErrorMessage().observe(getViewLifecycleOwner(), error -> {
-            if (error != null) {
-                Log.d("LoginFragment", "Mostrando error: " + error);
-                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
-            } else {
-                Log.d("LoginFragment", "Error desconocido");
-                Toast.makeText(requireContext(), "Error desconocido", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Opcional: Mostrar un loader mientras se procesa el login
-        viewModel.isLoading().observe(getViewLifecycleOwner(), isLoading -> {
-            if (isLoading) {
-                // Mostrar un loader si está cargando
-            } else {
-                // Ocultar el loader
-            }
-        });
-    }
-
-    private String getAccessToken() {
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("auth", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("access_token", null);  // Aquí obtienes el token
-    }
-
-    private void showAccessToken() {
-        String token = getAccessToken();
-        if (token != null) {
-            Log.d("AuthToken", "Token de acceso: " + token);
-        } else {
-            Log.d("AuthToken", "No hay token guardado.");
+        // Validar que el campo password no esté vacío
+        if (TextUtils.isEmpty(password)) {
+            etPassword.setError("La contraseña es requerida");
+            return;
         }
+
+        // Validar la longitud de la contraseña (mínimo 8 caracteres)
+        if (password.length() < 8) {
+            etPassword.setError("La contraseña debe tener al menos 8 caracteres");
+            return;
+        }
+
+
+        loginUser(username, password);
+
     }
 
 
-    private void logout() {
-        WebAuthProvider.logout(auth0)
-                .withScheme("demo")
-                .start(requireContext(), new Callback<Void, AuthenticationException>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                        clearAccessToken();
-                        Toast.makeText(requireContext(), "Sesión cerrada", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(AuthenticationException error) {
-                        Toast.makeText(requireContext(), "No se pudo cerrar sesión", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private void clearAccessToken() {
-        SharedPreferences preferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+    private void saveTokens(String token, String refresh, String id_usuario, String nombre, String apellido, String email) {
+        SharedPreferences preferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("access_token");
+        editor.putString("accessToken", token);
+        editor.putString("refreshToken", refresh);
+        editor.putString("id_usuario", id_usuario); // Si es un String, ajusta según tu modelo
+        editor.putString("nombre", nombre);
+        editor.putString("apellido", apellido);
+        editor.putString("email", email);
+
         editor.apply();
+
+        // Datos de depuración
+        Log.d("TokenDebug", "Token guardado: " + token);
+        Log.d("TokenRefreshDebug", "Refresh Token: " + refresh);
+        Log.d("UserInfoDebug", "ID de usuario: " + id_usuario);
+        Log.d("UserInfoDebug", "nombre: " + nombre);
+        Log.d("UserInfoDebug", "apellido: " + apellido);
+        Log.d("UserInfoDebug", "email: " + email);
+    }
+
+    private void showAlert(String title, String message) {
+        // Utiliza requireContext() o getActivity() para obtener el contexto
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+
+        // Crear y mostrar el AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void loginUser(String username, String password) {
+        Log.d("LoginUser", "Iniciando el proceso de login");
+        LoginData loginData = new LoginData(username, password); // Asegúrate de tener la clase LoginData creada
+        Log.d("LoginUser", "Datos de login: " + loginData.getUsername() + ", " + loginData.getPassword());
+
+        ApiService apiService = RetrofitClient.getInstance(getActivity()).getApiService();
+        Call<TokenResponse> call = apiService.loginUser(loginData);
+
+        call.enqueue(new Callback<TokenResponse>() {
+            @Override
+            public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+                Log.d("LoginUser", "Respuesta recibida del servidor");
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("LoginUser", "Login exitoso");
+                    TokenResponse tokenResponse = response.body();
+                    String token = response.body().getToken();
+                    String refreshToken = response.body().getRefreshToken();
+
+                    String nombre = response.body().getUsuario().getNombre();
+                    String apellido = response.body().getUsuario().getApellido();
+                    String email = response.body().getUsuario().getEmail();
+                    String id_usuario = response.body().getUsuario().getNombreUsuario();
+
+                    // Guardar tokens y cualquier otro dato necesario en SharedPreferences
+                    saveTokens(token, refreshToken, id_usuario, nombre, apellido, email);
+
+                    // Redirigir a la actividad principal
+                    Intent intent = new Intent(getActivity(), LandingActivity.class);
+                    // Puedes pasar datos adicionales si es necesario
+                    // intent.putExtra("nombreUsuario", nombre);
+                    startActivity(intent);
+                } else {
+                    Log.e("LoginError", "Error en el login: " + response.code());
+                    // Manejar errores de respuesta
+                    showAlert("Error", "Credenciales incorrectas");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TokenResponse> call, Throwable t) {
+                Log.e("LoginError", "Error de conexión: " + t.getMessage());
+                // Mostrar mensaje de error en la UI
+                showAlert("Error", "Error de conexión: " + t.getMessage());
+            }
+        });
     }
 }
+
