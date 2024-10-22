@@ -221,7 +221,7 @@ public class LoginFragment extends Fragment {
                 NavigationView navigationView = getActivity().findViewById(R.id.nav_view); // Asegúrate de que este ID sea correcto
                 View headerView = navigationView.getHeaderView(0); // Obtiene la vista del encabezado
                 TextView navUsername = headerView.findViewById(R.id.nav_header_title); // Asegúrate de que este ID sea correcto
-                navUsername.setText("Usuario " + loginData.getUsername());
+                navUsername.setText(loginData.getUsername());
 
                 Log.d("LoginUser", "Respuesta recibida del servidor");
                 if (response.isSuccessful() && response.body() != null) {
