@@ -90,12 +90,17 @@ public class RegisterFragment extends Fragment {
                 if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() ||
                         nombreUsuario.isEmpty() || email.isEmpty() || password.isEmpty() || confirmarContrasena.isEmpty()) {
                     Toast.makeText(getActivity(), "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    return;                }
 
                 // Validar DNI numérico
                 if (!dni.matches("\\d+")) {
                     Toast.makeText(getActivity(), "El DNI debe contener solo números", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Validar longitud del DNI
+                if (dni.length() != 8) { // Asumiendo que el DNI tiene 8 dígitos
+                    Toast.makeText(getActivity(), "El DNI debe tener 8 dígitos", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -108,6 +113,12 @@ public class RegisterFragment extends Fragment {
                 // Validar longitud de usuario (mínima y máxima)
                 if (nombreUsuario.length() < MIN_USER_LENGTH || nombreUsuario.length() > MAX_USER_LENGTH) {
                     Toast.makeText(getActivity(), "El nombre de usuario debe tener entre " + MIN_USER_LENGTH + " y " + MAX_USER_LENGTH + " caracteres", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Validar que el nombre de usuario solo contenga letras y números
+                if (!nombreUsuario.matches("[a-zA-Z0-9]+")) {
+                    Toast.makeText(getActivity(), "El nombre de usuario solo puede contener letras y números", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
