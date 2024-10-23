@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.example.proy_mobile2024.model.LoginData;
 import com.example.proy_mobile2024.model.Usuario;
+import com.example.proy_mobile2024.model.UsuarioPerfil;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -30,6 +31,7 @@ public interface ApiService {
     @POST("api/token/refresh/")
     Call<TokenResponse> refreshToken(@Header("Authorization") String refresh);
 
-
+    @GET("usuarios/")
+    Call<List<UsuarioPerfil>> getPerfil();
 }
 
