@@ -20,6 +20,8 @@
     <string name="perfil_direccion">Calle 123</string>
     <string name="perfil_direccion_label">Direccion</string>
     <string name="perfil_dni">12.345.678</string>
+    <string name="perfil_contrasena_encriptada">*********</string>
+    <string name="perfil_contrasena">Contrasena</string>
     <string name="perfil_editar">Editar perfil</string>
     <string name="perfil_salir">Cerrar Sesión</string>
     <string name="perfil_editar_img">Editar Imagen</string>
@@ -79,12 +81,6 @@
     <string name="sobre_nosotros_beneficios_titulo">Beneficios para el Cliente:</string>
     <string name="sobre_nosotros_beneficios">Nos preocupamos por brindarte una experiencia única y cómoda. Al comprar en Pet Boutique, obtienes envío rápido, productos garantizados y atención personalizada.</string>
 
-    <string name="com_auth0_client_id">AGgSJc6ahkAxIvjBbQ3vgrgZkKSHoc2N</string>
-    <string name="com_auth0_domain">dev-beq8aquv5nb4mfcn.us.auth0.com</string>
-
-    <!--Activity Landing-->
-    <string name="landing_descripcionBanderin">Logo de Pet Boutique</string>
-    <string name="landing_bienvenida">Bienvenid@s a Pet Boutique</string>
-    <string name="landing_boton">Empezar</string>
-
+    <string name="com_auth0_client_id">sbIAeWFgwDvAziopRlM1gczznHltFHnK</string>
+    <string name="com_auth0_domain">dev-8sbfkudmbgtmvw2a.us.auth0.com</string>
 </resources>

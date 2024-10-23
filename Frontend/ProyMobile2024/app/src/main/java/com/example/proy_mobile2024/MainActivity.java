@@ -1,5 +1,6 @@
 package com.example.proy_mobile2024;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.content.SharedPreferences;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ImageButton buttonDrawerToggle;
+    TextView navHeaderTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,28 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         buttonDrawerToggle = findViewById(R.id.buttonDrawerToggle);
 
+        // Inicializa el NavigationView
+        navigationView = findViewById(R.id.nav_view);
+        // Llama a checkLoginStatus() para establecer el estado inicial de los ítems del menú
+        checkLoginStatus();
+
+        // Obtén la vista del encabezado
+        View headerView = navigationView.getHeaderView(0); // El índice 0 obtiene el primer encabezado
+        navHeaderTitle = headerView.findViewById(R.id.nav_header_title); // Inicializa aquí
+
+        // Referencia al TextView del encabezado
+        TextView navHeaderTitle = headerView.findViewById(R.id.nav_header_title); // Cambia esto según tu XML
+
+        // Obtén el username desde SharedPreferences
+        SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        String username = preferences.getString("username", "Usuario Desconocido"); // Cambia "username" por la clave que usas
+
+        // Establece el nombre en el TextView del encabezado
+        navHeaderTitle.setText(username);
+        //if (!apellido.isEmpty()) {
+        //    navHeaderTitle.setText(String.format("%s %s", nombre, apellido)); // Combina nombre y apellido si lo deseas
+        //}
+
         // Maneja la apertura del menú lateral
         buttonDrawerToggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        // Verifica el estado de inicio de sesión al cargar la actividad
+        checkLoginStatus();  // Verifica si el usuario está logueado o no
 
         if (savedInstanceState == null) {
             // Carga el fragmento de "Sobre Nosotros" solo si no hay un estado guardado
@@ -71,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         System.out.println(">> MAIN ACTIVITY");//
+
+
 
         //Navegacion con fragments
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -144,16 +172,50 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    public void checkLoginStatus() {
+        SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = preferences.getBoolean("isLoggedIn", false); // Cambia esto a la clave que uses para el estado de sesión
+
+        // Oculta o muestra los ítems del menú de navegación según el estado de inicio de sesión
+        navigationView.getMenu().findItem(R.id.nav_login).setVisible(!isLoggedIn);
+        navigationView.getMenu().findItem(R.id.nav_registro).setVisible(!isLoggedIn);
+        // Puedes agregar un mensaje o redirigir a otra parte si lo deseas
+        if (isLoggedIn) {
+            Toast.makeText(this, "Bienvenido de nuevo", Toast.LENGTH_SHORT).show();
+        }
+
+        // Forzar actualización del menú
+        invalidateOptionsMenu();
+    }
+
     public void logoutClick() {
+        // Limpia los datos de SharedPreferences (esto actualiza el estado de sesión)
         SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear(); // Elimina todos los datos de sesión
-        editor.apply();
+        editor.apply(); // Aplica los cambios (esto es clave)
 
+        // Actualiza el estado de los ítems de menú llamando a checkLoginStatus
+        checkLoginStatus();
+        // Actualizar el NavigationView para que refleje los cambios
+        navigationView.getMenu().clear();
+        navigationView.inflateMenu(R.menu.drawer_menu);  // Inflar nuevamente el menú
+
+        // Restablece el nombre de usuario en el TextView del header (si es necesario)
+        if (navHeaderTitle != null) {
+            navHeaderTitle.setText("Usuario desconocido");
+        } else {
+            Log.e("MainActivity", "navHeaderTitle es null en logoutClick()");
+        }
+
+        // Muestra mensaje de logout exitoso
         Toast.makeText(this, "Has cerrado tu sesión", Toast.LENGTH_SHORT).show();
 
-        // Reemplazar el fragmento actual por el LoginFragment
+        // Reemplaza el fragmento actual por el LoginFragment
         replaceFragment(new LoginFragment());
+
+        // Forzar actualización del menú
+        invalidateOptionsMenu();
     }
 
 
