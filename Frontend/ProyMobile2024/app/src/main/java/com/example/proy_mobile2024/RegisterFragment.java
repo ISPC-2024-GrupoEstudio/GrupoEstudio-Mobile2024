@@ -3,6 +3,8 @@ package com.example.proy_mobile2024;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +56,10 @@ public class RegisterFragment extends Fragment {
         etConfirmarContrasena = view.findViewById(R.id.et_confirm_password);
         btnRegistrar = view.findViewById(R.id.btn_Registro);
 
+        // método de transformación para ocultar el texto de la contraseña
+        etContrasena.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        etConfirmarContrasena.setTransformationMethod(PasswordTransformationMethod.getInstance()); // También ocultar el texto del campo de confirmar contraseña
+
         prepararSpinner();
         // Configurar el evento click del botón Registrar
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +104,13 @@ public class RegisterFragment extends Fragment {
                 // Validar longitud mínima de contraseña
                 if (contrasena.length() < MIN_PASSWORD_LENGTH) {
                     Toast.makeText(getActivity(), "La contraseña debe tener al menos " + MIN_PASSWORD_LENGTH + " caracteres", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Validar que la contraseña cumpla con los requisitos de complejidad
+                String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+                if (!contrasena.matches(passwordPattern)) {
+                    Toast.makeText(getActivity(), "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

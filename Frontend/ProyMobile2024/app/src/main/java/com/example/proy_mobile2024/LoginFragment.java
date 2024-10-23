@@ -1,10 +1,14 @@
 package com.example.proy_mobile2024;
 
+import static android.provider.BlockedNumberContract.isBlocked;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +54,14 @@ public class LoginFragment extends Fragment {
     private LoginViewModel loginViewModel;
     private EditText etUsername, etPassword;
     private Button btnLogin;
+
+
+    private static final int MAX_ATTEMPTS = 5; // Máximo de intentos permitidos
+    private static final long BLOCK_TIME = 300000; // Tiempo de bloqueo en milisegundos (5 minutos)
+
+    private SharedPreferences sharedPreferences;
+    private int attemptCount;
+    private long lockUntil;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -88,6 +100,8 @@ public class LoginFragment extends Fragment {
         etPassword = view.findViewById(R.id.contrasenalog);
         btnLogin = view.findViewById(R.id.loginButton);
 
+        etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
         loginViewModel.getLoginSuccess().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
@@ -111,7 +125,13 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
+        // Inicializar SharedPreferences
+        sharedPreferences = getActivity().getSharedPreferences("login_prefs", getContext().MODE_PRIVATE);
+        attemptCount = sharedPreferences.getInt("attempt_count", 0);
+        lockUntil = sharedPreferences.getLong("lock_until", 0);
 
+        // Comprobar si el usuario está bloqueado
+        checkIfBlocked();
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +142,11 @@ public class LoginFragment extends Fragment {
     }
 
     private void validateLogin() {
+        // Comprobar si el usuario está bloqueado
+        if (isBlocked()) {
+            Toast.makeText(getActivity(), "Estás bloqueado. Intenta nuevamente más tarde.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String username = etUsername.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
@@ -130,6 +155,12 @@ public class LoginFragment extends Fragment {
             etUsername.setError("El nombre de usuario es requerido");
             return;
         }
+        // Validar que el username solo contenga letras y números
+        if (!username.matches("[a-zA-Z0-9]+")) {
+            etUsername.setError("El nombre de usuario solo debe contener letras y números");
+            return;
+        }
+
 
         // Validar que el campo password no esté vacío
         if (TextUtils.isEmpty(password)) {
@@ -143,8 +174,49 @@ public class LoginFragment extends Fragment {
             return;
         }
 
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        if (!password.matches(passwordPattern)) {
+            etPassword.setError("La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial");
+            return;
+        }
 
         loginViewModel.login(username, password);
 
     }
+    private void incrementLoginAttempts() {
+        attemptCount++;
+        sharedPreferences.edit().putInt("attempt_count", attemptCount).apply();
+
+        if (attemptCount >= MAX_ATTEMPTS) {
+            // Establecer tiempo de bloqueo
+            lockUntil = System.currentTimeMillis() + BLOCK_TIME;
+            sharedPreferences.edit().putLong("lock_until", lockUntil).apply();
+            Toast.makeText(getActivity(), "Demasiados intentos fallidos. Estás bloqueado por 5 minutos.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void resetLoginAttempts() {
+        attemptCount = 0;
+        sharedPreferences.edit().putInt("attempt_count", 0).apply();
+        sharedPreferences.edit().putLong("lock_until", 0).apply(); // Reiniciar bloqueo
+    }
+
+    private boolean isBlocked() {
+        return System.currentTimeMillis() < lockUntil;
+    }
+
+    private void checkIfBlocked() {
+        if (isBlocked()) {
+            Toast.makeText(getActivity(), "Estás bloqueado. Intenta nuevamente más tarde.", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
+
+
+
+
+
+
+
+
+

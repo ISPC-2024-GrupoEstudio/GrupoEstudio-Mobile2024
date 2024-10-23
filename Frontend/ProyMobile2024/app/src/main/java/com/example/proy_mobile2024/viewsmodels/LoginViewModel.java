@@ -65,4 +65,30 @@ public class LoginViewModel extends ViewModel {
     public void setLoginSuccess(boolean success) {
         loginSuccess.setValue(success);
     }
+
+    public void validarLogin(String username, String password) {
+        isLoading.setValue(true); // Indica que la carga ha comenzado
+        LoginData loginData = new LoginData(username, password);
+        Call<Void> call = apiService.loginUser(loginData);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                isLoading.setValue(false); // Finaliza el estado de carga
+                if (response.isSuccessful()) {
+                    loginSuccess.setValue(true);  // Login exitoso
+                } else {
+                    loginSuccess.setValue(false); // Fallo en el login
+                    errorMessage.setValue("Error: " + response.message()); // Mensaje de error
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                isLoading.setValue(false); // Finaliza el estado de carga
+                loginSuccess.setValue(false); // Error en la conexión
+                errorMessage.setValue("Error de conexión: " + t.getMessage()); // Mensaje de error
+            }
+        });
+    }
 }
