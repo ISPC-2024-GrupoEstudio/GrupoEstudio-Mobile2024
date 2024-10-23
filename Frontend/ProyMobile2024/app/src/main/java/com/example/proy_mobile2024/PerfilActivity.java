@@ -1,7 +1,12 @@
 package com.example.proy_mobile2024;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.annotation.SuppressLint;
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +34,8 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.proy_mobile2024.model.UsuarioPerfil;
@@ -57,6 +64,8 @@ public class PerfilActivity extends AppCompatActivity {
     private TextView telefonoTextView;
     private TextView direccionTextView;
     private TextView dniTextView;
+
+    
 
     //Manejo de la imagen de perfil
     private final ActivityResultLauncher<Intent> selectImageLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -95,7 +104,7 @@ public class PerfilActivity extends AppCompatActivity {
         textViewPerfil = findViewById(R.id.perfil_header_username);
         ProgressBar progressBar = findViewById(R.id.progressBar);
 
-        perfilViewModel = new PerfilViewModel(getApplicationContext());
+        perfilViewModel = new ViewModelProvider(this).get(PerfilViewModel.class);
 
         usernameTextView = findViewById(R.id.perfil_user_txt);
         nombreTextView = findViewById(R.id.perfil_name_txt);
@@ -103,6 +112,8 @@ public class PerfilActivity extends AppCompatActivity {
         telefonoTextView = findViewById(R.id.perfil_telefono_txt);
         direccionTextView = findViewById(R.id.perfil_direccion_txt);
         dniTextView = findViewById(R.id.perfil_dni_txt);
+
+        String email = obtenerEmailUsuario();
 
         obtenerDatosUsuario();
 
@@ -125,7 +136,13 @@ public class PerfilActivity extends AppCompatActivity {
             };
         });
         Log.e("entrando", "perfil en la activity");
-        perfilViewModel.fetchPerfil();
+        perfilViewModel.getUsuarioPerfil().observe(this, usuarioPerfil -> {
+            if (usuarioPerfil != null){
+               obtenerDatosUsuario();
+            }
+        });
+
+        perfilViewModel.fetchPerfil(email);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -138,22 +155,75 @@ public class PerfilActivity extends AppCompatActivity {
         init();
     }
 
+    private String obtenerEmailUsuario(){
+        SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        return preferences.getString("email", null);
+    }
+
     private void obtenerDatosUsuario(){
         RetrofitClient.getInstance(this).getApiService().getPerfil().enqueue(new Callback<List<UsuarioPerfil>>() {
             @Override
             public void onResponse(Call<List<UsuarioPerfil>> call, Response<List<UsuarioPerfil>> response){
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()){
                     List<UsuarioPerfil> usuarios = response.body();
-                    UsuarioPerfil usuarioPerfil = usuarios.get(7);
-                    Log.e("Telefono", "NRO --> " + usuarioPerfil.getNro_telefono());
 
-                    textViewPerfil.setText(usuarioPerfil.getUser_name());
-                    usernameTextView.setText(usuarioPerfil.getUser_name());
-                    nombreTextView.setText(usuarioPerfil.getNombreCompleto());
-                    emailTextView.setText(usuarioPerfil.getEmail());
-                    telefonoTextView.setText(Integer.toString(usuarioPerfil.getNro_telefono()));
-                    direccionTextView.setText(usuarioPerfil.getDireccion());
-                    dniTextView.setText(Integer.toString(usuarioPerfil.getDni()));
+                    String emailUsuario = obtenerEmailUsuario();
+                    UsuarioPerfil usuarioPerfil = null;
+                    int usuarioIndex = -1;
+
+                    for (int i = 0; i < usuarios.size(); i++){
+                        UsuarioPerfil usuario = usuarios.get(i);
+                        if (usuario.getEmail().equals(emailUsuario)){
+                            usuarioPerfil = usuario;
+                            usuarioIndex = i;
+                            break;
+                        }
+                    }
+
+                    if (usuarioPerfil != null){
+
+                        Log.e("Telefono", "NRO --> " + usuarioPerfil.getNro_telefono());
+
+                        textViewPerfil.setText(usuarioPerfil.getUser_name());
+                        usernameTextView.setText(usuarioPerfil.getUser_name());
+
+                        if (usuarioPerfil.getNombreCompleto() == null || usuarioPerfil.getNombreCompleto().isEmpty()){
+                            nombreTextView.setText("Nombre no proporcionado");
+                        }else{
+                            nombreTextView.setText(usuarioPerfil.getNombreCompleto());
+                        }
+
+                        if (usuarioPerfil.getEmail() == null || usuarioPerfil.getEmail().isEmpty()){
+                            emailTextView.setText("Email no proporcionado");
+                        }else{
+                            emailTextView.setText(usuarioPerfil.getEmail()
+                            );
+                        }
+
+                        if (usuarioPerfil.getNro_telefono() == 0 ){
+                            telefonoTextView.setText("Teléfono no proporcionado");
+                        }else{
+                            telefonoTextView.setText(Integer.toString(usuarioPerfil.getNro_telefono()));
+                        }
+
+                        if (usuarioPerfil.getDireccion() == null || usuarioPerfil.getDireccion().isEmpty()){
+                            direccionTextView.setText("Dirección no proporcionada");
+                        }else{
+                            direccionTextView.setText(usuarioPerfil.getDireccion());
+                        }
+
+                        if (usuarioPerfil.getDni() == 0 ){
+                            dniTextView.setText("DNI no proporcionado");
+                        }else{
+                            dniTextView.setText(Integer.toString(usuarioPerfil.getDni()));
+                        }
+
+
+
+                    }else{
+                        Toast.makeText(PerfilActivity.this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
+                    }
+
                 } else {
                     Toast.makeText(PerfilActivity.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
                 }
