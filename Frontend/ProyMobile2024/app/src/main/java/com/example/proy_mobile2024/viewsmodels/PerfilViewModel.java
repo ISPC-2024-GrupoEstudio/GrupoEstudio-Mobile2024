@@ -1,34 +1,32 @@
 package com.example.proy_mobile2024.viewsmodels;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.proy_mobile2024.model.Perfil;
+import com.example.proy_mobile2024.model.UsuarioPerfil;
 import com.example.proy_mobile2024.repository.PerfilRepository;
-import com.example.proy_mobile2024.services.ApiService;
-import com.example.proy_mobile2024.services.RetrofitClient;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.List;
+
 
 public class PerfilViewModel extends ViewModel {
 
     private PerfilRepository perfilRespositorio;
-    private MutableLiveData<Perfil> perfilLiveData;
+    private MutableLiveData<UsuarioPerfil> perfilLiveData;
     private MutableLiveData<Boolean> cargando = new MutableLiveData<>();
     private MutableLiveData<String> mensajeError = new MutableLiveData<>();
 
-    public PerfilViewModel(){
+    public PerfilViewModel(Context context){
         perfilLiveData = new MutableLiveData<>();
-        perfilRespositorio = new PerfilRepository();
+        perfilRespositorio = new PerfilRepository(context);
 
     }
 
-    public LiveData<Perfil> getPerfilLiveData(){
+    public LiveData<UsuarioPerfil> getPerfilLiveData(){
         return perfilLiveData;
     }
 
@@ -44,8 +42,12 @@ public class PerfilViewModel extends ViewModel {
         cargando.setValue(true);
         perfilRespositorio.getPerfil(new PerfilRepository.PerfilCallback(){
             @Override
-            public void enExito(Perfil perfil){
-                perfilLiveData.setValue(perfil);
+            public void enExito(List<UsuarioPerfil> perfiles){
+                if (perfiles != null && !perfiles.isEmpty()){
+                    perfilLiveData.setValue(perfiles.get(0));
+                }else {
+                    perfilLiveData.setValue(null);
+                }
                 cargando.setValue(false);
             }
 

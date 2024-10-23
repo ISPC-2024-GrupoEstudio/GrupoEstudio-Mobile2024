@@ -1,5 +1,6 @@
 package com.example.proy_mobile2024;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -24,18 +25,23 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.widget.TextView;
-import androidx.lifecycle.Observer;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.example.proy_mobile2024.model.UsuarioPerfil;
+import com.example.proy_mobile2024.services.RetrofitClient;
 import com.example.proy_mobile2024.viewsmodels.PerfilViewModel;
 
 
 import java.io.IOException;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class PerfilActivity extends AppCompatActivity {
@@ -45,6 +51,12 @@ public class PerfilActivity extends AppCompatActivity {
 
     private PerfilViewModel perfilViewModel;
     private TextView textViewPerfil;
+    private TextView usernameTextView;
+    private TextView nombreTextView;
+    private TextView emailTextView;
+    private TextView telefonoTextView;
+    private TextView direccionTextView;
+    private TextView dniTextView;
 
     //Manejo de la imagen de perfil
     private final ActivityResultLauncher<Intent> selectImageLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -73,6 +85,7 @@ public class PerfilActivity extends AppCompatActivity {
     });
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,17 +95,18 @@ public class PerfilActivity extends AppCompatActivity {
         textViewPerfil = findViewById(R.id.perfil_header_username);
         ProgressBar progressBar = findViewById(R.id.progressBar);
 
-        perfilViewModel = new PerfilViewModel();
+        perfilViewModel = new PerfilViewModel(getApplicationContext());
 
-        perfilViewModel.getPerfilLiveData().observe(this, perfil -> {
-            textViewPerfil.setText(perfil.getNombre_apellido());
-            textViewPerfil.setText(perfil.getUser_name());
-            //textViewPerfil.setText(perfil.getPassword());
-            textViewPerfil.setText(perfil.getEmail());
-            textViewPerfil.setText(perfil.getNro_telefono());
-            textViewPerfil.setText(perfil.getDireccion());
-            textViewPerfil.setText(perfil.getDni());
-        });
+        usernameTextView = findViewById(R.id.perfil_user_txt);
+        nombreTextView = findViewById(R.id.perfil_name_txt);
+        emailTextView = findViewById(R.id.perfil_email_txt);
+        telefonoTextView = findViewById(R.id.perfil_telefono_txt);
+        direccionTextView = findViewById(R.id.perfil_direccion_txt);
+        dniTextView = findViewById(R.id.perfil_dni_txt);
+
+        obtenerDatosUsuario();
+
+
 
         perfilViewModel.getCargando().observe(this, cargando -> {
             if (cargando != null && cargando) {
@@ -122,6 +136,33 @@ public class PerfilActivity extends AppCompatActivity {
         findViewById(R.id.floatingActionButton).setOnClickListener(v -> checkMediaPermission());
 
         init();
+    }
+
+    private void obtenerDatosUsuario(){
+        RetrofitClient.getInstance(this).getApiService().getPerfil().enqueue(new Callback<List<UsuarioPerfil>>() {
+            @Override
+            public void onResponse(Call<List<UsuarioPerfil>> call, Response<List<UsuarioPerfil>> response){
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()){
+                    List<UsuarioPerfil> usuarios = response.body();
+                    UsuarioPerfil usuarioPerfil = usuarios.get(7);
+                    Log.e("Telefono", "NRO --> " + usuarioPerfil.getNro_telefono());
+
+                    textViewPerfil.setText(usuarioPerfil.getUser_name());
+                    usernameTextView.setText(usuarioPerfil.getUser_name());
+                    nombreTextView.setText(usuarioPerfil.getNombreCompleto());
+                    emailTextView.setText(usuarioPerfil.getEmail());
+                    telefonoTextView.setText(Integer.toString(usuarioPerfil.getNro_telefono()));
+                    direccionTextView.setText(usuarioPerfil.getDireccion());
+                    dniTextView.setText(Integer.toString(usuarioPerfil.getDni()));
+                } else {
+                    Toast.makeText(PerfilActivity.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<UsuarioPerfil>> call, Throwable t){
+                Toast.makeText(PerfilActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     //Permisos acceso a galeria de fotos
