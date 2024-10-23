@@ -13,7 +13,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
-
 public interface ApiService {
 //    // 1. Solicitud de inicio de sesión (POST)
 //    Call<Void> loginUser(@Body LoginData loginData);
@@ -30,6 +29,7 @@ public interface ApiService {
 
     @POST("api/token/refresh/")
     Call<TokenResponse> refreshToken(@Header("Authorization") String refresh);
+
 
 }
 

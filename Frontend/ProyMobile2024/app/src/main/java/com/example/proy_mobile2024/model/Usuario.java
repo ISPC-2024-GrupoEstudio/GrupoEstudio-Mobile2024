@@ -9,12 +9,12 @@ public class Usuario {
     private String email;
     private String password;
 
-    public Usuario(String nombre, String apellido, int id_tipo_documento, int numero_documento, String nombre_usuario, String email, String password) {
+    public Usuario(String nombre, String apellido, int id_tipo_documento, int numero_documento, String nombreUsuario , String email, String password) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.id_tipo_documento = id_tipo_documento;
         this.numero_documento = numero_documento;
-        this.nombre_usuario = nombre_usuario;
+        this.nombre_usuario  = nombreUsuario ;
         this.email = email;
         this.password = password;
     }
@@ -52,11 +52,11 @@ public class Usuario {
     }
 
     public String getNombreUsuario() {
-        return nombre_usuario;
+        return nombre_usuario ;
     }
 
-    public void setNombreUsuario(String nombre_usuario) {
-        this.nombre_usuario = nombre_usuario;
+    public void setNombreUsuario(String nombreUsuario ) {
+        this.nombre_usuario  = nombreUsuario ;
     }
 
     public String getEmail() {

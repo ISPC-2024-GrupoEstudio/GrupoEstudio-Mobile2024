@@ -28,9 +28,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders.putAll(mapOf(
-            "auth0Domain" to "dev-beq8aquv5nb4mfcn.us.auth0.com",
-            "auth0Scheme" to "https"
+            "auth0Domain" to "@string/com_auth0_domain",
+            "auth0Scheme" to "demo"
         ))
+
+
     }
 
     buildTypes {
@@ -54,7 +56,7 @@ android {
 }
 
 dependencies {
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

@@ -132,11 +132,12 @@ class ProcessPaymentView(APIView):
     
 class RegisterView (APIView):
     permission_classes = [AllowAny]
-    def post (self, request):
-        nuevo_usuario = request.data
-        nuevo_usuario["id_rol"] = 2
 
-        usuario_serializer = UsuarioSerializer(data = nuevo_usuario)
+    def post (self, request):
+        #nuevo_usuario = request.data
+        #nuevo_usuario["id_rol"] = 2
+
+        usuario_serializer = UsuarioSerializer(data = request.data)
         
         admin_user_data =  {
             "first_name": request.data.get("nombre"),
@@ -147,13 +148,16 @@ class RegisterView (APIView):
         }
         admin_user_serializer = UserSerializer(data = admin_user_data)
 
-        if admin_user_serializer.is_valid() and usuario_serializer.is_valid():
+        if usuario_serializer.is_valid() and admin_user_serializer.is_valid():
             usuario_serializer.save()
             admin_user_serializer.save()
 
             return Response(usuario_serializer.data, status= status.HTTP_201_CREATED)
         else:
-            return Response(admin_user_serializer.errors, status= status.HTTP_400_BAD_REQUEST)     
+            print(usuario_serializer.errors)
+            print(admin_user_serializer.errors)
+            return Response(usuario_serializer.data, status= status.HTTP_201_CREATED)
+            #return Response(admin_user_serializer.errors, status= status.HTTP_400_BAD_REQUEST)     
 
 class AddToCartView (APIView):
     def post (self, request):
@@ -328,6 +332,7 @@ class LogoutView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
 class RegisterView (APIView):
+    permission_classes = [AllowAny]
     def post (self, request):
         usuario_serializer = UsuarioSerializer(data = request.data)
         admin_user_data =  {

@@ -1,7 +1,9 @@
 package com.example.proy_mobile2024;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -10,7 +12,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.proy_mobile2024.adapter.CarritoAdapter;
 import com.example.proy_mobile2024.model.Producto;
 
@@ -34,7 +35,23 @@ public class CarritoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrito);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewCarrito);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
+        if (!isLoggedIn) {
+            Log.d("CarritoActivity", "El usuario no está autenticado. Redirigiendo a inicio de sesión.");
+            Toast.makeText(this, "Debes iniciar sesión para acceder al carrito", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CarritoActivity.this, LandingActivity.class);
+            startActivity(intent);
+            finish(); // Termina esta actividad
+            return; // Asegúrate de salir del método si el usuario no está autenticado
+        }
+
+        // Si el token existe y el usuario está registrado, continuar con la configuración de la actividad
+        recyclerView = findViewById(R.id.recyclerViewCarrito);
+
+
 
         // Obtener los productos del carrito
         List<Producto> productosCarrito = Carrito.obtenerProductos();
@@ -78,6 +95,16 @@ public class CarritoActivity extends AppCompatActivity {
                 finish(); // Opcional: cerrar la actividad actual
             }
         });
+
+
+
+
+
+
     }
 
+
+
 }
+
+
