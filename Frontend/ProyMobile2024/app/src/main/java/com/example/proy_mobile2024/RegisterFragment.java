@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.proy_mobile2024.model.Usuario;
 import com.example.proy_mobile2024.services.ApiService;
 import com.example.proy_mobile2024.services.RetrofitClient;
+import com.example.proy_mobile2024.services.RetrofitClientRegister;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,18 +62,32 @@ public class RegisterFragment extends Fragment {
             public void onClick(View v) {
 
                 // Obtener los valores ingresados
-                String nombre = etNombre.getText().toString().trim();
-                String apellido = etApellido.getText().toString().trim();
-                int tipoDni = selected_tipo_DNI;
-                String dni = etDni.getText().toString().trim();
-                String usuario = etUsuario.getText().toString().trim();
-                String email = etEmail.getText().toString().trim();
-                String contrasena = etContrasena.getText().toString().trim();
+                //String nombre = etNombre.getText().toString().trim();
+                //String apellido = etApellido.getText().toString().trim();
+                //int tipoDni = selected_tipo_DNI;
+                //String dni = etDni.getText().toString().trim();
+                //String usuario = etUsuario.getText().toString().trim();
+                //String email = etEmail.getText().toString().trim();
+                //String contrasena = etContrasena.getText().toString().trim();
+                //String confirmarContrasena = etConfirmarContrasena.getText().toString().trim();
+
+                String nombreUsuario = etUsuario.getText().toString().trim(); // nombre_usuario
+                String nombre = etNombre.getText().toString().trim();         // nombre
+                String apellido = etApellido.getText().toString().trim();     // apellido
+                int numeroDocumento = Integer.parseInt(etDni.getText().toString().trim()); // numero_documento
+                String email = etEmail.getText().toString().trim();           // email
+                String password = etContrasena.getText().toString().trim();   // password
                 String confirmarContrasena = etConfirmarContrasena.getText().toString().trim();
+                String direccion = "Dirección"; // Debes obtener la dirección de algún campo, si la API lo requiere
+                int telefono = 123456789;       // Número telefónico, asegúrate de obtenerlo desde un EditText si es necesario
+                String fotoPerfil = "url_de_la_foto"; // Asegúrate de agregar esto si la API lo requiere
+                int id_tipo_documento = selected_tipo_DNI;
+                String dni = etDni.getText().toString().trim();
+                int id_rol = 1;  // Definir un rol por defecto, si lo requiere tu API
 
                 // Validaciones
                 if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() ||
-                        usuario.isEmpty() || email.isEmpty() || contrasena.isEmpty() || confirmarContrasena.isEmpty()) {
+                        nombreUsuario.isEmpty() || email.isEmpty() || password.isEmpty() || confirmarContrasena.isEmpty()) {
                     Toast.makeText(getActivity(), "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -90,31 +105,32 @@ public class RegisterFragment extends Fragment {
                 }
 
                 // Validar longitud mínima de usuario
-                if (usuario.length() < MIN_USER_LENGTH) {
+                if (nombreUsuario.length() < MIN_USER_LENGTH) {
                     Toast.makeText(getActivity(), "El usuario debe tener al menos " + MIN_USER_LENGTH + " caracteres", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 // Validar longitud mínima de contraseña
-                if (contrasena.length() < MIN_PASSWORD_LENGTH) {
+                if (password.length() < MIN_PASSWORD_LENGTH) {
                     Toast.makeText(getActivity(), "La contraseña debe tener al menos " + MIN_PASSWORD_LENGTH + " caracteres", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 // Validar que las contraseñas coinciden
-                if (!contrasena.equals(confirmarContrasena)) {
+                if (!password.equals(confirmarContrasena)) {
                     Toast.makeText(getActivity(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 // Aquí puedes llamar a tu API para verificar si el usuario o email ya existen
-                checkUserOrEmailExists(usuario, email);  // Simulación de API para verificar
+                checkUserOrEmailExists(nombreUsuario, email);  // Simulación de API para verificar
 
                 // Registro exitoso
                 //saveUserToDatabase(nombre, apellido, tipoDni, dni, usuario, email, contrasena);
 
-                Usuario newUser = new Usuario(nombre, apellido, tipoDni, Integer.parseInt(dni), usuario, email, contrasena);
-                ApiService apiService = RetrofitClient.getInstance().getApiService();
+                Usuario newUser = new Usuario(nombre, apellido, id_tipo_documento, Integer.parseInt(dni), nombreUsuario, email, password);
+                ApiService apiService = RetrofitClientRegister.getApiService();
+
                 Call<Usuario> call = apiService.registerUser(newUser);
                 call.enqueue(new Callback<Usuario>() {
                     @Override

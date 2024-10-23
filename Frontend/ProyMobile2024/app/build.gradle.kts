@@ -28,9 +28,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders.putAll(mapOf(
-            "auth0Domain" to "dev-beq8aquv5nb4mfcn.us.auth0.com",
-            "auth0Scheme" to "https"
+            "auth0Domain" to "@string/com_auth0_domain",
+            "auth0Scheme" to "demo"
         ))
+
+
     }
 
     buildTypes {

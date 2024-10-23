@@ -126,7 +126,7 @@ public class GaleriaProductosActivity extends AppCompatActivity {
 
 //        Call<List<Producto>> respuesta = RetrofitClient.getInstance().getApiService().obtenerProductos();
 
-        RetrofitClient.getInstance().getApiService().obtenerProductos().enqueue(new Callback<List<Producto>>() {
+        RetrofitClient.getInstance(this).getApiService().obtenerProductos().enqueue(new Callback<List<Producto>>() {
             @Override
             public void onResponse(Call<List<Producto>> call, Response<List<Producto>> response) {
                 if (response.isSuccessful() && response.body() != null) {
