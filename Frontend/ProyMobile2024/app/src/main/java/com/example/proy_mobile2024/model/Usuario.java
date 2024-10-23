@@ -5,7 +5,7 @@ public class Usuario {
     private String apellido;
     private int id_tipo_documento;
     private int numero_documento;
-    private String nombreUsuario;
+    private String nombre_usuario;
     private String email;
     private String password;
 
@@ -14,7 +14,7 @@ public class Usuario {
         this.apellido = apellido;
         this.id_tipo_documento = id_tipo_documento;
         this.numero_documento = numero_documento;
-        this.nombreUsuario  = nombreUsuario ;
+        this.nombre_usuario  = nombreUsuario ;
         this.email = email;
         this.password = password;
     }
@@ -52,11 +52,11 @@ public class Usuario {
     }
 
     public String getNombreUsuario() {
-        return nombreUsuario ;
+        return nombre_usuario ;
     }
 
     public void setNombreUsuario(String nombreUsuario ) {
-        this.nombreUsuario  = nombreUsuario ;
+        this.nombre_usuario  = nombreUsuario ;
     }
 
     public String getEmail() {

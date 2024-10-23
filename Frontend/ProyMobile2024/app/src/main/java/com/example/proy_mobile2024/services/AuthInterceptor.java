@@ -1,20 +1,16 @@
 package com.example.proy_mobile2024.services;
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import com.example.proy_mobile2024.model.TokenResponse;
-
 import java.io.IOException;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.OkHttpClient;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.Call;
-import retrofit2.Callback;
 
-public class AuthInterceptor implements Interceptor{
+public class AuthInterceptor implements Interceptor {
     private Context context;
 
     public AuthInterceptor(Context context) {
@@ -28,9 +24,12 @@ public class AuthInterceptor implements Interceptor{
         String refreshToken = sharedPreferences.getString("refresh_token", null);
 
         Request originalRequest = chain.request();
+        String requestUrl = originalRequest.url().toString(); // Obtener la URL de la solicitud
+
         Request.Builder builder = originalRequest.newBuilder();
 
-        if (token != null) {
+        // Verificar si la URL no es para el registro antes de añadir el token
+        if (token != null && !requestUrl.contains("/register/")) { // O la URL específica de tu endpoint de registro
             builder.header("Authorization", "Bearer " + token);
         }
 
@@ -38,7 +37,6 @@ public class AuthInterceptor implements Interceptor{
 
         // Si el token está expirado, usa el refresh token para obtener uno nuevo
         if (response.code() == 401 && refreshToken != null) {
-            // Llama a la API para refrescar el token
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("https://recdev.pythonanywhere.com/")
                     .addConverterFactory(GsonConverterFactory.create())
@@ -49,7 +47,6 @@ public class AuthInterceptor implements Interceptor{
 
             retrofit2.Response<TokenResponse> refreshResponse = refreshCall.execute();
             if (refreshResponse.isSuccessful()) {
-                // Guarda el nuevo token y repite la solicitud original
                 TokenResponse newTokenResponse = refreshResponse.body();
                 String newToken = newTokenResponse.getToken();
 
@@ -57,21 +54,16 @@ public class AuthInterceptor implements Interceptor{
                 editor.putString("token", newToken);
                 editor.apply();
 
-                // Repite la solicitud original con el nuevo token
+                // Repetir la solicitud original con el nuevo token
                 Request newRequest = originalRequest.newBuilder()
                         .header("Authorization", "Bearer " + newToken)
                         .build();
 
                 response.close(); // Cierra la respuesta anterior antes de hacer otra llamada
                 return chain.proceed(newRequest);
-            } else {
-                // Si falla, realiza un logout o maneja el error según sea necesario
-                // logoutUser();
             }
         }
 
         return response;
     }
-
-
 }
