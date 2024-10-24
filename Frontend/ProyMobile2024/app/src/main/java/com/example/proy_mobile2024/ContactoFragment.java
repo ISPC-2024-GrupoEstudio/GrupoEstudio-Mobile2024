@@ -40,34 +40,50 @@ public class ContactoFragment extends Fragment {
     }
 
     private String validarCampos(String nombre, String telefono, String email, String mensaje) {
+        // Validación del nombre
         if (nombre.isEmpty()) {
             return "El campo de nombre está vacío.";
         }
         if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
             return "El nombre solo puede contener letras y espacios.";
         }
+        if (nombre.length() > 30) { // Validación de longitud del nombre
+            return "El nombre no puede exceder los 30 caracteres.";
+        }
+
+        // Validación del teléfono
         if (telefono.isEmpty()) {
             return "El campo de teléfono está vacío.";
+        }
+        if (telefono.length() > 15) { // Límite de 15 caracteres
+            return "El número de teléfono no puede exceder los 15 caracteres.";
         }
         if (!android.util.Patterns.PHONE.matcher(telefono).matches()) {
             return "El formato del teléfono es incorrecto.";
         }
+
+        // Validación del email
         if (email.isEmpty()) {
             return "El campo de email está vacío.";
         }
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             return "El formato del email es incorrecto.";
         }
-        if (mensaje.isEmpty()) {
-            return "El campo de mensaje está vacío.";
+
+        // Validación del mensaje
+        if (mensaje.trim().isEmpty()) { // Verificar si el mensaje está vacío o solo tiene espacios
+            return "El campo de mensaje no puede estar vacío o contener solo espacios.";
+        }
+        if (mensaje.length() > 250) {
+            return "El mensaje no puede exceder los 250 caracteres.";
         }
         return null;
     }
 
     private void enviarMensaje() {
-        String nombre = etName.getText().toString();
-        String telefono = etTel.getText().toString();
-        String email = etEmail.getText().toString();
+        String nombre = etName.getText().toString().trim();
+        String telefono = etTel.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
         String mensaje = etMsj.getText().toString();
 
         String validacion = validarCampos(nombre, telefono, email, mensaje);
