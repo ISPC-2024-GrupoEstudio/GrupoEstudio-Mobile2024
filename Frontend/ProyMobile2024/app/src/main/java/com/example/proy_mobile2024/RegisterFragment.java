@@ -33,6 +33,7 @@ public class RegisterFragment extends Fragment {
 
     // Constantes para validaciones
     private static final int MIN_USER_LENGTH = 5; // Mínimo de 5 caracteres para el usuario
+    private static final int MAX_USER_LENGTH = 12;
     private static final int MIN_PASSWORD_LENGTH = 8; // Mínimo de 8 caracteres para la contraseña
 
     public RegisterFragment() {
@@ -90,12 +91,17 @@ public class RegisterFragment extends Fragment {
                 if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() ||
                         nombreUsuario.isEmpty() || email.isEmpty() || password.isEmpty() || confirmarContrasena.isEmpty()) {
                     Toast.makeText(getActivity(), "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    return;                }
 
                 // Validar DNI numérico
                 if (!dni.matches("\\d+")) {
                     Toast.makeText(getActivity(), "El DNI debe contener solo números", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Validar longitud del DNI
+                if (dni.length() != 8) { // Asumiendo que el DNI tiene 8 dígitos
+                    Toast.makeText(getActivity(), "El DNI debe tener 8 dígitos", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -105,15 +111,34 @@ public class RegisterFragment extends Fragment {
                     return;
                 }
 
-                // Validar longitud mínima de usuario
-                if (nombreUsuario.length() < MIN_USER_LENGTH) {
-                    Toast.makeText(getActivity(), "El usuario debe tener al menos " + MIN_USER_LENGTH + " caracteres", Toast.LENGTH_SHORT).show();
+                // Validar longitud de usuario (mínima y máxima)
+                if (nombreUsuario.length() < MIN_USER_LENGTH || nombreUsuario.length() > MAX_USER_LENGTH) {
+                    Toast.makeText(getActivity(), "El nombre de usuario debe tener entre " + MIN_USER_LENGTH + " y " + MAX_USER_LENGTH + " caracteres", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Validar que el nombre de usuario solo contenga letras y números
+                if (!nombreUsuario.matches("[a-zA-Z0-9]+")) {
+                    Toast.makeText(getActivity(), "El nombre de usuario solo puede contener letras y números", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Validar longitud máxima de usuario (12 caracteres)
+                if (nombreUsuario.length() > 12) {
+                    Toast.makeText(getActivity(), "El nombre de usuario no puede tener más de 12 caracteres", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 // Validar longitud mínima de contraseña
                 if (password.length() < MIN_PASSWORD_LENGTH) {
                     Toast.makeText(getActivity(), "La contraseña debe tener al menos " + MIN_PASSWORD_LENGTH + " caracteres", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Validar que la contraseña cumpla con los requisitos de complejidad
+                String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+                if (!password.matches(passwordPattern)) {
+                    Toast.makeText(getActivity(), "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

@@ -193,6 +193,7 @@
                 android:id="@+id/imageView5"
                 android:layout_width="match_parent"
                 android:layout_height="113dp"
+                android:contentDescription="@string/descripcion_imagen_regsitro"
                 app:srcCompat="@drawable/portadala2" />
 
 
