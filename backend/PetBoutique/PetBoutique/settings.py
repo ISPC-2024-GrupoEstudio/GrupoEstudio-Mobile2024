@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +28,19 @@ SECRET_KEY = 'django-insecure-4l#6bdx6tmem#&^&&850i&ny(mfc$etbdj7zn&!!ok3$9c*l#b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 
+    'localhost',
+    '127.0.0.1',
+    '10.0.2.2',
+    'ae5a-190-136-244-190.ngrok-free.app',
+    '6cf2-181-92-28-8.ngrok-free.app'
+    ]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://ae5a-190-136-244-190.ngrok-free.app',
+    'https://6cf2-181-92-28-8.ngrok-free.app'
+]
+
 
 
 # Application definition
@@ -40,8 +53,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'PetBoutiqueApp',
+    'rest_framework_simplejwt',
     'rest_framework',
     'corsheaders',
+    'sslserver',
 ]
 
 MIDDLEWARE = [
@@ -56,8 +71,24 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+      'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:4200',
+    "https://ae5a-190-136-244-190.ngrok-free.app",
+    "https://6cf2-181-92-28-8.ngrok-free.app"
 ]
 
 ROOT_URLCONF = 'PetBoutique.urls'

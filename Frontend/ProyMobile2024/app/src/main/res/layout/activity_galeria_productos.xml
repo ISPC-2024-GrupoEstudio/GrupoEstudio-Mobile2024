@@ -29,10 +29,11 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/btnVolverGaleria"
+                    android:id="@+id/btnVolver"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:contentDescription="@string/descripcion_imagen_volver_products"
                     app:srcCompat="@drawable/back" />
 
                 <EditText
@@ -55,12 +56,13 @@
                     android:background="@drawable/edittext_bg">
 
                     <ImageView
-                        android:id="@+id/imageView"
+                        android:id="@+id/botonCarrito"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        android:contentDescription="@string/descripcion_imagen_cartinprod"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/cart_icono" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

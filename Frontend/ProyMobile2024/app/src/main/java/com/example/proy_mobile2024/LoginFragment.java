@@ -1,22 +1,61 @@
 package com.example.proy_mobile2024;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import com.example.proy_mobile2024.R;
+import com.example.proy_mobile2024.model.LoginData;
+import com.example.proy_mobile2024.model.TokenResponse;
+import com.example.proy_mobile2024.services.ApiService;
+import com.example.proy_mobile2024.services.RetrofitClient;
+import com.example.proy_mobile2024.viewsmodels.LoginViewModel;
+import com.example.proy_mobile2024.viewsmodels.LoguinViewModelFactory;
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.ViewModelProvider;
+import android.content.Context;
+
+import java.net.HttpCookie;
+
+import android.view.MenuItem;
+import com.google.android.material.navigation.NavigationView;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class LoginFragment extends Fragment {
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,10 +69,10 @@ public class LoginFragment extends Fragment {
     public LoginFragment() {
         // Required empty public constructor
     }
-
-    private EditText etUsername;
-    private EditText etPassword;
+    private LoginViewModel loginViewModel;
+    private EditText etUsername, etPassword;
     private Button btnLogin;
+    private String nombreDeUsuario;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -67,10 +106,34 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-
+        LoguinViewModelFactory factory = new LoguinViewModelFactory(requireContext());
+        loginViewModel = new ViewModelProvider(this, factory).get(LoginViewModel.class);
         etUsername = view.findViewById(R.id.user_id);
         etPassword = view.findViewById(R.id.contrasenalog);
         btnLogin = view.findViewById(R.id.loginButton);
+
+
+        loginViewModel.getLoginSuccess().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean success) {
+                if (success) {
+                    // Login exitoso
+                    Toast.makeText(getActivity(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+                    // Aquí puedes navegar a otra actividad o fragmento
+                } else {
+                    // Fallo en el inicio de sesión
+                    Toast.makeText(getActivity(), "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        loginViewModel.getErrorMessage().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String message) {
+                if (message != null) {
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,25 +150,126 @@ public class LoginFragment extends Fragment {
 
         // Validar que el campo username no esté vacío
         if (TextUtils.isEmpty(username)) {
-            etUsername.setError("El nombre de usuario es requerido");
+            //etUsername.setError("El nombre de usuario es requerido");
+            Toast.makeText(getActivity(), "Por favor, ingrese su nombre de usuario.", Toast.LENGTH_SHORT).show(); // Mensaje emergente
             return;
         }
 
         // Validar que el campo password no esté vacío
         if (TextUtils.isEmpty(password)) {
-            etPassword.setError("La contraseña es requerida");
+            //etPassword.setError("La contraseña es requerida");
+            Toast.makeText(getActivity(), "Por favor, ingrese su contraseña.", Toast.LENGTH_SHORT).show(); // Mensaje emergente
             return;
         }
 
         // Validar la longitud de la contraseña (mínimo 8 caracteres)
         if (password.length() < 8) {
-            etPassword.setError("La contraseña debe tener al menos 8 caracteres");
+            //etPassword.setError("La contraseña debe tener al menos 8 caracteres");
+            Toast.makeText(getActivity(), "La contraseña debe tener al menos 8 caracteres.", Toast.LENGTH_SHORT).show(); // Mensaje emergente
             return;
         }
 
-        Toast.makeText(getActivity(), "Ingreso exitoso", Toast.LENGTH_SHORT).show();
 
-        // Luego agregaria la lógica para autenticar al usuario,
-        // una llamada a un servidor
+        loginUser(username, password);
+
+    }
+
+
+    private void saveTokens(String token, String refresh, String id_usuario, String nombre, String apellido, String email, String username) {
+        SharedPreferences preferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("accessToken", token);
+        editor.putString("refreshToken", refresh);
+        editor.putString("id_usuario", id_usuario); // Si es un String, ajusta según tu modelo
+        editor.putString("nombre", nombre);
+        editor.putString("apellido", apellido);
+        editor.putString("email", email);
+        editor.putString("username", username);
+        editor.putBoolean("isLoggedIn", true);
+        editor.apply();
+
+        // Datos de depuración
+        Log.d("TokenDebug", "Token guardado: " + token);
+        Log.d("TokenRefreshDebug", "Refresh Token: " + refresh);
+        Log.d("UserInfoDebug", "ID de usuario: " + id_usuario);
+        Log.d("UserInfoDebug", "nombre: " + nombre);
+        Log.d("UserInfoDebug", "apellido: " + apellido);
+        Log.d("UserInfoDebug", "email: " + email);
+    }
+
+    private void showAlert(String title, String message) {
+        // Utiliza requireContext() o getActivity() para obtener el contexto
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+
+        // Crear y mostrar el AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void loginUser(String username, String password) {
+        Log.d("LoginUser", "Iniciando el proceso de login");
+        LoginData loginData = new LoginData(username, password); // Asegúrate de tener la clase LoginData creada
+        Log.d("LoginUser", "Datos de login: " + loginData.getUsername() + ", " + loginData.getPassword());
+
+        ApiService apiService = RetrofitClient.getInstance(getActivity()).getApiService();
+        Call<TokenResponse> call = apiService.loginUser(loginData);
+
+        call.enqueue(new Callback<TokenResponse>() {
+            @Override
+            public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+                // Añade esto en tu método onResponse de loginUser, justo después de guardar los tokens
+                NavigationView navigationView = getActivity().findViewById(R.id.nav_view); // Asegúrate de que este ID sea correcto
+                View headerView = navigationView.getHeaderView(0); // Obtiene la vista del encabezado
+                TextView navUsername = headerView.findViewById(R.id.nav_header_title); // Asegúrate de que este ID sea correcto
+                navUsername.setText(loginData.getUsername());
+
+                Log.d("LoginUser", "Respuesta recibida del servidor");
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("LoginUser", "Login exitoso");
+                    TokenResponse tokenResponse = response.body();
+                    String token = response.body().getToken();
+                    String refreshToken = response.body().getRefreshToken();
+
+                    nombreDeUsuario = tokenResponse.getUsuario().getNombre(); // Guardar el nombre en la variable de instancia
+                    Log.d("LoginUser", "Nombre de usuario obtenido: " + nombreDeUsuario);
+
+                    String nombre = response.body().getUsuario().getNombre();
+                    String apellido = response.body().getUsuario().getApellido();
+                    String email = response.body().getUsuario().getEmail();
+                    String id_usuario = response.body().getUsuario().getNombreUsuario();
+
+                    // Guardar tokens y cualquier otro dato necesario en SharedPreferences
+                    saveTokens(token, refreshToken, id_usuario, nombre, apellido, email, username);
+                    ((MainActivity) getActivity()).checkLoginStatus();
+                    // Redirigir a la actividad principal
+                    //Intent intent = new Intent(getActivity(), LandingActivity.class);
+                    // Puedes pasar datos adicionales si es necesario
+                    // intent.putExtra("nombreUsuario", nombre);
+                    //startActivity(intent);
+                    // Redirigir al SobreNosotrosFragment
+                    Fragment sobreNosotrosFragment = new SobreNosotrosFragment(); // Crea una instancia del fragmento
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, sobreNosotrosFragment); // Cambia 'fragment_container' por el ID de tu contenedor de fragmentos
+                    transaction.addToBackStack(null); // Añadir a la pila de retroceso, si deseas poder volver al fragmento anterior
+                    transaction.commit(); // Realiza la transacción
+                } else {
+                    Log.e("LoginError", "Error en el login: " + response.code());
+                    // Manejar errores de respuesta
+                    showAlert("Error", "Credenciales incorrectas");
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<TokenResponse> call, Throwable t) {
+                Log.e("LoginError", "Error de conexión: " + t.getMessage());
+                // Mostrar mensaje de error en la UI
+                showAlert("Error", "Error de conexión: " + t.getMessage());
+            }
+        });
     }
 }

@@ -81,4 +81,23 @@
     <string name="sobre_nosotros_beneficios_titulo">Beneficios para el Cliente:</string>
     <string name="sobre_nosotros_beneficios">Nos preocupamos por brindarte una experiencia única y cómoda. Al comprar en Pet Boutique, obtienes envío rápido, productos garantizados y atención personalizada.</string>
 
+    <string name="com_auth0_client_id">sbIAeWFgwDvAziopRlM1gczznHltFHnK</string>
+    <string name="com_auth0_domain">dev-8sbfkudmbgtmvw2a.us.auth0.com</string>
+
+    <!--Activty Landing-->
+    <string name="landing_descripcionBanderin">Imagen logo de petboutique</string>
+    <string name="landing_bienvenida">Bienvenid@s a Pet Boutique</string>
+    <string name="landing_boton">Empezar</string>
+    <string name="volver">volver_a_productos</string>
+    <string name="carrito">Carrito</string>
+    <string name="descripcion_Cart">Logo de carrito</string>
+    <string name="descripcion_detalleprod">Volver a productos</string>
+    <string name="descripcion_imagendetalleprod">Imagen de producto detallado</string>
+    <string name="descripcion_imagen_volver_products">Volver al home</string>
+    <string name="descripcion_imagen_cartinprod">Icono para ir al carrito</string>
+    <string name="descripcion_imagen_incart">Icono de carrito</string>
+    <string name="descripcion_imagen_incartprod">Imagen del proudcto</string>
+    <string name="descripcion_imagen_elim_prod_Cart">Boton para eliminar productos</string>
+    <string name="descripcion_imagen_regsitro">Imagen decorativa de animales</string>
+    <string name="descripcion_imagen_products">Imagen del producto</string>
 </resources>

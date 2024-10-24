@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -20,6 +21,30 @@ from rest_framework import viewsets
 from .models import Producto, CategoriaProducto, Proveedor, Pedido, EstadoPedido, ProductoXPedido, FormaDePago, TipoEnvio, Carrito
 from .serializer import ProductoSerializer, CategoriaProductoSerializer, ProveedorSerializer, PedidoSerializer, EstadoPedidoSerializer, ProductoXPedidoSerializer, FormaDePagoSerializer, TipoEnvioSerializer, UserSerializer, UsuarioSerializer, CarritoSerializer
 from django.views.decorators.csrf import csrf_exempt
+
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate, login
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.decorators import permission_classes
+
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Agregar información extra al token si es necesario
+        token['nombre_usuario'] = user.username
+        return token
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
 
 # Importaciones API autenticación
 
@@ -104,41 +129,15 @@ class ProcessPaymentView(APIView):
         return Response ({"status": "success", "message": "Pago procesado exitosamente"}, status=status.HTTP_200_OK)
     
 # Vistas login / logout
-class LoginView(APIView):
-    def post (self, request):
-        # Recuperamos las credenciales y autenticamos al usuario
-        username = request.data.get('username', None)
-        password = request.data.get('password', None)
-
-        user = authenticate(username=username, password=password)
-        print(username)   
-        print(password) 
-
-        # Si es correcto, añadimos a la request la información de sesión
-        if user:
-            login(request, user)
-            return Response(
-                status=status.HTTP_200_OK)
-            
-        
-        # Si no es correcto, devolvemos un error en la petición
-        return Response(
-            status=status.HTTP_404_NOT_FOUND)
-
-class LogoutView(APIView):
-    def post(self, request):
-        # Borramos de la request la información de sesión
-        logout(request)
-
-        # Devolvemos la respuesta al cliente
-        return Response(status=status.HTTP_200_OK)
     
 class RegisterView (APIView):
-    def post (self, request):
-        nuevo_usuario = request.data
-        nuevo_usuario["id_rol"] = 2
+    permission_classes = [AllowAny]
 
-        usuario_serializer = UsuarioSerializer(data = nuevo_usuario)
+    def post (self, request):
+        #nuevo_usuario = request.data
+        #nuevo_usuario["id_rol"] = 2
+
+        usuario_serializer = UsuarioSerializer(data = request.data)
         
         admin_user_data =  {
             "first_name": request.data.get("nombre"),
@@ -149,13 +148,16 @@ class RegisterView (APIView):
         }
         admin_user_serializer = UserSerializer(data = admin_user_data)
 
-        if admin_user_serializer.is_valid() and usuario_serializer.is_valid():
+        if usuario_serializer.is_valid() and admin_user_serializer.is_valid():
             usuario_serializer.save()
             admin_user_serializer.save()
 
             return Response(usuario_serializer.data, status= status.HTTP_201_CREATED)
         else:
-            return Response(admin_user_serializer.errors, status= status.HTTP_400_BAD_REQUEST)     
+            print(usuario_serializer.errors)
+            print(admin_user_serializer.errors)
+            return Response(usuario_serializer.data, status= status.HTTP_201_CREATED)
+            #return Response(admin_user_serializer.errors, status= status.HTTP_400_BAD_REQUEST)     
 
 class AddToCartView (APIView):
     def post (self, request):
@@ -176,6 +178,7 @@ class DeleteFromCartView (APIView):
         return Response(status= status.HTTP_200_OK)
         
 class CartView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request, nombre_usuario):
         carritos = Carrito.objects.filter(nombre_usuario=nombre_usuario).select_related('id_producto')
         carrito_serializer = CarritoSerializer(carritos, many=True)
@@ -271,33 +274,65 @@ class CheckoutView(APIView):
         return Response ({"message": "Pago procesado exitosamente"}, status=status.HTTP_200_OK) 
     
 # Vistas login / logout #####################################################################################
-class LoginView(APIView):
-    def post (self, request):
-        # Recuperamos las credenciales y autenticamos al usuario
+class Login(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        print("Solicitud recibida en el backend")
+        # Recuperamos las credenciales
         username = request.data.get('username', None)
         password = request.data.get('password', None)
+        print(f"Username: {username}, Password: {password}")
 
+
+        # Validar que los campos no estén vacíos
+        if username is None or password is None:
+            print("Error: Datos incompletos")
+            return Response({"error": "Datos incompletos"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Autenticación
         user = authenticate(username=username, password=password)
-
-        # Si es correcto, añadimos a la request la información de sesión
         if user:
-            login(request, user)
-            return Response(
-                status=status.HTTP_200_OK)
-        
-        # Si no es correcto, devolvemos un error en la petición
-        return Response(
-            status=status.HTTP_404_NOT_FOUND)
+            # Serializa el token y el usuario
+            login_serializer = self.serializer_class(data=request.data)
+            if login_serializer.is_valid():
+                print(f"Usuario autenticado: {user.username}")
+                usuario_serializer = UserSerializer(user)
+                return Response({
+                    'token': login_serializer.validated_data.get('access'),
+                    'refresh_token': login_serializer.validated_data.get('refresh'),
+                    'usuario': usuario_serializer.data,
+                    'message': 'Inicio de sesión exitoso'
+                }, status=status.HTTP_200_OK)
 
+        else:
+            print("Error: Credenciales incorrectas")
+            return Response({"error": "Credenciales incorrectas"}, status=status.HTTP_404_NOT_FOUND)
+        
 class LogoutView(APIView):
     def post(self, request):
-        # Borramos de la request la información de sesión
-        logout(request)
+        try:
+            username = request.data.get('username', '')  # Suponiendo que estás usando nombre de usuario
+            refresh_token = request.data.get('refresh', '')  # Obtener el token de refresco del cuerpo de la solicitud
+            
+            usuario = Usuario.objects.filter(nombre_usuario=username).first()  # Buscar el usuario por nombre de usuario
 
-        # Devolvemos la respuesta al cliente
-        return Response(status=status.HTTP_200_OK)
+            if usuario is not None:
+                # Invalida el token de refresco
+                if refresh_token:
+                    token = RefreshToken(refresh_token)
+                    token.blacklist()  # Invalida el token de refresco
+
+                return Response({'message': 'Sesión cerrada correctamente'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'No existe este usuario'}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
 class RegisterView (APIView):
+    permission_classes = [AllowAny]
     def post (self, request):
         usuario_serializer = UsuarioSerializer(data = request.data)
         admin_user_data =  {
@@ -315,7 +350,13 @@ class RegisterView (APIView):
 
             return Response(usuario_serializer.data, status= status.HTTP_201_CREATED)
         else:
-            return Response(admin_user_serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+    # Imprimir errores para debug
+            print(usuario_serializer.errors)
+            print(admin_user_serializer.errors)
+            return Response({
+                "usuario_errors": usuario_serializer.errors,
+                "admin_user_errors": admin_user_serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 # Para registrar usuarios en BDD
 @api_view(['POST'])
@@ -351,4 +392,15 @@ def registrar_usuario(request):
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer 
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Agregar información extra al token si es necesario
+        token['nombre_usuario'] = user.username
+        return token
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
         

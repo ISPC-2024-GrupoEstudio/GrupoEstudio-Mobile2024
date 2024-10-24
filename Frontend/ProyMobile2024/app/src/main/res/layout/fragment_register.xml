@@ -75,6 +75,11 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"/>
 
+            <Spinner
+                android:id="@+id/spinner_tipo_DNI"
+                android:layout_width="match_parent"
+                android:layout_height="54dp" />
+
             <EditText
                 android:id="@+id/dni"
                 android:layout_width="match_parent"
@@ -91,20 +96,7 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"/>
 
-            <EditText
-                android:id="@+id/dniType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/form_contacto"
-                android:ems="10"
-                android:hint="DNI Type"
-                android:minHeight="48dp"
-                android:padding="10dp"
-                android:textSize="14sp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"/>
+
 
             <EditText
                 android:id="@+id/et_username"
@@ -201,6 +193,7 @@
                 android:id="@+id/imageView5"
                 android:layout_width="match_parent"
                 android:layout_height="113dp"
+                android:contentDescription="@string/descripcion_imagen_regsitro"
                 app:srcCompat="@drawable/portadala2" />
 
 

@@ -29,6 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/back"
+                    android:contentDescription="@string/descripcion_detalleprod"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -46,6 +47,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:contentDescription="@string/descripcion_imagendetalleprod"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:src="@tools:sample/avatars" />
@@ -114,12 +116,14 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/botonAgregar"
+                style="@android:style/Widget.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="32dp"
-                android:textSize="18sp"
-                style="@android:style/Widget.Button"
-                android:text="Agregar" />
+                android:background="@color/pet_violet"
+                android:text="Agregar"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
         </LinearLayout>
     </ScrollView>
