@@ -7,16 +7,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.proy_mobile2024.adapter.CarritoAdapter;
+import com.example.proy_mobile2024.model.Carrito;
 import com.example.proy_mobile2024.model.Producto;
+import com.example.proy_mobile2024.services.ApiService;
+import com.example.proy_mobile2024.services.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CarritoActivity extends AppCompatActivity {
 
@@ -25,10 +33,6 @@ public class CarritoActivity extends AppCompatActivity {
     private Button btnVaciarCarrito;
     private ImageButton btnVolver;
     private ImageButton btnVolverMain;
-    private List<Producto> productosCarrito;
-
-    public static void agregarProducto(Producto producto) {
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +55,8 @@ public class CarritoActivity extends AppCompatActivity {
         // Si el token existe y el usuario está registrado, continuar con la configuración de la actividad
         recyclerView = findViewById(R.id.recyclerViewCarrito);
 
-
-
-        // Obtener los productos del carrito
-        List<Producto> productosCarrito = Carrito.obtenerProductos();
-
         // Configurar el adaptador del carrito
-        CarritoAdapter carritoAdapter = new CarritoAdapter(this, productosCarrito);
+        this.carritoAdapter = new CarritoAdapter(this, new ArrayList<>());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(carritoAdapter);
 
@@ -67,9 +66,7 @@ public class CarritoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Vaciar la lista de productos
-                productosCarrito.clear();
-                // Notificar al adaptador que el dataset cambió
-                carritoAdapter.notifyDataSetChanged();
+                carritoAdapter.vaciarCarrito();
             }
         });
         // Configurar el botón para volver a la actividad de productos
@@ -80,7 +77,6 @@ public class CarritoActivity extends AppCompatActivity {
                 // Crear un Intent para volver a la actividad de productos
                 Intent intent = new Intent(CarritoActivity.this, GaleriaProductosActivity.class);
                 startActivity(intent);
-
             }
         });
 
@@ -96,12 +92,11 @@ public class CarritoActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
+        // por ultimo, actualiza la lista con la API
+        this.carritoAdapter.actualizarCarrito();
 
     }
+
 
 
 
