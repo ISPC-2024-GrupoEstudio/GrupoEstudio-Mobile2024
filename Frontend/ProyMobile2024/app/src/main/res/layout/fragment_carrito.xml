@@ -34,6 +34,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/descripcion_imagen_incart"
                         android:layout_margin="24dp"
                         android:src="@drawable/carritopngcolor" />
 
@@ -53,6 +54,7 @@
                         <ImageView
                             android:id="@+id/productImageView"
                             android:layout_width="96dp"
+                            android:contentDescription="@string/descripcion_imagen_incartprod"
                             android:layout_height="96dp"
                             android:layout_margin="20dp"
                             android:padding="8dp"
@@ -95,6 +97,7 @@
                             android:layout_height="wrap_content"
 
                             android:layout_gravity="center"
+                            android:contentDescription="@string/descripcion_imagen_elim_prod_Cart"
 
                             android:layout_marginStart="32dp"
                             android:layout_marginLeft="32dp"
