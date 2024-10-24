@@ -2,10 +2,12 @@ package com.example.proy_mobile2024;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +18,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proy_mobile2024.adapter.ProductoAdapter;
+import com.example.proy_mobile2024.model.ItemCarritoData;
 import com.example.proy_mobile2024.model.Producto;
+import com.example.proy_mobile2024.model.Usuario;
 import com.example.proy_mobile2024.services.RetrofitClient;
 import com.google.android.material.tabs.TabLayout;
 
@@ -74,9 +78,8 @@ public class GaleriaProductosActivity extends AppCompatActivity {
         btnVolverGaleria = findViewById(R.id.btnVolver);
 
         btnVolverGaleria.setOnClickListener(v -> {
-            Intent resultIntent = new Intent();
-            setResult(RESULT_OK, resultIntent);
-            finish();
+            Intent intent = new Intent(GaleriaProductosActivity.this, MainActivity.class);
+            startActivity(intent);
         });
 
 
@@ -122,9 +125,6 @@ public class GaleriaProductosActivity extends AppCompatActivity {
     private void getProductosList() {
         productosList = new ArrayList<Producto>();
         progressBarProductos.setVisibility(ProgressBar.VISIBLE);
-        // Obtener la lista de productos
-
-//        Call<List<Producto>> respuesta = RetrofitClient.getInstance().getApiService().obtenerProductos();
 
         RetrofitClient.getInstance(this).getApiService().obtenerProductos().enqueue(new Callback<List<Producto>>() {
             @Override
@@ -166,8 +166,6 @@ public class GaleriaProductosActivity extends AppCompatActivity {
         filteredProductList = filteredList;
         productoAdapter.setProductosList(filteredProductList);
     }
-
-
 
 
 }
