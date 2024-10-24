@@ -1,0 +1,103 @@
+<resources>
+    <string name="app_name">Proy-Mobile2024</string>
+    <string name="user_name">User Name</string>
+    <string name="tu_foto_descr">Tu foto de perfil</string>
+    <string name="drawer_toggle_description">Abrir el menú de navegación</string>
+    <string name="itemnav_perfil">Mi perfil</string>
+    <string name="itemnav_productos">Productos</string>
+    <string name="itemnav_carrito">Carrito</string>
+    <string name="itemnav_login">Login</string>
+    <string name="itemnav_registr">Registrarse</string>
+    <string name="itemnav_cerrsesion">Cerrar sesión</string>
+    <string name="itemnav_contanctus">Contactanos</string>
+    <string name="itemnav_home">Home</string>
+
+    <!--Activity Perfil-->
+    <string name="perfil_nombreCompleto">Nombre Apellido</string>
+    <string name="perfil_email">ejemplo@gmail.com</string>
+    <string name="perfil_telefono_nro">+54 9 03541 123456</string>
+    <string name="perfil_telefono">Numero Telefonico</string>
+    <string name="perfil_direccion">Calle 123</string>
+    <string name="perfil_direccion_label">Direccion</string>
+    <string name="perfil_dni">12.345.678</string>
+    <string name="perfil_contrasena_encriptada">*********</string>
+    <string name="perfil_contrasena">Contrasena</string>
+    <string name="perfil_editar">Editar perfil</string>
+    <string name="perfil_salir">Cerrar Sesión</string>
+    <string name="perfil_editar_img">Editar Imagen</string>
+    <string name="perfil_flecha_volver">Regresar</string>
+
+
+    <!-- Fragmento Contacto -->
+    <string name="ingresar_nombre_contacto">Ingrese su nombre</string>
+    <string name="ingresar_nombre_label_contacto">Ingrese su nombre:</string>
+    <string name="ingresar_tel_contacto">Ingrese su teléfono</string>
+    <string name="ingresar_tel_label_contacto">Ingrese su teléfono:</string>
+    <string name="ingresar_email_contacto">Ingrese su email</string>
+    <string name="ingresar_email_label_contacto">Ingrese su email:</string>
+    <string name="ingresar_msj_contacto">Ingrese su mensaje</string>
+    <string name="ingresar_msj_label_contacto">Ingrese su mensaje:</string>
+    <string name="whatsapp_contacto">WhatsApp de contacto</string>
+    <string name="titulo_contacto">¡CONTACTANOS!</string>
+    <string name="subtitulo_contacto">¡Nos comunicaremos a la brevedad!</string>
+    <string name="btn_enviar">Enviar</string>
+    <string name="num_whatsapp">3518542789</string>
+    <string name="instagram">\@petboutique</string>
+    <string name="facebook">Pet Boutique</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="usuario_id">Ingrese su usuario</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="loginB">Login</string>
+    <string name="forgot_pasword">Olvidé mi contraseña</string>
+    <string name="msjregistrate">¿No tienes cuenta?¡Registrate aqui!</string>
+    <string name="image_description_dog">perro</string>
+    <string name="welcome_msj">¡Bienvenido de nuevo!</string>
+
+    <!-- Fragmento sobre_nosotros -->
+    <string name="sobre_nosotros_descripcion">Somos un equipo de amantes de los animales que entiende la importancia de proporcionar a las mascotas el mejor cuidado y atención.
+        En PetBoutique, nos enorgullece ofrecer productos seleccionados cuidadosamente para garantizar la satisfacción tanto de los dueños como de sus queridas mascotas.
+        Nuestra pasión por los animales nos impulsa a brindar un servicio excepcional y una selección diversa de productos que hacen que la vida de los perros sea aún más emocionante y cómoda.
+        Nuestro compromiso es brindarte productos de alta calidad que combinen estilo y funcionalidad.
+        Ya sea que estés buscando un regalo especial para tu mejor amigo peludo o simplemente quieras mimarlo un poco más,
+        en PetBoutique estamos aquí para ayudarte.
+    </string>
+    <string name="sobre_nosotros_mision_titulo">Misión:</string>
+    <string name="sobre_nosotros_mision">En Pet Boutique, nuestro objetivo es ofrecer productos de alta calidad y servicios confiables que aseguren el bienestar y la felicidad de tu mascota.
+        Convertirnos en la tienda líder de productos para mascotas, ofreciendo soluciones integrales que promuevan la salud, el cuidado y la alegría de las mascotas y sus dueños.</string>
+
+    <string name="sobre_nosotros_vision_titulo">Visión:</string>
+    <string name="sobre_nosotros_vision">Convertirnos en la tienda líder de productos para mascotas, ofreciendo soluciones integrales que promuevan la salud, el cuidado y la alegría de las mascotas y sus dueños.</string>
+
+    <string name="sobre_nosotros_historia_titulo">Historia de Pet Boutique:</string>
+    <string name="sobre_nosotros_historia">Desde su fundación en 2020, Pet Boutique ha recorrido un emocionante viaje, empezando como una pequeña tienda online y creciendo hasta convertirse en una plataforma confiable para miles de dueños de mascotas en todo el país.</string>
+
+    <string name="sobre_nosotros_valores_titulo">Nuestros Valores:</string>
+    <string name="sobre_nosotros_valores">Nos enorgullecemos de trabajar bajo los siguientes valores: Calidad, Confianza y Compromiso.</string>
+
+
+    <string name="sobre_nosotros_beneficios_titulo">Beneficios para el Cliente:</string>
+    <string name="sobre_nosotros_beneficios">Nos preocupamos por brindarte una experiencia única y cómoda. Al comprar en Pet Boutique, obtienes envío rápido, productos garantizados y atención personalizada.</string>
+
+    <string name="com_auth0_client_id">sbIAeWFgwDvAziopRlM1gczznHltFHnK</string>
+    <string name="com_auth0_domain">dev-8sbfkudmbgtmvw2a.us.auth0.com</string>
+
+    <!--Activty Landing-->
+    <string name="landing_descripcionBanderin">Imagen logo de petboutique</string>
+    <string name="landing_bienvenida">Bienvenid@s a Pet Boutique</string>
+    <string name="landing_boton">Empezar</string>
+    <string name="volver">volver_a_productos</string>
+    <string name="carrito">Carrito</string>
+    <string name="descripcion_Cart">Logo de carrito</string>
+    <string name="descripcion_detalleprod">Volver a productos</string>
+    <string name="descripcion_imagendetalleprod">Imagen de producto detallado</string>
+    <string name="descripcion_imagen_volver_products">Volver al home</string>
+    <string name="descripcion_imagen_cartinprod">Icono para ir al carrito</string>
+    <string name="descripcion_imagen_incart">Icono de carrito</string>
+    <string name="descripcion_imagen_incartprod">Imagen del proudcto</string>
+    <string name="descripcion_imagen_elim_prod_Cart">Boton para eliminar productos</string>
+    <string name="descripcion_imagen_regsitro">Imagen decorativa de animales</string>
+    <string name="descripcion_imagen_products">Imagen del producto</string>
+</resources>

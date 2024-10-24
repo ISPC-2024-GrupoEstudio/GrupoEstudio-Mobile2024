@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/curved_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="270"
+        android:startColor="@color/verdeAgua"
+        android:endColor="@color/violetaClaro" />
+
+
+    <corners
+        android:bottomLeftRadius="400dp"
+        android:bottomRightRadius="400dp" />
+</shape>
+

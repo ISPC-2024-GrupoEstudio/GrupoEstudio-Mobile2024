@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="purple">#5b4cbd</color>
+    <color name="LightGrey">#efefef</color>
+    <color name="grey">#d2d2d2</color>
+    <color name="darkGrey">#616161</color>
+    <color name="pet_green">#C93AD6C7</color>
+    <color name="pet_greenSecondary">#BF69B5DF</color>
+    <color name="pet_violet">#CC6F60E2</color>
+    <color name="blue">#1B2BE1</color>
+    <color name="verdeAgua">#C93AD6C7</color>
+    <color name="celeste">#BF69B5DF</color>
+    <color name="violetaClaro">#CC6F60E2</color>
+    <color name="negro_texto_perfil">#333232</color>
+    <color name="violeta_perfil_iconos">#7368B2</color>
+    <color name="rojo_perfil_salir">#B52020</color>
+    <color name="transparente">#00FF0000</color>
+    <color name="celeste_perfil_img">#BF35A7E6</color>
+
+
+</resources>

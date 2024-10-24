@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Diphylleia&family=Open+Sans:ital,wght@0,300;0,800;1,300;1,400&display=swap"
+		rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <title>Pet Boutique</title>
+  <style>
+	.navbar {
+		display: flex;
+		background-color: #333;
+		padding: 10px;
+	}
+	.navbar a {
+		color: white;
+		padding: 14px 20px;
+		text-decoration: none;
+		text-align: center;
+	}
+	.navbar a:hover {
+		background-color: #ddd;
+		color: black;
+	}
+</style>
+</head>
+
+<body>
+  	<app-root>
+		<div class="navbar">
+			<a href="http://127.0.0.1:8000/admin/">Admin</a>
+			<a href="http://127.0.0.1:8000/accounts/">Accounts</a>
+			<a href="http://127.0.0.1:8000/api/">API</a>
+			<a href="http://127.0.0.1:8000/auth/login/">Login</a>
+			<a href="http://127.0.0.1:8000/auth/logout/">Logout</a>
+			<a href="http://127.0.0.1:8000/checkout/">Checkout</a>
+		</div>
+		
+		<h1>Welcome to the Index Page of Django</h1>
+	</app-root>
+</body>
+</html>
