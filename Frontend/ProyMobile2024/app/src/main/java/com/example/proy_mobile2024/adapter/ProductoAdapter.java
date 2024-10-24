@@ -40,6 +40,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
     }
 
     public void setProductosList(List<Producto> productosList) {
+        System.out.println(productosList.size());
         this.productosList = productosList;
         notifyDataSetChanged();
     }
@@ -139,6 +140,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
     private Context getActivity() {
         return this.context;
     }
+
 
 
 

@@ -87,6 +87,7 @@ public class GaleriaProductosActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 filterProductList(tab.getText().toString());
+                System.out.println(tab.getText());
             }
 
             @Override
@@ -133,6 +134,7 @@ public class GaleriaProductosActivity extends AppCompatActivity {
                     List<Producto> listaProductos = response.body();
                     productoAdapter.setProductosList(listaProductos);
                     progressBarProductos.setVisibility(ProgressBar.INVISIBLE);
+                    productosList = listaProductos;
                 } else {
                     System.out.println("Error en la respuesta: " + response.code());
                 }
@@ -156,9 +158,11 @@ public class GaleriaProductosActivity extends AppCompatActivity {
             case "Ropa": categoriaId = 4; break;
         }
 
-
         List<Producto> filteredList = new ArrayList<>();
+        System.out.println("Product list len" + productosList.size());
         for (Producto producto : productosList) {
+            System.out.println("cat");
+            System.out.println(producto.getCategoria());
             if (producto.getCategoria() == categoriaId) {
                 filteredList.add(producto);
             }
