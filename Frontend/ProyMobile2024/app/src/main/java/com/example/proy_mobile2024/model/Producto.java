@@ -6,15 +6,15 @@ public class Producto {
     private String descripcion;
     private double precio;
     private String image_url;
-    private int categoria; // Nuevo atributo para la categoría
+    private int id_categoria_producto; // Nuevo atributo para la categoría
 
-    public Producto(int id_producto, String nombre, String descripcion, double precio, String image_url, int categoria) {
+    public Producto(int id_producto, String nombre, String descripcion, double precio, String image_url, int id_categoria_producto) {
         this.id_producto = id_producto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.image_url = image_url;
-        this.categoria = categoria;
+        this.id_categoria_producto = id_categoria_producto;
     }
 
     // Getters y Setters
@@ -60,10 +60,10 @@ public class Producto {
     }
 
     public int getCategoria() {
-        return categoria;
+        return id_categoria_producto;
     }
 
-    public void setCategoria(int categoria) {
-        this.categoria = categoria;
+    public void setCategoria(int id_categoria_producto) {
+        this.id_categoria_producto = id_categoria_producto;
     }
 }

@@ -5,6 +5,11 @@
       <config />
     </shared>
     <layouts>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_carrito.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_detalle_producto.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
@@ -15,7 +20,17 @@
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_landing.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_main.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_perfil.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
@@ -25,12 +40,52 @@
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_carrito.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_contacto.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_login.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_register.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_sobre_nosotros.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/item_carrito.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/nav_header.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/tarjeta_producto.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/toolbar.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/menu/drawer_menu.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
@@ -46,17 +101,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="Se agrega funcionalidad de RetrofitClient para traer la lista de productos, se agregan permisos para acceder a la api">
-      <change afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/xml/network_security_config.xml" afterDir="false" />
+    <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="se agrega la funcionalidad completa del carrito y se corrige error de navegacion entre carrito y productos, y el interceptor del retro client para poder agregar el token">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/GaleriaProductosActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/GaleriaProductosActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/adapter/ProductoAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/adapter/ProductoAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/model/Producto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/model/Producto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/ApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/ApiService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/RetrofitClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/RetrofitClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_detalle_producto.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_detalle_producto.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/PetBoutique/PetBoutique/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/PetBoutique/PetBoutique/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +115,6 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=/Users/florencianoelcarrillo/.android/avd/Pixel_8_API_35.avd)]" />
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=/Users/florencianoelcarrillo/.android/avd/Pixel_8_API_35.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/Frontend/ProyMobile2024">
@@ -82,6 +130,19 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="MilenaGimenez" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="Developer" />
@@ -98,31 +159,36 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/ISPC-2024-GrupoEstudio/GrupoEstudio-Mobile2024.git&quot;,
-    &quot;accountId&quot;: &quot;f02d02ae-b0f6-4b05-8704-19811c339001&quot;
+    &quot;accountId&quot;: &quot;86026e95-3944-4d0e-9117-d3dd58fd47da&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="2m4j66nxvfaOY2V5SZ6MNmx1iNr" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Android App.app.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "FlorenciaCarrillo",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Users/Emiliano/OneDrive/Documentos/cloneRepo/GrupoEstudio-Mobile2024"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;FlorenciaCarrillo&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Users/Emiliano/OneDrive/Documentos/cloneRepo/GrupoEstudio-Mobile2024&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="Proy-Mobile2024.app.main" />
@@ -200,11 +266,22 @@
       <option name="presentableId" value="Default" />
       <updated>1726342565213</updated>
     </task>
+    <task id="LOCAL-00001" summary="Merge ValeAngeletti">
+      <option name="closed" value="true" />
+      <created>1729679394933</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1729679394933</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Se agrega funcionalidad de RetrofitClient para traer la lista de productos, se agregan permisos para acceder a la api" />
-    <option name="LAST_COMMIT_MESSAGE" value="Se agrega funcionalidad de RetrofitClient para traer la lista de productos, se agregan permisos para acceder a la api" />
+    <MESSAGE value="Merge ValeAngeletti" />
+    <MESSAGE value="se agrega la funcionalidad completa del carrito y se corrige error de navegacion entre carrito y productos, y el interceptor del retro client para poder agregar el token" />
+    <option name="LAST_COMMIT_MESSAGE" value="se agrega la funcionalidad completa del carrito y se corrige error de navegacion entre carrito y productos, y el interceptor del retro client para poder agregar el token" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

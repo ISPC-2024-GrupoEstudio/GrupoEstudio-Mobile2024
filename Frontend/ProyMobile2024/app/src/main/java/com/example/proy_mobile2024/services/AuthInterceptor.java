@@ -19,10 +19,10 @@ public class AuthInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("token", null);
-        String refreshToken = sharedPreferences.getString("refresh_token", null);
 
+        SharedPreferences sharedPreferences = context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("accessToken", null);
+        String refreshToken = sharedPreferences.getString("refreshToken", null);
         Request originalRequest = chain.request();
         String requestUrl = originalRequest.url().toString(); // Obtener la URL de la solicitud
 

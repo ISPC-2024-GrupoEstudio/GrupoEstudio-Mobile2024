@@ -1,6 +1,7 @@
 package com.example.proy_mobile2024.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.proy_mobile2024.CarritoActivity;
-import com.example.proy_mobile2024.Carrito;
 import com.example.proy_mobile2024.R;
+import com.example.proy_mobile2024.model.ItemCarritoData;
 import com.example.proy_mobile2024.model.Producto;
+import com.example.proy_mobile2024.model.Usuario;
+import com.example.proy_mobile2024.services.RetrofitClient;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ProductoHolder> {
@@ -34,6 +40,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
     }
 
     public void setProductosList(List<Producto> productosList) {
+        System.out.println(productosList.size());
         this.productosList = productosList;
         notifyDataSetChanged();
     }
@@ -53,7 +60,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
         // Configuramos el botón "Agregar" para añadir el producto al carrito
         holder.button.setOnClickListener(v -> {
             // Agregar el producto al carrito
-            Carrito.agregarProducto(producto);
+            this.agregarProductoAlCarrito(producto);
 
             // Mostrar un mensaje de confirmación
             Toast.makeText(context, "Producto agregado al carrito", Toast.LENGTH_SHORT).show();
@@ -99,6 +106,39 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
 
     public interface OnProductClickListener {
         void onProductClick(Producto producto); // Método que llamará cuando se agregue un producto
+    }
+
+    private void agregarProductoAlCarrito(Producto producto) {
+        ItemCarritoData item = new ItemCarritoData();
+        item.setId_producto(producto.getId_producto());
+        item.setCantidad(1);
+        item.setNombre_usuario(obtenerUsuarioConectado());
+
+        Call<Void> call = RetrofitClient.getInstance(this.context).getApiService().agregarProductoACarrito(item);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getActivity(), "Producto agregado con exito al carrito", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Error, datos invalidos", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getActivity(), "Error al agregar el producto, intente nuevamente", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private String obtenerUsuarioConectado() {
+        SharedPreferences preferences = this.context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        return preferences.getString("username", null);
+    }
+
+    private Context getActivity() {
+        return this.context;
     }
 
 
