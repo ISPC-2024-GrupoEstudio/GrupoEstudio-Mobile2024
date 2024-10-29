@@ -116,6 +116,7 @@ public class LoginFragment extends Fragment {
         etPassword = view.findViewById(R.id.contrasenalog);
         btnLogin = view.findViewById(R.id.loginButton);
         ImageView imageViewTogglePassword = view.findViewById(R.id.imageViewTogglePassword);
+        TextView registerPrompt = view.findViewById(R.id.registerPrompt);
 
         // Configurar el clic del botón de alternancia de visibilidad
         imageViewTogglePassword.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +136,19 @@ public class LoginFragment extends Fragment {
 
                 // Mover el cursor al final del texto después de cambiar la visibilidad
                 etPassword.setSelection(etPassword.getText().length());
+            }
+        });
+
+        registerPrompt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navegar a RegisterFragment
+                Fragment registerFragment = new RegisterFragment();
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, registerFragment) // R.id.fragment_container es el ID del contenedor de fragmentos
+                        .addToBackStack(null) // Agrega a la pila para que se pueda volver atrás
+                        .commit();
             }
         });
 
