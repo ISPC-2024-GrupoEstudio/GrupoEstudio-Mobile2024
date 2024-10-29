@@ -55,7 +55,7 @@
         <EditText
             android:id="@+id/user_id"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="58dp"
             android:layout_marginTop="148dp"
             android:autofillHints=""
             android:background="@drawable/edit_text_bg"
@@ -75,7 +75,7 @@
         <EditText
             android:id="@+id/contrasenalog"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="58dp"
             android:layout_marginTop="24dp"
             android:autofillHints=""
             android:background="@drawable/edit_text_bg"
@@ -83,7 +83,7 @@
             android:inputType="textPassword"
             android:paddingStart="20dp"
             android:paddingTop="10dp"
-            android:paddingEnd="20dp"
+            android:paddingEnd="50dp"
             android:paddingBottom="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -91,6 +91,21 @@
             app:layout_constraintWidth_percent="0.8"
             android:textColor="@color/black"
             android:textColorHint="@color/black"/>
+
+        <!-- Icono de ojo para mostrar/ocultar contraseña -->
+        <ImageView
+            android:id="@+id/imageViewTogglePassword"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_eye_closed"
+            android:contentDescription="@string/toggle_pass_visibility"
+            android:layout_gravity="end"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="@+id/contrasenalog"
+            app:layout_constraintTop_toTopOf="@+id/contrasenalog"
+            app:layout_constraintBottom_toBottomOf="@+id/contrasenalog"/>
 
         <Button
             android:id="@+id/loginButton"
