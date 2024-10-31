@@ -134,5 +134,30 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/forgotPasssword" />
+        <TextView
+            android:id="@+id/failed_attempts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Intentos fallidos: 0 de 5"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/registerPrompt"/>
+
+        <TextView
+            android:id="@+id/tvContador"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tiempo restante: 5:00"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/failed_attempts"/>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
