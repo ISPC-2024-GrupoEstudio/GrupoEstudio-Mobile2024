@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditarPerfilFragment"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/perfil_editar"
+            android:background="@drawable/gradient"
+            android:textSize="40sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:padding="10dp" />
+
+        <EditText
+            android:autofillHints="name"
+            android:id="@+id/editar_nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/perfil_editar_nombre"
+            android:inputType="textPersonName"
+            android:textSize="25sp"
+            android:paddingTop="40dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="15dp"
+            android:textStyle="normal"
+            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:autofillHints="name"
+            android:id="@+id/editar_apellido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/perfil_editar_apellido"
+            android:inputType="textPersonName"
+            android:textSize="25sp"
+            android:paddingTop="35dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="15dp"
+            android:textStyle="normal"
+            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:autofillHints="username"
+            android:id="@+id/editar_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/perfil_editar_username"
+            android:inputType="text"
+            android:textSize="25sp"
+            android:paddingTop="35dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="15dp"
+            android:textStyle="normal"
+            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:autofillHints="emailAddress"
+            android:id="@+id/editar_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/perfil_editar_email"
+            android:inputType="textEmailAddress"
+            android:textSize="25sp"
+            android:paddingTop="35dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="15dp"
+            android:textStyle="normal"
+            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:autofillHints="phone"
+            android:id="@+id/editar_telefono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/perfil_editar_telefono"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:paddingTop="35dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="15dp"
+            android:textStyle="normal"
+            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:autofillHints="postalAddress"
+            android:id="@+id/editar_direccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/perfil_editar_direccion"
+            android:inputType="textPostalAddress"
+            android:textSize="25sp"
+            android:paddingTop="35dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="15dp"
+            android:textStyle="normal"
+            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:id="@+id/editar_dni"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/perfil_editar_dni"
+            android:inputType="number"
+            android:textSize="25sp"
+            android:paddingTop="35dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="15dp"
+            android:textStyle="normal"
+            android:fontFamily="sans-serif-thin"
+            android:layout_marginBottom="30dp"
+            android:textColor="@color/black"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_editar_perfil"
+            android:layout_width="250dp"
+            android:layout_height="65dp"
+            android:background="@drawable/degrade_boton"
+            android:text="@string/perfil_editar_guardar"
+            android:textColor="@color/negro_texto_perfil"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"/>
+    </LinearLayout>
+
+</ScrollView>
