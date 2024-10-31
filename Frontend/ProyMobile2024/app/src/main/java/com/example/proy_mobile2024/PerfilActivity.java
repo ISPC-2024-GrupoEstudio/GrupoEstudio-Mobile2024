@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 
@@ -34,6 +35,8 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
@@ -101,6 +104,8 @@ public class PerfilActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_perfil);
 
+        Button btnEditarPerfil = findViewById(R.id.btn_editar_perfil);
+
         textViewPerfil = findViewById(R.id.perfil_header_username);
         ProgressBar progressBar = findViewById(R.id.progressBar);
 
@@ -117,7 +122,13 @@ public class PerfilActivity extends AppCompatActivity {
 
         obtenerDatosUsuario();
 
-
+        btnEditarPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditarPerfilDialogFragment dialogFragment = new EditarPerfilDialogFragment();
+                dialogFragment.show(getSupportFragmentManager(), "EditarPerfilDialogo");
+            }
+        });
 
         perfilViewModel.getCargando().observe(this, cargando -> {
             if (cargando != null && cargando) {
@@ -154,6 +165,8 @@ public class PerfilActivity extends AppCompatActivity {
 
         init();
     }
+
+
 
     private String obtenerEmailUsuario(){
         SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);

@@ -26,6 +26,15 @@
     <string name="perfil_salir">Cerrar Sesión</string>
     <string name="perfil_editar_img">Editar Imagen</string>
     <string name="perfil_flecha_volver">Regresar</string>
+    <string name="perfil_editar_nombre">Nombre</string>
+    <string name="perfil_editar_apellido">Apellido</string>
+    <string name="perfil_editar_username">Username</string>
+    <string name="perfil_editar_email">Email</string>
+    <string name="perfil_editar_telefono">Teléfono</string>
+    <string name="perfil_editar_direccion">Dirección</string>
+    <string name="perfil_editar_dni">Número de DNI</string>
+    <string name="perfil_editar_guardar">Guardar Cambios</string>
+
 
 
     <!-- Fragmento Contacto -->
