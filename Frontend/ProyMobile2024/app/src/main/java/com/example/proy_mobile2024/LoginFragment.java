@@ -63,7 +63,7 @@ public class LoginFragment extends Fragment {
     private int failedAttempts = 0;
     private boolean isLocked = false;
     private long lockUntil = 0; // Timestamp para manejar el tiempo de bloqueo
-
+    private static final String PREFS_NAME = "AuthPrefs";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -102,7 +102,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences preferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        SharedPreferences preferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         isLocked = preferences.getBoolean("isLocked", false);
         lockUntil = preferences.getLong("lockUntil", 0);
         failedAttempts = preferences.getInt("failedAttempts", 0);
@@ -185,27 +185,50 @@ public class LoginFragment extends Fragment {
         if (isLocked && System.currentTimeMillis() < lockUntil) {
             btnLogin.setEnabled(false); // Deshabilitar si todavía está bloqueado
             long remainingTime = lockUntil - currentTime;
+            if (countDownTimer != null) {
+                countDownTimer.cancel();
+            }
             startLockTimer(remainingTime); // Iniciar temporizador de bloqueo
             tvFailedAttempts.setText("Bloqueado. Intenta nuevamente en " + (remainingTime / 60000) + " minutos.");
+            updateFailedAttemptsText();
+            } else if (currentTime >= lockUntil && isLocked) {
+            // Si el tiempo de bloqueo ha expirado
+            isLocked = false;
+            btnLogin.setEnabled(true);
+            failedAttempts = 0;
+            saveFailedAttempts();
+            saveLockState(false);
+            if (tvContador != null) {
+                tvContador.setVisibility(View.GONE);
+            }
+            if (tvFailedAttempts != null) {
+                tvFailedAttempts.setVisibility(View.GONE);
+            }
+
         } else {
             btnLogin.setEnabled(true); // Habilitar el botón si no está bloqueado
-            failedAttempts = 0; // Reiniciar el contador de intentos fallidos
-            saveFailedAttempts();
-            tvFailedAttempts.setVisibility(View.GONE); // Ocultar el TextView de intentos fallidos
-            tvContador.setVisibility(View.GONE); // Ocultar el contador
+            if (tvContador != null) {
+                tvContador.setVisibility(View.GONE);
+            }
+            if (tvFailedAttempts != null) {
+                tvFailedAttempts.setVisibility(View.GONE);
+            }
         }
+
     }
 
 
 
     private void bloquearBoton() {
-        failedAttempts++;
-        saveFailedAttempts(); // Guardar intentos fallidos en SharedPreferences
-        if (failedAttempts >= 5) {
+        if (failedAttempts < 5) { // Aseguramos que no pase de 5
+            failedAttempts++;
+        }
+        saveFailedAttempts();
+        if (failedAttempts >= 5) { // Cambiamos de > a >=
             isLocked = true;
-            lockUntil = System.currentTimeMillis() + 300000; // Bloqueo por 5 minutos
-            saveLockState(true); // Guardar estado de bloqueo
-            iniciarConteoRegresivo(300); // Iniciar contador
+            lockUntil = System.currentTimeMillis() + 300000;
+            saveLockState(true);
+            updateLockState();
         }
     }
 
@@ -379,8 +402,6 @@ public class LoginFragment extends Fragment {
                     transaction.addToBackStack(null); // Añadir a la pila de retroceso, si deseas poder volver al fragmento anterior
                     transaction.commit(); // Realiza la transacción
                 } else {
-                    failedAttempts++;
-                    updateFailedAttemptsText();
                     Log.e("LoginError", "Error en el login: " + response.code());
                     SharedPreferences preferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
@@ -388,15 +409,19 @@ public class LoginFragment extends Fragment {
                     editor.putLong("lockUntil", lockUntil);
                     editor.apply();
 
-                    if (failedAttempts >= 5) {
+                    if (failedAttempts >= 4) {
+                        failedAttempts = 5;
                         isLocked = true;
                         lockUntil = System.currentTimeMillis() + 5 * 60 * 1000; // Bloquear por 5 minutos
                         saveLockState(true);
                         bloquearBoton();
                         // Mostrar el mensaje de bloqueo
                         showAlert("Bloqueado", "Has excedido el número de intentos. Intenta de nuevo en 5 minutos.");
+                        updateFailedAttemptsText();
                         return;
                     } else {
+                        failedAttempts++;
+                        updateFailedAttemptsText();
                         showAlert("Error", "Credenciales incorrectas. Intentos fallidos: " + failedAttempts);
                     }
                 }
@@ -415,19 +440,54 @@ public class LoginFragment extends Fragment {
     }
 
     private void startLockTimer(long remainingTime) {
-        new CountDownTimer(remainingTime, 1000) {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+
+        tvContador.setVisibility(View.VISIBLE);
+        countDownTimer = new CountDownTimer(remainingTime, 1000) {
+            @Override
             public void onTick(long millisUntilFinished) {
-                long minutes = millisUntilFinished / 60000;
-                long seconds = (millisUntilFinished % 60000) / 1000;
-                tvContador.setText("Bloqueado. Intenta de nuevo en " + minutes + "m " + seconds + "s");
+                if (tvContador != null) {
+                    long minutes = millisUntilFinished / 60000;
+                    long seconds = (millisUntilFinished % 60000) / 1000;
+                    tvContador.setText(String.format("Tiempo restante: %d:%02d", minutes, seconds));
+                }
             }
 
+            @Override
             public void onFinish() {
-                isLocked = false;
-                btnLogin.setEnabled(true); // Habilitar el botón
-                tvContador.setText(""); // Limpiar el mensaje
+                if (isAdded() && getContext() != null) {
+                    isLocked = false;
+                    btnLogin.setEnabled(true);
+                    failedAttempts = 0;
+                    saveLockState(false);
+                    saveFailedAttempts();
+                    if (tvContador != null) {
+                        tvContador.setVisibility(View.GONE);
+                    }
+                    if (tvFailedAttempts != null) {
+                        tvFailedAttempts.setVisibility(View.GONE);
+                    }
+                }
             }
         }.start();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
     }
 
 }
