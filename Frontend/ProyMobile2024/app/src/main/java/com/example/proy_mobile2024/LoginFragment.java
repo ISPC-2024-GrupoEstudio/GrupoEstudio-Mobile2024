@@ -12,12 +12,15 @@ import android.os.Handler;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -69,6 +72,7 @@ public class LoginFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private boolean isPasswordVisible = false;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -123,6 +127,44 @@ public class LoginFragment extends Fragment {
         etUsername = view.findViewById(R.id.user_id);
         etPassword = view.findViewById(R.id.contrasenalog);
         btnLogin = view.findViewById(R.id.loginButton);
+
+        ImageView imageViewTogglePassword = view.findViewById(R.id.imageViewTogglePassword);
+        TextView registerPrompt = view.findViewById(R.id.registerPrompt);
+
+        // Configurar el clic del botón de alternancia de visibilidad
+        imageViewTogglePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isPasswordVisible) {
+                    // Ocultar la contraseña
+                    etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    imageViewTogglePassword.setImageResource(R.drawable.ic_eye_closed); // Cambia a ícono de ojo cerrado
+                } else {
+                    // Mostrar la contraseña
+                    etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    imageViewTogglePassword.setImageResource(R.drawable.ic_eye_open); // Cambia a ícono de ojo abierto
+                }
+                // Alternar el estado de visibilidad
+                isPasswordVisible = !isPasswordVisible;
+
+                // Mover el cursor al final del texto después de cambiar la visibilidad
+                etPassword.setSelection(etPassword.getText().length());
+            }
+        });
+
+        registerPrompt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navegar a RegisterFragment
+                Fragment registerFragment = new RegisterFragment();
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, registerFragment) // R.id.fragment_container es el ID del contenedor de fragmentos
+                        .addToBackStack(null) // Agrega a la pila para que se pueda volver atrás
+                        .commit();
+            }
+        });
+
         tvContador = view.findViewById(R.id.tvContador);
         tvFailedAttempts = view.findViewById(R.id.failed_attempts);
 
@@ -140,6 +182,7 @@ public class LoginFragment extends Fragment {
             btnLogin.setEnabled(true); // Habilitar el botón si no está bloqueado
             failedAttempts = 0; // Reiniciar el contador de intentos fallidos al entrar
         }
+
 
 
         loginViewModel.getLoginSuccess().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
