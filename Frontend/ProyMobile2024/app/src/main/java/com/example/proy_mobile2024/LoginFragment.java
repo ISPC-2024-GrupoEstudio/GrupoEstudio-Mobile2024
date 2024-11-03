@@ -318,21 +318,21 @@ public class LoginFragment extends Fragment {
         // Validar que el campo username no esté vacío
         if (TextUtils.isEmpty(username)) {
             //etUsername.setError("El nombre de usuario es requerido");
-            Toast.makeText(getActivity(), "Por favor, ingrese su nombre de usuario.", Toast.LENGTH_SHORT).show(); // Mensaje emergente
+            Toast.makeText(getActivity(), "Por favor, ingrese su nombre de usuario.", Toast.LENGTH_LONG).show(); // Mensaje emergente
             return;
         }
 
         // Validar que el campo password no esté vacío
         if (TextUtils.isEmpty(password)) {
             //etPassword.setError("La contraseña es requerida");
-            Toast.makeText(getActivity(), "Por favor, ingrese su contraseña.", Toast.LENGTH_SHORT).show(); // Mensaje emergente
+            Toast.makeText(getActivity(), "Por favor, ingrese su contraseña.", Toast.LENGTH_LONG).show(); // Mensaje emergente
             return;
         }
 
         // Validar la longitud de la contraseña (mínimo 8 caracteres)
         if (password.length() < 8) {
             //etPassword.setError("La contraseña debe tener al menos 8 caracteres");
-            Toast.makeText(getActivity(), "La contraseña debe tener al menos 8 caracteres.", Toast.LENGTH_SHORT).show(); // Mensaje emergente
+            Toast.makeText(getActivity(), "La contraseña debe tener al menos 8 caracteres.", Toast.LENGTH_LONG).show(); // Mensaje emergente
             return;
         }
 
