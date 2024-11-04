@@ -44,9 +44,6 @@ public class PerfilRepository {
             public void onResponse(Call<List<UsuarioPerfil>> call, Response<List<UsuarioPerfil>> response){
                 if (response.isSuccessful() && response.body() != null){
                     List<UsuarioPerfil> perfiles = response.body();
-                    for (UsuarioPerfil perfil : perfiles){
-                        Log.d("PerfilRepository" ,"Telefono -> " + perfil.getNro_telefono() + "DNI -> " + perfil.getDni() + "Nombre -> " + perfil.getNombre());
-                    }
                     callback.enExito(perfiles);
                     callback.enExito(response.body());
                 } else {
