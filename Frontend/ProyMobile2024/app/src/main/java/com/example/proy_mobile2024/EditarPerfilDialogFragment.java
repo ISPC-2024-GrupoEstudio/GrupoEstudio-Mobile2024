@@ -1,13 +1,10 @@
 package com.example.proy_mobile2024;
 
 
-import static android.app.appsearch.AppSearchResult.RESULT_OK;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +20,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 
-import com.example.proy_mobile2024.R;
 import com.example.proy_mobile2024.model.UsuarioPerfil;
 import com.example.proy_mobile2024.viewsmodels.PerfilViewModel;
 
@@ -58,15 +54,6 @@ public class EditarPerfilDialogFragment extends DialogFragment {
 
         Button guardarCambiosBtn = view.findViewById(R.id.btn_guardar_cambios);
 
-
-        perfilViewModel.getActualizacionExitosa().observe(getViewLifecycleOwner(), exitoso -> {
-            if (exitoso != null && exitoso){
-                Toast.makeText(requireContext(), "Perfil actualizado con exito", Toast.LENGTH_SHORT).show();
-                dismiss();
-            }
-        });
-
-
         perfilViewModel.getMensajeError().observe(getViewLifecycleOwner(), error -> {
             if (error != null){
                 Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
@@ -94,7 +81,6 @@ public class EditarPerfilDialogFragment extends DialogFragment {
                 return;
             }
 
-
             try {
                 String nombreUsuarioActual = obtenerUsernameUsuario();
 
@@ -117,9 +103,18 @@ public class EditarPerfilDialogFragment extends DialogFragment {
                     return;
                 }
 
+                perfilViewModel.getActualizacionExitosa().observe(getViewLifecycleOwner(), new androidx.lifecycle.Observer<Boolean>(){
+                    @Override
+                    public void onChanged(Boolean exitoso){
+                        if (exitoso != null && exitoso){
+                            Toast.makeText(requireContext(), "Perfil actualizado con exito", Toast.LENGTH_SHORT).show();
+                            perfilViewModel.getActualizacionExitosa().removeObserver(this);
+                            dismiss();
+                        }
+                    }
+                });
 
                 perfilViewModel.actualizarPerfil(nombreUsuarioActual, perfilActualizado);
-
 
                 if (listener != null){
                     listener.onPerfilEdit(
@@ -160,7 +155,6 @@ public class EditarPerfilDialogFragment extends DialogFragment {
             mostrarError("Por favor ingrese solo números");
             return false;
         }
-
 
         return true;
     }

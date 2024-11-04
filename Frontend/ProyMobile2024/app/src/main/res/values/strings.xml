@@ -62,9 +62,10 @@
     <string name="contraseña">Contraseña</string>
     <string name="loginB">Login</string>
     <string name="forgot_pasword">Olvidé mi contraseña</string>
-    <string name="msjregistrate">¿No tienes cuenta?¡Registrate aqui!</string>
+    <string name="msjregistrate">¿No tienes cuenta? ¡Registrate aqui!</string>
     <string name="image_description_dog">perro</string>
     <string name="welcome_msj">¡Bienvenido de nuevo!</string>
+    <string name="toggle_pass_visibility">Toggle Password Visibility</string>
 
     <!-- Fragmento sobre_nosotros -->
     <string name="sobre_nosotros_descripcion">Somos un equipo de amantes de los animales que entiende la importancia de proporcionar a las mascotas el mejor cuidado y atención.

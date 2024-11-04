@@ -90,24 +90,24 @@ public class RegisterFragment extends Fragment {
                 // Validaciones
                 if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() ||
                         nombreUsuario.isEmpty() || email.isEmpty() || password.isEmpty() || confirmarContrasena.isEmpty()) {
-                    Toast.makeText(getActivity(), "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Todos los campos son obligatorios", Toast.LENGTH_LONG).show();
                     return;                }
 
                 // Validar DNI numérico
                 if (!dni.matches("\\d+")) {
-                    Toast.makeText(getActivity(), "El DNI debe contener solo números", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "El DNI debe contener solo números", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 // Validar longitud del DNI
                 if (dni.length() != 8) { // Asumiendo que el DNI tiene 8 dígitos
-                    Toast.makeText(getActivity(), "El DNI debe tener 8 dígitos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "El DNI debe tener 8 dígitos", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 // Validar formato de email
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    Toast.makeText(getActivity(), "Email no válido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Email no válido", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -119,32 +119,32 @@ public class RegisterFragment extends Fragment {
 
                 // Validar que el nombre de usuario solo contenga letras y números
                 if (!nombreUsuario.matches("[a-zA-Z0-9]+")) {
-                    Toast.makeText(getActivity(), "El nombre de usuario solo puede contener letras y números", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "El nombre de usuario solo puede contener letras y números", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 // Validar longitud máxima de usuario (12 caracteres)
                 if (nombreUsuario.length() > 12) {
-                    Toast.makeText(getActivity(), "El nombre de usuario no puede tener más de 12 caracteres", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "El nombre de usuario no puede tener más de 12 caracteres", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 // Validar longitud mínima de contraseña
                 if (password.length() < MIN_PASSWORD_LENGTH) {
-                    Toast.makeText(getActivity(), "La contraseña debe tener al menos " + MIN_PASSWORD_LENGTH + " caracteres", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "La contraseña debe tener al menos " + MIN_PASSWORD_LENGTH + " caracteres", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 // Validar que la contraseña cumpla con los requisitos de complejidad
                 String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
                 if (!password.matches(passwordPattern)) {
-                    Toast.makeText(getActivity(), "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 // Validar que las contraseñas coinciden
                 if (!password.equals(confirmarContrasena)) {
-                    Toast.makeText(getActivity(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Las contraseñas no coinciden", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -162,17 +162,17 @@ public class RegisterFragment extends Fragment {
                     @Override
                     public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                         if (response.isSuccessful()) {
-                            Toast.makeText(getActivity(), "Registro exitoso", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Registro exitoso", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(getActivity(), "Error, datos invalidos", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Error, datos invalidos", Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Usuario> call, Throwable t) {
-                        Toast.makeText(getActivity(), "Error durante el registro de usuario, intente nuevamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Error durante el registro de usuario, intente nuevamente", Toast.LENGTH_LONG).show();
                     }
                 });
 

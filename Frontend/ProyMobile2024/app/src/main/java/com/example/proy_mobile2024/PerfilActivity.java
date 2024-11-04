@@ -21,7 +21,6 @@ import android.Manifest;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,7 +68,6 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                     imageview.setImageBitmap(bitmap);
                 }catch (IOException e){
-                    Log.e("PerfilActivity", "Error al cargar la imagen", e);
                     Toast.makeText(this, "Error al cargar la imagen", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -108,9 +106,6 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
         direccionTextView = findViewById(R.id.perfil_direccion_txt);
         dniTextView = findViewById(R.id.perfil_dni_txt);
 
-//        obtenerDatosUsuario();
-
-
         btnEditarPerfil.setOnClickListener(v -> {
             EditarPerfilDialogFragment dialogFragment = new EditarPerfilDialogFragment();
             dialogFragment.show(getSupportFragmentManager(), "EditarPerfilDialogo");
@@ -137,7 +132,6 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
         perfilViewModel.getActualizacionExitosa().observe(this, exitoso -> {
             if (exitoso != null && exitoso) {
                 actualizarUI(usuarioPerfilActual);
-                Toast.makeText(this, "Datos actualizados con exito perfil", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -163,7 +157,6 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
 
     @Override
     public void onPerfilEdit(String nombre, String apellido, String email,long telefono, String direccion, long dni){
-        Log.d("PerfilActivity", "Datos actualizados: Nombre " + nombre + ", Apellido: " + apellido +  ", Direccion: " + direccion + ", Email: " + email + ", Telefono: " + telefono + ", Dni: " + dni);
 
         String usernameOriginal = obtenerUsernameUsuario();
 
@@ -175,15 +168,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
             usuarioPerfilActual.setDireccion(direccion);
             usuarioPerfilActual.setDni(dni);
 
-//            nombreTextView.setText(nombre);
-//            apellidoTextView.setText(apellido);
-//            emailTextView.setText(email);
-//            telefonoTextView.setText(String.valueOf(telefono));
-//            direccionTextView.setText(direccion);
-//            dniTextView.setText(String.valueOf(dni));
-
             perfilViewModel.actualizarPerfil(usernameOriginal, usuarioPerfilActual);
-            Toast.makeText(this, "Datos actualizados con exito", Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -226,7 +211,6 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
 
                     if (usuarioPerfil != null){
                         usuarioPerfilActual = usuarioPerfil;
-                        Log.e("Telefono", "NRO --> " + usuarioPerfil.getNro_telefono());
                         textViewHeaderUsername.setText(usuarioPerfil.getUser_name());
                         actualizarUI(usuarioPerfil);
                     }else{
