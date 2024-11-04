@@ -127,23 +127,7 @@ public class LoginFragment extends Fragment {
         etUsername = view.findViewById(R.id.user_id);
         etPassword = view.findViewById(R.id.contrasenalog);
         btnLogin = view.findViewById(R.id.loginButton);
-        tvContador = view.findViewById(R.id.tvContador);
-        tvFailedAttempts = view.findViewById(R.id.failed_attempts);
 
-        tvFailedAttempts = view.findViewById(R.id.failed_attempts); // Inicializa el TextView
-        updateFailedAttemptsText(); // Muestra el conteo de intentos fallidos
-        updateLockState();
-
-
-        if (isLocked && System.currentTimeMillis() < lockUntil) {
-            btnLogin.setEnabled(false); // Deshabilitar si todavía está bloqueado
-            long remainingTime = lockUntil - System.currentTimeMillis();
-            startLockTimer(remainingTime); // Iniciar temporizador de bloqueo
-            updateFailedAttemptsText(); // Actualizar el texto de intentos fallidos
-        } else {
-            btnLogin.setEnabled(true); // Habilitar el botón si no está bloqueado
-            failedAttempts = 0; // Reiniciar el contador de intentos fallidos al entrar
-        }
         ImageView imageViewTogglePassword = view.findViewById(R.id.imageViewTogglePassword);
         TextView registerPrompt = view.findViewById(R.id.registerPrompt);
 
@@ -180,6 +164,25 @@ public class LoginFragment extends Fragment {
                         .commit();
             }
         });
+
+        tvContador = view.findViewById(R.id.tvContador);
+        tvFailedAttempts = view.findViewById(R.id.failed_attempts);
+
+        tvFailedAttempts = view.findViewById(R.id.failed_attempts); // Inicializa el TextView
+        updateFailedAttemptsText(); // Muestra el conteo de intentos fallidos
+        updateLockState();
+
+
+        if (isLocked && System.currentTimeMillis() < lockUntil) {
+            btnLogin.setEnabled(false); // Deshabilitar si todavía está bloqueado
+            long remainingTime = lockUntil - System.currentTimeMillis();
+            startLockTimer(remainingTime); // Iniciar temporizador de bloqueo
+            updateFailedAttemptsText(); // Actualizar el texto de intentos fallidos
+        } else {
+            btnLogin.setEnabled(true); // Habilitar el botón si no está bloqueado
+            failedAttempts = 0; // Reiniciar el contador de intentos fallidos al entrar
+        }
+
 
 
         loginViewModel.getLoginSuccess().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
@@ -231,7 +234,7 @@ public class LoginFragment extends Fragment {
             startLockTimer(remainingTime); // Iniciar temporizador de bloqueo
             tvFailedAttempts.setText("Bloqueado. Intenta nuevamente en " + (remainingTime / 60000) + " minutos.");
             updateFailedAttemptsText();
-            } else if (currentTime >= lockUntil && isLocked) {
+        } else if (currentTime >= lockUntil && isLocked) {
             // Si el tiempo de bloqueo ha expirado
             isLocked = false;
             btnLogin.setEnabled(true);
@@ -315,21 +318,21 @@ public class LoginFragment extends Fragment {
         // Validar que el campo username no esté vacío
         if (TextUtils.isEmpty(username)) {
             //etUsername.setError("El nombre de usuario es requerido");
-            Toast.makeText(getActivity(), "Por favor, ingrese su nombre de usuario.", Toast.LENGTH_SHORT).show(); // Mensaje emergente
+            Toast.makeText(getActivity(), "Por favor, ingrese su nombre de usuario.", Toast.LENGTH_LONG).show(); // Mensaje emergente
             return;
         }
 
         // Validar que el campo password no esté vacío
         if (TextUtils.isEmpty(password)) {
             //etPassword.setError("La contraseña es requerida");
-            Toast.makeText(getActivity(), "Por favor, ingrese su contraseña.", Toast.LENGTH_SHORT).show(); // Mensaje emergente
+            Toast.makeText(getActivity(), "Por favor, ingrese su contraseña.", Toast.LENGTH_LONG).show(); // Mensaje emergente
             return;
         }
 
         // Validar la longitud de la contraseña (mínimo 8 caracteres)
         if (password.length() < 8) {
             //etPassword.setError("La contraseña debe tener al menos 8 caracteres");
-            Toast.makeText(getActivity(), "La contraseña debe tener al menos 8 caracteres.", Toast.LENGTH_SHORT).show(); // Mensaje emergente
+            Toast.makeText(getActivity(), "La contraseña debe tener al menos 8 caracteres.", Toast.LENGTH_LONG).show(); // Mensaje emergente
             return;
         }
 

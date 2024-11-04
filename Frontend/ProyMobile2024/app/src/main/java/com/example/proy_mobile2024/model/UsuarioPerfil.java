@@ -8,11 +8,11 @@ public class UsuarioPerfil {
     private String apellido;
     private String nombre_usuario;
     private String email;
-    private int telefono;
+    private long telefono;
     private String direccion;
-    private int numero_documento;
+    private long numero_documento;
 
-    public UsuarioPerfil(String nombre,String apellido, String nombre_usuario, String email, int telefono, String direccion, int numero_documenton){
+    public UsuarioPerfil(String nombre,String apellido, String nombre_usuario, String email, long telefono, String direccion, long numero_documento){
         this.nombre = nombre;
         this.apellido = apellido;
         this.nombre_usuario = nombre_usuario;
@@ -51,9 +51,9 @@ public class UsuarioPerfil {
         this.email = email_nuevo;
     }
 
-    public int getNro_telefono(){ return telefono; }
+    public long getNro_telefono(){ return telefono; }
 
-    public void setNro_telefono(int nro_telefono_nuevo){ this.telefono = nro_telefono_nuevo;}
+    public void setNro_telefono(long nro_telefono_nuevo){ this.telefono = nro_telefono_nuevo;}
 
     public String getDireccion(){ return direccion;}
 
@@ -61,9 +61,9 @@ public class UsuarioPerfil {
         this.direccion = direccion_nueva;
     }
 
-    public int getDni(){ return numero_documento;}
+    public long getDni(){ return numero_documento;}
 
-    public void setDni(int dni_nuevo){
+    public void setDni(long dni_nuevo){
         this.numero_documento = dni_nuevo;
     }
 

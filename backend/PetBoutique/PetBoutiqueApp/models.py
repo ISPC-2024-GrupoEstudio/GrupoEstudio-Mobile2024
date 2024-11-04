@@ -274,7 +274,7 @@ class Usuario(models.Model):
     nombre_usuario = models.CharField(primary_key=True, max_length=12)
     nombre = models.CharField(max_length=45, blank=True, null=True)
     direccion = models.CharField(max_length=45, blank=True, null=True)
-    telefono = models.IntegerField(blank=True, null=True)
+    telefono = models.BigIntegerField(blank=True, null=True)
     email = models.CharField(max_length=45, blank=True, null=True)
     apellido = models.CharField(max_length=45, blank=True, null=True)
     id_tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column='id_tipo_documento', blank=True, null=True)

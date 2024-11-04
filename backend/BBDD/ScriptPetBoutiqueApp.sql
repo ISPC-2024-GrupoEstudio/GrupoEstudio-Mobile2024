@@ -734,7 +734,7 @@ CREATE TABLE `usuario` (
   `nombre_usuario` varchar(12) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `direccion` varchar(45) DEFAULT NULL,
-  `telefono` int DEFAULT NULL,
+  `telefono` bigint DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   `apellido` varchar(45) DEFAULT NULL,
   `id_tipo_documento` int DEFAULT NULL,

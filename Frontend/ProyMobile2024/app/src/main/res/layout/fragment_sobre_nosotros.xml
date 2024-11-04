@@ -15,20 +15,21 @@
         android:paddingBottom="72dp">
 
         <!-- Imagen de una mujer con perro -->
+
+        <!-- Título Sobre Nosotros -->
         <ImageView
             android:id="@+id/imageView_sobre_nosotros"
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_marginTop="26dp"
             android:background="@drawable/gradient"
-            android:contentDescription="Imagen sobre nosotros con una mujer y su perro"
+            android:contentDescription="logo"
             android:scaleType="fitCenter"
-            android:src="@drawable/logo"
+            android:src="@drawable/logox"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Título Sobre Nosotros -->
         <TextView
             android:id="@+id/textView_sobre_nosotros_title"
             android:layout_width="0dp"
