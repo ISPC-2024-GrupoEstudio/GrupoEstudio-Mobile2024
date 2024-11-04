@@ -21,6 +21,16 @@
             android:textColor="@color/black"
             android:padding="10dp" />
 
+        <ImageView
+            android:id="@+id/btnVolverPerfilEditar"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/flecha_volver"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="-55dp"
+            android:contentDescription="@string/perfil_flecha_volver"
+            android:background="@color/transparente"/>
+
         <EditText
             android:autofillHints="name"
             android:id="@+id/editar_nombre"
@@ -43,21 +53,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/perfil_editar_apellido"
             android:inputType="textPersonName"
-            android:textSize="25sp"
-            android:paddingTop="35dp"
-            android:paddingBottom="20dp"
-            android:paddingStart="15dp"
-            android:textStyle="normal"
-            android:fontFamily="sans-serif-thin"
-            android:textColor="@color/black"/>
-
-        <EditText
-            android:autofillHints="username"
-            android:id="@+id/editar_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/perfil_editar_username"
-            android:inputType="text"
             android:textSize="25sp"
             android:paddingTop="35dp"
             android:paddingBottom="20dp"
@@ -127,7 +122,7 @@
             android:textColor="@color/black"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_editar_perfil"
+            android:id="@+id/btn_guardar_cambios"
             android:layout_width="250dp"
             android:layout_height="65dp"
             android:background="@drawable/degrade_boton"

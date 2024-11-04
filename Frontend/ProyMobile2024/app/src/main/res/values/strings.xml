@@ -13,7 +13,8 @@
     <string name="itemnav_home">Home</string>
 
     <!--Activity Perfil-->
-    <string name="perfil_nombreCompleto">Nombre Apellido</string>
+    <string name="perfil_nombre">Nombre</string>
+    <string name="perfil_apellido">Apellido</string>
     <string name="perfil_email">ejemplo@gmail.com</string>
     <string name="perfil_telefono_nro">+54 9 03541 123456</string>
     <string name="perfil_telefono">Numero Telefonico</string>
