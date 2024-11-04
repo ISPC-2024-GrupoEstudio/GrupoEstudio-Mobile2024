@@ -32,8 +32,8 @@ public interface ApiService {
     @POST("auth/register/")
     Call<Usuario> registerUser(@Body Usuario usuario);
 
-    @POST("api/token/refresh/")
-    Call<TokenResponse> refreshToken(@Header("Authorization") String refresh);
+    @POST("token/refresh/")
+    Call<TokenResponse> refreshToken(@Body TokenRefreshRequest request);
 
     @GET("usuarios/")
     Call<List<UsuarioPerfil>> getPerfil();
