@@ -16,6 +16,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -46,6 +47,9 @@ public interface ApiService {
 
     @DELETE("delete-from-cart/{id}/")
     Call<Void> eliminarDeCarrito(@Path("id") int id_carrito);
+
+    @PUT("usuarios/{nombre_usuario}/")
+    Call<Void> actualizarPerfil(@Path("nombre_usuario") String nombreUsuario, @Body UsuarioPerfil usuarioPerfil);
 
 }
 
