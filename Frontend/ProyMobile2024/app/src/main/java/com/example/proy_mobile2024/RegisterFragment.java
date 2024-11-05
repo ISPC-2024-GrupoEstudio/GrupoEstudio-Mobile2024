@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,35 +60,111 @@ public class RegisterFragment extends Fragment {
         etConfirmarContrasena = view.findViewById(R.id.et_confirm_password);
         btnRegistrar = view.findViewById(R.id.btn_Registro);
 
+        // TextWatcher para el campo de Usuario
+        etUsuario.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String sanitized = sanitizeInput(s.toString(), "[^a-zA-Z0-9]");
+                if (!sanitized.equals(s.toString())) {
+                    etUsuario.setText(sanitized);
+                    etUsuario.setSelection(sanitized.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // TextWatcher para el campo de Nombre
+        etNombre.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String sanitized = sanitizeInput(s.toString(), "[^a-zA-Z ]");
+                if (!sanitized.equals(s.toString())) {
+                    etNombre.setText(sanitized);
+                    etNombre.setSelection(sanitized.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // TextWatcher para el campo de Apellido
+        etApellido.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String sanitized = sanitizeInput(s.toString(), "[^a-zA-Z ]");
+                if (!sanitized.equals(s.toString())) {
+                    etApellido.setText(sanitized);
+                    etApellido.setSelection(sanitized.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // TextWatcher para el campo de DNI (solo números)
+        etDni.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String sanitized = sanitizeInput(s.toString(), "[^0-9]");
+                if (!sanitized.equals(s.toString())) {
+                    etDni.setText(sanitized);
+                    etDni.setSelection(sanitized.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // TextWatcher para el campo de Email (dejar caracteres válidos en emails)
+        etEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String sanitized = sanitizeInput(s.toString(), "[^a-zA-Z0-9@._-]");
+                if (!sanitized.equals(s.toString())) {
+                    etEmail.setText(sanitized);
+                    etEmail.setSelection(sanitized.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+
         prepararSpinner();
-        // Configurar el evento click del botón Registrar
+
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // Obtener los valores ingresados
-                //String nombre = etNombre.getText().toString().trim();
-                //String apellido = etApellido.getText().toString().trim();
-                //int tipoDni = selected_tipo_DNI;
-                //String dni = etDni.getText().toString().trim();
-                //String usuario = etUsuario.getText().toString().trim();
-                //String email = etEmail.getText().toString().trim();
-                //String contrasena = etContrasena.getText().toString().trim();
-                //String confirmarContrasena = etConfirmarContrasena.getText().toString().trim();
-
-                String nombreUsuario = etUsuario.getText().toString().trim(); // nombre_usuario
-                String nombre = etNombre.getText().toString().trim();         // nombre
-                String apellido = etApellido.getText().toString().trim();     // apellido
-                int numeroDocumento = Integer.parseInt(etDni.getText().toString().trim()); // numero_documento
-                String email = etEmail.getText().toString().trim();           // email
-                String password = etContrasena.getText().toString().trim();   // password
+                String nombreUsuario = etUsuario.getText().toString().trim();
+                String nombre = etNombre.getText().toString().trim();
+                String apellido = etApellido.getText().toString().trim();
+                String email = etEmail.getText().toString().trim();
+                String password = etContrasena.getText().toString().trim();
                 String confirmarContrasena = etConfirmarContrasena.getText().toString().trim();
-                String direccion = "Dirección"; // Debes obtener la dirección de algún campo, si la API lo requiere
-                int telefono = 123456789;       // Número telefónico, asegúrate de obtenerlo desde un EditText si es necesario
-                String fotoPerfil = "url_de_la_foto"; // Asegúrate de agregar esto si la API lo requiere
                 int id_tipo_documento = selected_tipo_DNI;
                 String dni = etDni.getText().toString().trim();
-                int id_rol = 1;  // Definir un rol por defecto, si lo requiere tu API
 
                 // Validaciones
                 if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() ||
@@ -151,8 +230,6 @@ public class RegisterFragment extends Fragment {
                 // Aquí puedes llamar a tu API para verificar si el usuario o email ya existen
                 checkUserOrEmailExists(nombreUsuario, email);  // Simulación de API para verificar
 
-                // Registro exitoso
-                //saveUserToDatabase(nombre, apellido, tipoDni, dni, usuario, email, contrasena);
 
                 Usuario newUser = new Usuario(nombre, apellido, id_tipo_documento, Integer.parseInt(dni), nombreUsuario, email, password);
                 ApiService apiService = RetrofitClientRegister.getApiService();
@@ -190,6 +267,11 @@ public class RegisterFragment extends Fragment {
 
         return view;
     }
+
+    private String sanitizeInput(String input, String regex) {
+        return input.replaceAll(regex, "");
+    }
+
 
     // Método para verificar si el usuario o email ya existen (Simulación)
     private void checkUserOrEmailExists(String username, String email) {
