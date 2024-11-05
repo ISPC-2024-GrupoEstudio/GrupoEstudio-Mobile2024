@@ -11,7 +11,9 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -213,7 +215,42 @@ public class LoginFragment extends Fragment {
                 validateLogin();
             }
         });
+
+
+        etUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String sanitizedInput = sanitizedInput(s.toString());
+                if (!sanitizedInput.equals(s.toString())) {
+                    etUsername.setText(sanitizedInput);
+                    etUsername.setSelection(sanitizedInput.length()); // Mover el cursor al final
+                }
+            }
+        });
+
+        etPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+
         return view;
+    }
+
+    private String sanitizedInput(String input) {
+        return input.replaceAll("[^a-zA-Z0-9]", "").trim();
     }
 
     @Override
@@ -234,7 +271,7 @@ public class LoginFragment extends Fragment {
             startLockTimer(remainingTime); // Iniciar temporizador de bloqueo
             tvFailedAttempts.setText("Bloqueado. Intenta nuevamente en " + (remainingTime / 60000) + " minutos.");
             updateFailedAttemptsText();
-            } else if (currentTime >= lockUntil && isLocked) {
+        } else if (currentTime >= lockUntil && isLocked) {
             // Si el tiempo de bloqueo ha expirado
             isLocked = false;
             btnLogin.setEnabled(true);
@@ -312,7 +349,7 @@ public class LoginFragment extends Fragment {
 
 
     private void validateLogin() {
-        String username = etUsername.getText().toString().trim();
+        String username = sanitizedInput(etUsername.getText().toString().trim());
         String password = etPassword.getText().toString().trim();
 
         // Validar que el campo username no esté vacío
