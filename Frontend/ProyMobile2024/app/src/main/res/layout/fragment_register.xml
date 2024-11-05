@@ -119,38 +119,72 @@
                 android:textColorHint="@color/black"
                 android:maxLength="12"/>
 
-            <EditText
-                android:id="@+id/et_password"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/form_contacto"
-                android:ems="10"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:minHeight="48dp"
-                android:padding="10dp"
-                android:textSize="14sp"
-                tools:ignore="VisualLintTextFieldSize"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"/>
+                android:layout_marginBottom="5dp">
 
-            <EditText
-                android:id="@+id/et_confirm_password"
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/form_contacto"
+                    android:ems="10"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:minHeight="48dp"
+                    android:padding="10dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"/>
+
+                <ImageView
+                    android:id="@+id/imageViewPassword"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="@string/toggle_pass_visibility"
+                    android:focusable="true"
+                    android:src="@drawable/ic_eye_closed"
+                    android:layout_marginEnd="16dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/form_contacto"
-                android:ems="10"
-                android:hint="Confirm Password"
-                android:inputType="textPassword"
-                android:minHeight="48dp"
-                android:padding="10dp"
-                android:textSize="14sp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"/>
+                android:layout_marginBottom="5dp">
+                <EditText
+                    android:id="@+id/et_confirm_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/form_contacto"
+                    android:ems="10"
+                    android:hint="Confirm Password"
+                    android:inputType="textPassword"
+                    android:minHeight="48dp"
+                    android:padding="10dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"/>
+
+                <ImageView
+                    android:id="@+id/imageViewConfirmPassword"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="@string/toggle_pass_visibility"
+                    android:focusable="true"
+                    android:src="@drawable/ic_eye_closed"
+                    android:layout_marginEnd="16dp"/>
+            </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_Registro"

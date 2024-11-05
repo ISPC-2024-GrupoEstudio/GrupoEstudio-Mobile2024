@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -39,6 +42,9 @@ public class RegisterFragment extends Fragment {
     private static final int MAX_USER_LENGTH = 12;
     private static final int MIN_PASSWORD_LENGTH = 8; // Mínimo de 8 caracteres para la contraseña
 
+    private boolean isPasswordVisible = false;  // Estado de visibilidad de la contraseña
+    private boolean isConfirmPasswordVisible = false; // Estado de visibilidad de la confirmación de contraseña
+
     public RegisterFragment() {
         // Constructor vacío requerido
     }
@@ -59,6 +65,52 @@ public class RegisterFragment extends Fragment {
         etContrasena = view.findViewById(R.id.et_password);
         etConfirmarContrasena = view.findViewById(R.id.et_confirm_password);
         btnRegistrar = view.findViewById(R.id.btn_Registro);
+        ImageView imageViewPassword = view.findViewById(R.id.imageViewPassword);
+        ImageView imageViewConfirmPassword = view.findViewById(R.id.imageViewConfirmPassword);
+
+
+        // Listener para el icono de toggle de la contraseña
+        imageViewPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isPasswordVisible) {
+                    // Ocultar la contraseña
+                    etContrasena.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    imageViewPassword.setImageResource(R.drawable.ic_eye_closed); // Cambia a ícono de ojo cerrado
+                } else {
+                    // Mostrar la contraseña
+                    etContrasena.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    imageViewPassword.setImageResource(R.drawable.ic_eye_open); // Cambia a ícono de ojo abierto
+                }
+                // Alternar el estado de visibilidad
+                isPasswordVisible = !isPasswordVisible;
+
+                // Mover el cursor al final del texto después de cambiar la visibilidad
+                etContrasena.setSelection(etContrasena.getText().length());
+            }
+        });
+
+        // Listener para el icono de toggle de la confirmación de contraseña
+        imageViewConfirmPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isConfirmPasswordVisible) {
+                    // Ocultar la confirmación de la contraseña
+                    etConfirmarContrasena.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    imageViewConfirmPassword.setImageResource(R.drawable.ic_eye_closed); // Cambia a ícono de ojo cerrado
+                } else {
+                    // Mostrar la confirmación de la contraseña
+                    etConfirmarContrasena.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    imageViewConfirmPassword.setImageResource(R.drawable.ic_eye_open); // Cambia a ícono de ojo abierto
+                }
+                // Alternar el estado de visibilidad
+                isConfirmPasswordVisible = !isConfirmPasswordVisible;
+
+                // Mover el cursor al final del texto después de cambiar la visibilidad
+                etConfirmarContrasena.setSelection(etConfirmarContrasena.getText().length());
+            }
+        });
+
 
         // TextWatcher para el campo de Usuario
         etUsuario.addTextChangedListener(new TextWatcher() {
