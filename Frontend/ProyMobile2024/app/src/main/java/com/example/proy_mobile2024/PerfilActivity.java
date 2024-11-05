@@ -1,9 +1,6 @@
 package com.example.proy_mobile2024;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,8 +8,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,16 +17,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-
 import android.Manifest;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -42,7 +36,6 @@ import com.example.proy_mobile2024.model.UsuarioPerfil;
 import com.example.proy_mobile2024.services.RetrofitClient;
 import com.example.proy_mobile2024.viewsmodels.PerfilViewModel;
 
-
 import java.io.IOException;
 import java.util.List;
 
@@ -50,22 +43,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-public class PerfilActivity extends AppCompatActivity {
+public class PerfilActivity extends AppCompatActivity implements EditarPerfilDialogFragment.OnPerfilEditListener {
 
 
     private ImageView imageview;
-
     private PerfilViewModel perfilViewModel;
-    private TextView textViewPerfil;
-    private TextView usernameTextView;
+    private TextView textViewHeaderUsername;
     private TextView nombreTextView;
+    private TextView apellidoTextView;
     private TextView emailTextView;
     private TextView telefonoTextView;
     private TextView direccionTextView;
     private TextView dniTextView;
+    private UsuarioPerfil usuarioPerfilActual;
 
-    
 
     //Manejo de la imagen de perfil
     private final ActivityResultLauncher<Intent> selectImageLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -77,7 +68,6 @@ public class PerfilActivity extends AppCompatActivity {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                     imageview.setImageBitmap(bitmap);
                 }catch (IOException e){
-                    Log.e("PerfilActivity", "Error al cargar la imagen", e);
                     Toast.makeText(this, "Error al cargar la imagen", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -101,22 +91,25 @@ public class PerfilActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_perfil);
 
-        textViewPerfil = findViewById(R.id.perfil_header_username);
+        String username = obtenerUsernameUsuario();
+        Button btnEditarPerfil = findViewById(R.id.btn_editar_perfil);
+
+        textViewHeaderUsername = findViewById(R.id.perfil_header_username);
         ProgressBar progressBar = findViewById(R.id.progressBar);
 
         perfilViewModel = new ViewModelProvider(this).get(PerfilViewModel.class);
 
-        usernameTextView = findViewById(R.id.perfil_user_txt);
         nombreTextView = findViewById(R.id.perfil_name_txt);
+        apellidoTextView = findViewById(R.id.perfil_apellido_txt);
         emailTextView = findViewById(R.id.perfil_email_txt);
         telefonoTextView = findViewById(R.id.perfil_telefono_txt);
         direccionTextView = findViewById(R.id.perfil_direccion_txt);
         dniTextView = findViewById(R.id.perfil_dni_txt);
 
-        String email = obtenerEmailUsuario();
-
-        obtenerDatosUsuario();
-
+        btnEditarPerfil.setOnClickListener(v -> {
+            EditarPerfilDialogFragment dialogFragment = new EditarPerfilDialogFragment();
+            dialogFragment.show(getSupportFragmentManager(), "EditarPerfilDialogo");
+        });
 
 
         perfilViewModel.getCargando().observe(this, cargando -> {
@@ -129,20 +122,27 @@ public class PerfilActivity extends AppCompatActivity {
             }
         });
 
+
         perfilViewModel.getMensajeError().observe(this, mensajeError -> {
             if (mensajeError != null) {
                 Toast.makeText(this, mensajeError, Toast.LENGTH_LONG).show();
-
             };
         });
-        Log.e("entrando", "perfil en la activity");
-        perfilViewModel.getUsuarioPerfil().observe(this, usuarioPerfil -> {
-            if (usuarioPerfil != null){
-               obtenerDatosUsuario();
+
+        perfilViewModel.getActualizacionExitosa().observe(this, exitoso -> {
+            if (exitoso != null && exitoso) {
+                actualizarUI(usuarioPerfilActual);
             }
         });
 
-        perfilViewModel.fetchPerfil(email);
+        perfilViewModel.getUsuarioPerfil().observe(this, usuarioPerfil -> {
+            if (usuarioPerfil != null){
+                obtenerDatosUsuario();
+            }
+        });
+
+        perfilViewModel.fetchPerfil(username);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -155,10 +155,40 @@ public class PerfilActivity extends AppCompatActivity {
         init();
     }
 
-    private String obtenerEmailUsuario(){
-        SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
-        return preferences.getString("email", null);
+    @Override
+    public void onPerfilEdit(String nombre, String apellido, String email,long telefono, String direccion, long dni){
+
+        String usernameOriginal = obtenerUsernameUsuario();
+
+        if (usuarioPerfilActual != null){
+            usuarioPerfilActual.setNombre(nombre);
+            usuarioPerfilActual.setApellido(apellido);
+            usuarioPerfilActual.setEmail(email);
+            usuarioPerfilActual.setNro_telefono(telefono);
+            usuarioPerfilActual.setDireccion(direccion);
+            usuarioPerfilActual.setDni(dni);
+
+            perfilViewModel.actualizarPerfil(usernameOriginal, usuarioPerfilActual);
+
+        }
     }
+
+    private void actualizarUI(UsuarioPerfil usuario){
+        if (usuario != null){
+            nombreTextView.setText(usuario.getNombre() == null || usuario.getNombre().isEmpty() ? "Nombre no proporcionado" : usuario.getNombre());
+            apellidoTextView.setText(usuario.getApellido() == null || usuario.getApellido().isEmpty() ? "Apellido no proporcionado" : usuario.getApellido());
+            emailTextView.setText(usuario.getEmail() == null || usuario.getEmail().isEmpty() ? "Email no proporcionado" : usuario.getEmail());
+            telefonoTextView.setText(usuario.getNro_telefono() == 0 ? "Teléfono no proporcionado" : String.valueOf(usuario.getNro_telefono()));
+            direccionTextView.setText(usuario.getDireccion() == null || usuario.getDireccion().isEmpty() ? "Dirección no proporcionada" : usuario.getDireccion());
+            dniTextView.setText(usuario.getDni() == 0 ? "DNI no proporcionado" : String.valueOf(usuario.getDni()));
+        }
+    }
+
+    private String obtenerUsernameUsuario(){
+        SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        return preferences.getString("username", null);
+    }
+
 
     private void obtenerDatosUsuario(){
         RetrofitClient.getInstance(this).getApiService().getPerfil().enqueue(new Callback<List<UsuarioPerfil>>() {
@@ -166,14 +196,13 @@ public class PerfilActivity extends AppCompatActivity {
             public void onResponse(Call<List<UsuarioPerfil>> call, Response<List<UsuarioPerfil>> response){
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()){
                     List<UsuarioPerfil> usuarios = response.body();
-
-                    String emailUsuario = obtenerEmailUsuario();
+                    String usernameUsuario = obtenerUsernameUsuario();
                     UsuarioPerfil usuarioPerfil = null;
                     int usuarioIndex = -1;
 
                     for (int i = 0; i < usuarios.size(); i++){
                         UsuarioPerfil usuario = usuarios.get(i);
-                        if (usuario.getEmail().equals(emailUsuario)){
+                        if (usuario.getUser_name().equals(usernameUsuario)){
                             usuarioPerfil = usuario;
                             usuarioIndex = i;
                             break;
@@ -181,59 +210,23 @@ public class PerfilActivity extends AppCompatActivity {
                     }
 
                     if (usuarioPerfil != null){
-
-                        Log.e("Telefono", "NRO --> " + usuarioPerfil.getNro_telefono());
-
-                        textViewPerfil.setText(usuarioPerfil.getUser_name());
-                        usernameTextView.setText(usuarioPerfil.getUser_name());
-
-                        if (usuarioPerfil.getNombreCompleto() == null || usuarioPerfil.getNombreCompleto().isEmpty()){
-                            nombreTextView.setText("Nombre no proporcionado");
-                        }else{
-                            nombreTextView.setText(usuarioPerfil.getNombreCompleto());
-                        }
-
-                        if (usuarioPerfil.getEmail() == null || usuarioPerfil.getEmail().isEmpty()){
-                            emailTextView.setText("Email no proporcionado");
-                        }else{
-                            emailTextView.setText(usuarioPerfil.getEmail()
-                            );
-                        }
-
-                        if (usuarioPerfil.getNro_telefono() == 0 ){
-                            telefonoTextView.setText("Teléfono no proporcionado");
-                        }else{
-                            telefonoTextView.setText(Integer.toString(usuarioPerfil.getNro_telefono()));
-                        }
-
-                        if (usuarioPerfil.getDireccion() == null || usuarioPerfil.getDireccion().isEmpty()){
-                            direccionTextView.setText("Dirección no proporcionada");
-                        }else{
-                            direccionTextView.setText(usuarioPerfil.getDireccion());
-                        }
-
-                        if (usuarioPerfil.getDni() == 0 ){
-                            dniTextView.setText("DNI no proporcionado");
-                        }else{
-                            dniTextView.setText(Integer.toString(usuarioPerfil.getDni()));
-                        }
-
-
-
+                        usuarioPerfilActual = usuarioPerfil;
+                        textViewHeaderUsername.setText(usuarioPerfil.getUser_name());
+                        actualizarUI(usuarioPerfil);
                     }else{
                         Toast.makeText(PerfilActivity.this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
                     }
-
                 } else {
                     Toast.makeText(PerfilActivity.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
             public void onFailure(Call<List<UsuarioPerfil>> call, Throwable t){
-                Toast.makeText(PerfilActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(PerfilActivity.this, "Error perfil: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
+
 
     //Permisos acceso a galeria de fotos
     private void checkMediaPermission(){
@@ -252,11 +245,13 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
+
     //Acceder a la galeria
     private void openGallery(){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         selectImageLauncher.launch(intent);
     }
+
 
     public void init(){
         ImageView btnVolverPerfil = findViewById(R.id.btnVolverPerfil);
@@ -266,7 +261,5 @@ public class PerfilActivity extends AppCompatActivity {
             setResult(RESULT_OK, resultIntent);
             finish();
         });
-
     }
 }
-

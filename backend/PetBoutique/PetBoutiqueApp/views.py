@@ -30,7 +30,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import permission_classes
 
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenObtainPairView , TokenRefreshView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
@@ -403,4 +403,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
+class CustomTokenRefreshView(TokenRefreshView):
+    pass
         
