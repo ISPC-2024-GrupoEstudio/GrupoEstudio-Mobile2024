@@ -70,7 +70,8 @@
             app:layout_constraintTop_toBottomOf="@+id/guideline"
             app:layout_constraintWidth_percent="0.8"
             android:textColor="@color/black"
-            android:textColorHint="@color/black"/>
+            android:textColorHint="@color/black"
+            android:maxLength="12"/>
 
         <EditText
             android:id="@+id/contrasenalog"

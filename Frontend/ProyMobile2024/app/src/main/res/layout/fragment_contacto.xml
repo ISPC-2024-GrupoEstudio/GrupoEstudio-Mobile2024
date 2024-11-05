@@ -95,7 +95,8 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintWidth_max="488dp"
                             android:textColor="@color/black"
-                            android:textColorHint="@color/black"/>
+                            android:textColorHint="@color/black"
+                            android:maxLength="30"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -136,7 +137,8 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintWidth_max="488dp"
                             android:textColor="@color/black"
-                            android:textColorHint="@color/black"/>
+                            android:textColorHint="@color/black"
+                            android:maxLength="15"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -177,7 +179,8 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintWidth_max="488dp"
                             android:textColor="@color/black"
-                            android:textColorHint="@color/black"/>
+                            android:textColorHint="@color/black"
+                            android:maxLength="50"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -217,7 +220,8 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintWidth_max="488dp"
-                            android:textColorHint="@color/black"/>
+                            android:textColorHint="@color/black"
+                            android:maxLength="250"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
