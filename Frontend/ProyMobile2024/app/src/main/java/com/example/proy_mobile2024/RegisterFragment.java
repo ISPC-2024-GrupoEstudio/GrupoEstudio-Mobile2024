@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import com.example.proy_mobile2024.LoginFragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.proy_mobile2024.model.Usuario;
@@ -67,6 +69,7 @@ public class RegisterFragment extends Fragment {
         btnRegistrar = view.findViewById(R.id.btn_Registro);
         ImageView imageViewPassword = view.findViewById(R.id.imageViewPassword);
         ImageView imageViewConfirmPassword = view.findViewById(R.id.imageViewConfirmPassword);
+        TextView ingresaRegister = view.findViewById(R.id.ingresa_register);
 
 
         // Listener para el icono de toggle de la contraseña
@@ -87,6 +90,19 @@ public class RegisterFragment extends Fragment {
 
                 // Mover el cursor al final del texto después de cambiar la visibilidad
                 etContrasena.setSelection(etContrasena.getText().length());
+            }
+        });
+
+        ingresaRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navegar a RegisterFragment
+                Fragment loginFragmentt = new LoginFragment();
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, loginFragmentt) // R.id.fragment_container es el ID del contenedor de fragmentos
+                        .addToBackStack(null) // Agrega a la pila para que se pueda volver atrás
+                        .commit();
             }
         });
 
@@ -218,6 +234,11 @@ public class RegisterFragment extends Fragment {
                 int id_tipo_documento = selected_tipo_DNI;
                 String dni = etDni.getText().toString().trim();
 
+                if (dni.isEmpty()) {
+                    Toast.makeText(getActivity(), "El campo DNI es obligatorio", Toast.LENGTH_LONG).show();
+                    return; // Salir del método si el campo está vacío
+                }
+
                 // Validaciones
                 if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() ||
                         nombreUsuario.isEmpty() || email.isEmpty() || password.isEmpty() || confirmarContrasena.isEmpty()) {
@@ -235,6 +256,7 @@ public class RegisterFragment extends Fragment {
                     Toast.makeText(getActivity(), "El DNI debe tener 8 dígitos", Toast.LENGTH_LONG).show();
                     return;
                 }
+
 
                 // Validar formato de email
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
