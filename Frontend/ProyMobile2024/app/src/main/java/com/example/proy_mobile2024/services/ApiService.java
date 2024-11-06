@@ -24,8 +24,11 @@ public interface ApiService {
 //    Call<Void> loginUser(@Body LoginData loginData);
 
     //2.solicitud de productos para galería (GET)
-    @GET("productos")
+    @GET("productos/")
     Call<List<Producto>> obtenerProductos();
+
+    @GET("productos/{id}/")
+    Call<Producto> obtenerProductosPorId(@Path("id") int id_producto);
     
     @POST("auth/login/")
     Call<TokenResponse> loginUser(@Body LoginData loginData);

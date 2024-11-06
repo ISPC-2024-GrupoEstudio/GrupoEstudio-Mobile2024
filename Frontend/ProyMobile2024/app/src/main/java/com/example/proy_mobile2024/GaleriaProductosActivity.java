@@ -63,9 +63,15 @@ public class GaleriaProductosActivity extends AppCompatActivity {
         botonCarrito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Crear un Intent para ir a la actividad del carrito
-                Intent intent = new Intent(GaleriaProductosActivity.this, CarritoActivity.class);
-                startActivity(intent);  // Iniciar la actividad del carrito
+                    if (usuarioEstaConectado() == false) {
+                        Toast.makeText(context, "Debes estar conectado para poder agregar un producto al carrito", Toast.LENGTH_SHORT).show();
+
+                    }
+                    else {
+                        // Crear un Intent para ir a la actividad del carrito
+                        Intent intent = new Intent(GaleriaProductosActivity.this, CarritoActivity.class);
+                        startActivity(intent);  // Iniciar la actividad del carrito
+                    }
             }
         });
     }
@@ -171,5 +177,9 @@ public class GaleriaProductosActivity extends AppCompatActivity {
         productoAdapter.setProductosList(filteredProductList);
     }
 
+private boolean usuarioEstaConectado() {
+    SharedPreferences preferences = this.context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+    return preferences.getBoolean("isLoggedIn", false);
+}
 
 }
