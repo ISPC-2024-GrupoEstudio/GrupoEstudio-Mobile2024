@@ -1,10 +1,9 @@
 package com.example.proy_mobile2024;
 
-
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,15 @@ import com.example.proy_mobile2024.viewsmodels.PerfilViewModel;
 public class EditarPerfilDialogFragment extends DialogFragment {
     private PerfilViewModel perfilViewModel;
     private OnPerfilEditListener listener;
+    private String perfilImageUrl;
 
+    public void onCreate(@Nullable Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null){
+            perfilImageUrl = getArguments().getString("perfilImageUrl");
+            Log.d("EditPerfil", perfilImageUrl);
+        }
+    }
 
     @Nullable
     @Override
@@ -94,7 +101,9 @@ public class EditarPerfilDialogFragment extends DialogFragment {
                         emailEditText.getText().toString(),
                         telefonoLong,
                         direccionEditText.getText().toString(),
-                        dniLong
+                        dniLong,
+                        perfilImageUrl
+
                 );
 
 
@@ -123,7 +132,8 @@ public class EditarPerfilDialogFragment extends DialogFragment {
                             perfilActualizado.getEmail(),
                             perfilActualizado.getNro_telefono(),
                             perfilActualizado.getDireccion(),
-                            perfilActualizado.getDni()
+                            perfilActualizado.getDni(),
+                            perfilActualizado.getFotoPerfil()
                     );
                 }
             } catch (NumberFormatException e){
@@ -187,7 +197,7 @@ public class EditarPerfilDialogFragment extends DialogFragment {
 
 
     public interface OnPerfilEditListener{
-        void onPerfilEdit(String nombre, String apellido, String email,long telefono, String direccion, long dni );
+        void onPerfilEdit(String nombre, String apellido, String email,long telefono, String direccion, long dni, String fotoPerfil );
     }
 
     public void init(View view) {
