@@ -11,8 +11,9 @@ public class UsuarioPerfil {
     private long telefono;
     private String direccion;
     private long numero_documento;
+    private String fotoPerfil;
 
-    public UsuarioPerfil(String nombre,String apellido, String nombre_usuario, String email, long telefono, String direccion, long numero_documento){
+    public UsuarioPerfil(String nombre,String apellido, String nombre_usuario, String email, long telefono, String direccion, long numero_documento, String fotoPerfil){
         this.nombre = nombre;
         this.apellido = apellido;
         this.nombre_usuario = nombre_usuario;
@@ -20,6 +21,7 @@ public class UsuarioPerfil {
         this.telefono = telefono;
         this.direccion = direccion;
         this.numero_documento = numero_documento;
+        this.fotoPerfil = fotoPerfil;
 
     }
 
@@ -66,6 +68,10 @@ public class UsuarioPerfil {
     public void setDni(long dni_nuevo){
         this.numero_documento = dni_nuevo;
     }
+
+    public String getFotoPerfil(){ return fotoPerfil; }
+
+    public void setFotoPerfil(String fotoPerfil){ this.fotoPerfil = fotoPerfil; }
 
     @Override
     public String toString(){
