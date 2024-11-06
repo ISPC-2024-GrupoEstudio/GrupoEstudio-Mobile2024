@@ -1,5 +1,6 @@
 package com.example.proy_mobile2024.services;
 import com.example.proy_mobile2024.model.Carrito;
+import com.example.proy_mobile2024.model.CategoriaProducto;
 import com.example.proy_mobile2024.model.ItemCarritoData;
 import com.example.proy_mobile2024.model.Producto;
 import com.example.proy_mobile2024.model.TokenResponse;
@@ -53,6 +54,9 @@ public interface ApiService {
 
     @PUT("usuarios/{nombre_usuario}/")
     Call<Void> actualizarPerfil(@Path("nombre_usuario") String nombreUsuario, @Body UsuarioPerfil usuarioPerfil);
+
+    @GET("categorias/")
+    Call<List<CategoriaProducto>> obtenerCategorias();
 
 }
 
