@@ -1,5 +1,6 @@
 package com.example.proy_mobile2024.services;
 import com.example.proy_mobile2024.model.Carrito;
+import com.example.proy_mobile2024.model.CategoriaProducto;
 import com.example.proy_mobile2024.model.ItemCarritoData;
 import com.example.proy_mobile2024.model.Producto;
 import com.example.proy_mobile2024.model.TokenResponse;
@@ -24,8 +25,11 @@ public interface ApiService {
 //    Call<Void> loginUser(@Body LoginData loginData);
 
     //2.solicitud de productos para galería (GET)
-    @GET("productos")
+    @GET("productos/")
     Call<List<Producto>> obtenerProductos();
+
+    @GET("productos/{id}/")
+    Call<Producto> obtenerProductosPorId(@Path("id") int id_producto);
     
     @POST("auth/login/")
     Call<TokenResponse> loginUser(@Body LoginData loginData);
@@ -50,6 +54,9 @@ public interface ApiService {
 
     @PUT("usuarios/{nombre_usuario}/")
     Call<Void> actualizarPerfil(@Path("nombre_usuario") String nombreUsuario, @Body UsuarioPerfil usuarioPerfil);
+
+    @GET("categorias/")
+    Call<List<CategoriaProducto>> obtenerCategorias();
 
 }
 
