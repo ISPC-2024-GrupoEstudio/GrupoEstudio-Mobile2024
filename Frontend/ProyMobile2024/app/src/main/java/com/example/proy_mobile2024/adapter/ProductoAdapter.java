@@ -1,6 +1,7 @@
 package com.example.proy_mobile2024.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.proy_mobile2024.DetalleProductoActivity;
 import com.example.proy_mobile2024.R;
 import com.example.proy_mobile2024.model.ItemCarritoData;
 import com.example.proy_mobile2024.model.Producto;
@@ -59,12 +62,20 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
 
         // Configuramos el botón "Agregar" para añadir el producto al carrito
         holder.button.setOnClickListener(v -> {
-            // Agregar el producto al carrito
-            this.agregarProductoAlCarrito(producto);
+            if (usuarioEstaConectado() == false) {
+                Toast.makeText(context, "Debes estar conectado para poder agregar un producto al carrito", Toast.LENGTH_SHORT).show();
 
-            // Mostrar un mensaje de confirmación
-            Toast.makeText(context, "Producto agregado al carrito", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                // Agregar el producto al carrito
+                this.agregarProductoAlCarrito(producto);
+
+                // Mostrar un mensaje de confirmación
+                Toast.makeText(context, "Producto agregado al carrito", Toast.LENGTH_SHORT).show();
+            }
         });
+
+
     }
 
     @Override
@@ -76,6 +87,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
         private TextView nombre, precio;
         private ImageView imagen;
         private Button button;
+        private ConstraintLayout tarjetaproductolayout;
 
         public ProductoHolder(@NonNull View itemView) {
             super(itemView);
@@ -83,12 +95,23 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
             precio = itemView.findViewById(R.id.precio);
             imagen = itemView.findViewById(R.id.imagenProducto);
             button = itemView.findViewById(R.id.button);
+            tarjetaproductolayout = itemView.findViewById(R.id.tarjetaproductolayout);
 
-            button.setOnClickListener(v -> {
+            itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION && listener != null) {
+                if (position != RecyclerView.NO_POSITION) {
                     Producto producto = productosList.get(position);
-                    listener.onProductClick(producto); // Llamamos a la interfaz para agregar el producto
+
+                    // Crear un Intent para abrir la actividad de detalle
+                    Intent intent = new Intent(context, DetalleProductoActivity.class);
+                    intent.putExtra("nombre", producto.getNombre());
+                    intent.putExtra("descripcion", producto.getDescripcion());
+                    intent.putExtra("precio", producto.getPrecio());
+                    intent.putExtra("imagen", producto.getImagen());
+                    intent.putExtra("id_producto", producto.getId_producto());
+
+                    // Iniciar la actividad de detalle
+                    context.startActivity(intent);
                 }
             });
         }
@@ -135,6 +158,11 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
     private String obtenerUsuarioConectado() {
         SharedPreferences preferences = this.context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         return preferences.getString("username", null);
+    }
+
+    private boolean usuarioEstaConectado() {
+        SharedPreferences preferences = this.context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        return preferences.getBoolean("isLoggedIn", false);
     }
 
     private Context getActivity() {
