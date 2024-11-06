@@ -246,7 +246,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
                     .load(usuario.getFotoPerfil())
                     .transform(new CircleCrop())
                     .placeholder(R.drawable.foto_icon)
-                    .error(R.drawable.ic_eye_open)
+                    .error(R.drawable.foto_icon)
                     .into(perfil_circulo_img);
         }
     }
