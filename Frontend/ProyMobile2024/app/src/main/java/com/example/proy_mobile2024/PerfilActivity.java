@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,12 +33,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.proy_mobile2024.model.UsuarioPerfil;
 import com.example.proy_mobile2024.services.RetrofitClient;
 import com.example.proy_mobile2024.viewsmodels.PerfilViewModel;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +64,10 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
     private TextView direccionTextView;
     private TextView dniTextView;
     private UsuarioPerfil usuarioPerfilActual;
+    private String perfilImageUrl;
+    private Cloudinary cloudinary;
+    private ExecutorService executorService;
+    private ImageView perfil_circulo_img;
 
 
     //Manejo de la imagen de perfil
@@ -66,7 +78,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
                 Glide.with(this).load(imageUri).transform(new CircleCrop()).into(imageview);
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                    imageview.setImageBitmap(bitmap);
+                    subirImagenAlServidor(bitmap);
                 }catch (IOException e){
                     Toast.makeText(this, "Error al cargar la imagen", Toast.LENGTH_SHORT).show();
                 }
@@ -84,6 +96,39 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
     });
 
 
+
+    private String subirImagenAlServidor(Bitmap bitmap) {
+        executorService.submit(() -> {
+            try {
+                File tempFile = new File(getCacheDir(), "temp_img.jpg");
+                FileOutputStream out = new FileOutputStream(tempFile);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                out.flush();
+                out.close();
+
+                Map uploadResult = cloudinary.uploader().upload(tempFile, ObjectUtils.emptyMap());
+                perfilImageUrl = (String) uploadResult.get("secure_url");
+                Log.d("PerfilActivity", perfilImageUrl);
+
+                runOnUiThread(() -> actualizarFotoPerfil(perfilImageUrl));
+            } catch (Exception e) {
+                Log.e("PerfilActivity", "Error al subir la imagen" + e.getMessage(), e);
+                runOnUiThread(() -> Toast.makeText(this, "Error al subir la imagen: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+        });
+        return perfilImageUrl;
+    }
+
+    public void actualizarFotoPerfil(String nuevaFotoPerfil){
+        String usernameOriginal = obtenerUsernameUsuario();
+
+        if (usuarioPerfilActual != null){
+            usuarioPerfilActual.setFotoPerfil(nuevaFotoPerfil);
+            perfilViewModel.actualizarPerfil(usernameOriginal, usuarioPerfilActual);
+        }
+    }
+
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,10 +139,13 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
         String username = obtenerUsernameUsuario();
         Button btnEditarPerfil = findViewById(R.id.btn_editar_perfil);
 
+        imageview = findViewById(R.id.perfil_name_img);
         textViewHeaderUsername = findViewById(R.id.perfil_header_username);
         ProgressBar progressBar = findViewById(R.id.progressBar);
 
         perfilViewModel = new ViewModelProvider(this).get(PerfilViewModel.class);
+
+        executorService = Executors.newSingleThreadExecutor();
 
         nombreTextView = findViewById(R.id.perfil_name_txt);
         apellidoTextView = findViewById(R.id.perfil_apellido_txt);
@@ -131,6 +179,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
 
         perfilViewModel.getActualizacionExitosa().observe(this, exitoso -> {
             if (exitoso != null && exitoso) {
+                Toast.makeText(this, "Foto de perfil actualizada exitosamente", Toast.LENGTH_SHORT).show();
                 actualizarUI(usuarioPerfilActual);
             }
         });
@@ -152,11 +201,20 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
         imageview = findViewById(R.id.perfil_circulo_img);
         findViewById(R.id.floatingActionButton).setOnClickListener(v -> checkMediaPermission());
 
+        initCloudinary();
         init();
     }
 
+    private void initCloudinary(){
+        cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "dgql9nx7t",
+                "api_key", "734796174896948",
+                "api_secret", "DgZAaxaFDRyLs5UQSLxf3mtUUwY"
+        ));
+    }
+
     @Override
-    public void onPerfilEdit(String nombre, String apellido, String email,long telefono, String direccion, long dni){
+    public void onPerfilEdit(String nombre, String apellido, String email,long telefono, String direccion, long dni, String fotoPerfil){
 
         String usernameOriginal = obtenerUsernameUsuario();
 
@@ -167,6 +225,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
             usuarioPerfilActual.setNro_telefono(telefono);
             usuarioPerfilActual.setDireccion(direccion);
             usuarioPerfilActual.setDni(dni);
+            usuarioPerfilActual.setFotoPerfil(fotoPerfil);
 
             perfilViewModel.actualizarPerfil(usernameOriginal, usuarioPerfilActual);
 
@@ -181,6 +240,14 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
             telefonoTextView.setText(usuario.getNro_telefono() == 0 ? "Teléfono no proporcionado" : String.valueOf(usuario.getNro_telefono()));
             direccionTextView.setText(usuario.getDireccion() == null || usuario.getDireccion().isEmpty() ? "Dirección no proporcionada" : usuario.getDireccion());
             dniTextView.setText(usuario.getDni() == 0 ? "DNI no proporcionado" : String.valueOf(usuario.getDni()));
+
+            perfil_circulo_img = findViewById(R.id.perfil_circulo_img);
+            Glide.with(this)
+                    .load(usuario.getFotoPerfil())
+                    .transform(new CircleCrop())
+                    .placeholder(R.drawable.foto_icon)
+                    .error(R.drawable.ic_eye_open)
+                    .into(perfil_circulo_img);
         }
     }
 
