@@ -56,14 +56,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="Merge Developer ValeAngeletti">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/EditarPerfilDialogFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/EditarPerfilDialogFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/RetrofitClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/RetrofitClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/RetrofitClientRegister.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/RetrofitClientRegister.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_editar_perfil.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_editar_perfil.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/PetBoutique/PetBoutique/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/PetBoutique/PetBoutique/settings.py" afterDir="false" />
-    </list>
+    <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="Validaciones en Editar Perfil" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -269,7 +262,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730991147516</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Validaciones en Editar Perfil">
+      <option name="closed" value="true" />
+      <created>1730998883649</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1730998883649</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -278,7 +279,8 @@
     <MESSAGE value="Funcionalidad editar perfil" />
     <MESSAGE value=".." />
     <MESSAGE value="Merge Developer ValeAngeletti" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge Developer ValeAngeletti" />
+    <MESSAGE value="Validaciones en Editar Perfil" />
+    <option name="LAST_COMMIT_MESSAGE" value="Validaciones en Editar Perfil" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
