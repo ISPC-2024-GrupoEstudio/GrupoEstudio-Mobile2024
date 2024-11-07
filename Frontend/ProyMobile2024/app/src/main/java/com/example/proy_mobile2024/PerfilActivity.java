@@ -1,18 +1,16 @@
 package com.example.proy_mobile2024;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,16 +18,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-
 import android.Manifest;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -38,60 +33,116 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.proy_mobile2024.model.UsuarioPerfil;
 import com.example.proy_mobile2024.services.RetrofitClient;
 import com.example.proy_mobile2024.viewsmodels.PerfilViewModel;
 
-
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-public class PerfilActivity extends AppCompatActivity {
+public class PerfilActivity extends AppCompatActivity implements EditarPerfilDialogFragment.OnPerfilEditListener {
 
 
     private ImageView imageview;
-
     private PerfilViewModel perfilViewModel;
-    private TextView textViewPerfil;
-    private TextView usernameTextView;
+    private TextView textViewHeaderUsername;
     private TextView nombreTextView;
+    private TextView apellidoTextView;
     private TextView emailTextView;
     private TextView telefonoTextView;
     private TextView direccionTextView;
     private TextView dniTextView;
+    private UsuarioPerfil usuarioPerfilActual;
+    private String perfilImageUrl;
+    private Cloudinary cloudinary;
+    private ExecutorService executorService;
+    private ImageView perfil_circulo_img;
 
-    
 
     //Manejo de la imagen de perfil
     private final ActivityResultLauncher<Intent> selectImageLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == RESULT_OK && result.getData() != null){
+        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
             Uri imageUri = result.getData().getData();
-            if (imageUri != null){
+            if (imageUri != null) {
                 Glide.with(this).load(imageUri).transform(new CircleCrop()).into(imageview);
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                    imageview.setImageBitmap(bitmap);
-                }catch (IOException e){
-                    Log.e("PerfilActivity", "Error al cargar la imagen", e);
-                    Toast.makeText(this, "Error al cargar la imagen", Toast.LENGTH_SHORT).show();
+                    subirImagenAlServidor(bitmap);
+                } catch (IOException e) {
+                    Toast.makeText(this, "Error al cargar la imagen", Toast.LENGTH_LONG).show();
                 }
             }
         }
     });
 
 
+    //Manej de los permisos para acceder a la galeria
     private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-        if (isGranted){
+        if (isGranted) {
             openGallery();
-        }else{
-            Toast.makeText(this, "Permiso de galeria denegado", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Permiso de galeria denegado", Toast.LENGTH_LONG).show();
         }
     });
+
+
+    //Metodo que crea un archivo temporal en formato jpg para luego subirlo a Cloudinary.
+
+    private String subirImagenAlServidor(Bitmap bitmap) {
+        executorService.submit(() -> {
+            try {
+                File tempFile = new File(getCacheDir(), "temp_img.jpg");
+                FileOutputStream out = new FileOutputStream(tempFile);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                out.flush();
+                out.close();
+
+                Map uploadResult = cloudinary.uploader().upload(tempFile, ObjectUtils.emptyMap());
+                perfilImageUrl = (String) uploadResult.get("secure_url");
+                Log.d("PerfilActivity", perfilImageUrl);
+
+
+                runOnUiThread(() -> actualizarFotoPerfil(perfilImageUrl));
+            } catch (Exception e) {
+                Log.e("PerfilActivity", "Error al subir la imagen" + e.getMessage(), e);
+                runOnUiThread(() -> Toast.makeText(this, "Error al subir la imagen: " + e.getMessage(), Toast.LENGTH_LONG).show());
+            }
+        });
+        return perfilImageUrl;
+    }
+
+    //Actualizacion de la foto de perfil desde la bbdd.
+
+
+    public void actualizarFotoPerfil(String nuevaFotoPerfil) {
+        String usernameOriginal = obtenerUsernameUsuario();
+
+        if (usuarioPerfilActual != null) {
+            usuarioPerfilActual.setFotoPerfil(nuevaFotoPerfil);
+            perfilViewModel.setActualizacionFoto(true);
+            Toast.makeText(this, "Foto de perfil actualizada exitosamente", Toast.LENGTH_LONG).show();
+            perfilViewModel.actualizarPerfil(usernameOriginal, usuarioPerfilActual);
+
+            // Guardar la URL de la imagen en SharedPreferences
+            SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("profile_image_url", nuevaFotoPerfil);
+            editor.apply();
+
+        }
+    }
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -101,22 +152,29 @@ public class PerfilActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_perfil);
 
-        textViewPerfil = findViewById(R.id.perfil_header_username);
+        String username = obtenerUsernameUsuario();
+        Button btnEditarPerfil = findViewById(R.id.btn_editar_perfil);
+
+        imageview = findViewById(R.id.perfil_name_img);
+        textViewHeaderUsername = findViewById(R.id.perfil_header_username);
         ProgressBar progressBar = findViewById(R.id.progressBar);
 
         perfilViewModel = new ViewModelProvider(this).get(PerfilViewModel.class);
 
-        usernameTextView = findViewById(R.id.perfil_user_txt);
+        executorService = Executors.newSingleThreadExecutor();
+
         nombreTextView = findViewById(R.id.perfil_name_txt);
+        apellidoTextView = findViewById(R.id.perfil_apellido_txt);
         emailTextView = findViewById(R.id.perfil_email_txt);
         telefonoTextView = findViewById(R.id.perfil_telefono_txt);
         direccionTextView = findViewById(R.id.perfil_direccion_txt);
         dniTextView = findViewById(R.id.perfil_dni_txt);
 
-        String email = obtenerEmailUsuario();
-
-        obtenerDatosUsuario();
-
+        //Boton de Editar Perfil
+        btnEditarPerfil.setOnClickListener(v -> {
+            EditarPerfilDialogFragment dialogFragment = new EditarPerfilDialogFragment();
+            dialogFragment.show(getSupportFragmentManager(), "EditarPerfilDialogo");
+        });
 
 
         perfilViewModel.getCargando().observe(this, cargando -> {
@@ -129,20 +187,32 @@ public class PerfilActivity extends AppCompatActivity {
             }
         });
 
+        //Manejo de mensajes de error
         perfilViewModel.getMensajeError().observe(this, mensajeError -> {
             if (mensajeError != null) {
                 Toast.makeText(this, mensajeError, Toast.LENGTH_LONG).show();
-
             };
         });
-        Log.e("entrando", "perfil en la activity");
-        perfilViewModel.getUsuarioPerfil().observe(this, usuarioPerfil -> {
-            if (usuarioPerfil != null){
-               obtenerDatosUsuario();
+
+        //Manejo de actualizacion exitosa
+        perfilViewModel.getActualizacionExitosa().observe(this, exitoso -> {
+            if (exitoso != null) {
+                if (exitoso) {
+                    actualizarUI(usuarioPerfilActual);
+                }
+                perfilViewModel.resetActualizacionExitosa();
             }
         });
 
-        perfilViewModel.fetchPerfil(email);
+        //Manejo de obtencion del usuario
+        perfilViewModel.getUsuarioPerfil().observe(this, usuarioPerfil -> {
+            if (usuarioPerfil != null){
+                obtenerDatosUsuario();
+            }
+        });
+
+        perfilViewModel.fetchPerfil(username);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -152,28 +222,81 @@ public class PerfilActivity extends AppCompatActivity {
         imageview = findViewById(R.id.perfil_circulo_img);
         findViewById(R.id.floatingActionButton).setOnClickListener(v -> checkMediaPermission());
 
+        initCloudinary();
         init();
     }
 
-    private String obtenerEmailUsuario(){
-        SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
-        return preferences.getString("email", null);
+    //Datos de inicializacion de cloudinary
+    private void initCloudinary(){
+        cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "dgql9nx7t",
+                "api_key", "734796174896948",
+                "api_secret", "DgZAaxaFDRyLs5UQSLxf3mtUUwY"
+        ));
     }
 
+    //Se actualizan los datos en la bbdd
+    @Override
+    public void onPerfilEdit(String nombre, String apellido, String email,long telefono, String direccion, long dni, String fotoPerfil){
+
+        String usernameOriginal = obtenerUsernameUsuario();
+
+        if (usuarioPerfilActual != null){
+            usuarioPerfilActual.setNombre(nombre);
+            usuarioPerfilActual.setApellido(apellido);
+            usuarioPerfilActual.setEmail(email);
+            usuarioPerfilActual.setNro_telefono(telefono);
+            usuarioPerfilActual.setDireccion(direccion);
+            usuarioPerfilActual.setDni(dni);
+            usuarioPerfilActual.setFotoPerfil(fotoPerfil);
+
+            perfilViewModel.setActualizacionFoto(false);
+            perfilViewModel.actualizarPerfil(usernameOriginal, usuarioPerfilActual);
+            Toast.makeText(this, "Perfil actualizado con éxito", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    //Se actualiza la activity con los datos traidos desde la bbdd
+    private void actualizarUI(UsuarioPerfil usuario){
+        if (usuario != null){
+            nombreTextView.setText(usuario.getNombre() == null || usuario.getNombre().isEmpty() ? "Nombre no proporcionado" : usuario.getNombre());
+            apellidoTextView.setText(usuario.getApellido() == null || usuario.getApellido().isEmpty() ? "Apellido no proporcionado" : usuario.getApellido());
+            emailTextView.setText(usuario.getEmail() == null || usuario.getEmail().isEmpty() ? "Email no proporcionado" : usuario.getEmail());
+            telefonoTextView.setText(usuario.getNro_telefono() == 0 ? "Teléfono no proporcionado" : String.valueOf(usuario.getNro_telefono()));
+            direccionTextView.setText(usuario.getDireccion() == null || usuario.getDireccion().isEmpty() ? "Dirección no proporcionada" : usuario.getDireccion());
+            dniTextView.setText(usuario.getDni() == 0 ? "DNI no proporcionado" : String.valueOf(usuario.getDni()));
+
+            perfil_circulo_img = findViewById(R.id.perfil_circulo_img);
+            Glide.with(this)
+                    .load(usuario.getFotoPerfil())
+                    .transform(new CircleCrop())
+                    .placeholder(R.drawable.foto_icon)
+                    .error(R.drawable.foto_icon)
+                    .into(perfil_circulo_img);
+        }
+    }
+
+    //Metodo para traer el username del usuario que inicio sesion
+    private String obtenerUsernameUsuario(){
+        SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        return preferences.getString("username", null);
+    }
+
+    //Se actualizan los datos traidos desde la bbdd
     private void obtenerDatosUsuario(){
         RetrofitClient.getInstance(this).getApiService().getPerfil().enqueue(new Callback<List<UsuarioPerfil>>() {
             @Override
             public void onResponse(Call<List<UsuarioPerfil>> call, Response<List<UsuarioPerfil>> response){
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()){
                     List<UsuarioPerfil> usuarios = response.body();
-
-                    String emailUsuario = obtenerEmailUsuario();
+                    String usernameUsuario = obtenerUsernameUsuario();
                     UsuarioPerfil usuarioPerfil = null;
                     int usuarioIndex = -1;
 
                     for (int i = 0; i < usuarios.size(); i++){
                         UsuarioPerfil usuario = usuarios.get(i);
-                        if (usuario.getEmail().equals(emailUsuario)){
+                        if (usuario.getUser_name().equals(usernameUsuario)){
                             usuarioPerfil = usuario;
                             usuarioIndex = i;
                             break;
@@ -181,59 +304,32 @@ public class PerfilActivity extends AppCompatActivity {
                     }
 
                     if (usuarioPerfil != null){
+                        usuarioPerfilActual = usuarioPerfil;
+                        textViewHeaderUsername.setText(usuarioPerfil.getUser_name());
+                        actualizarUI(usuarioPerfil);
 
-                        Log.e("Telefono", "NRO --> " + usuarioPerfil.getNro_telefono());
+                        // Guardar la URL de la imagen en SharedPreferences
+                        SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("profile_image_url", usuarioPerfil.getFotoPerfil());
+                        editor.apply();
 
-                        textViewPerfil.setText(usuarioPerfil.getUser_name());
-                        usernameTextView.setText(usuarioPerfil.getUser_name());
-
-                        if (usuarioPerfil.getNombreCompleto() == null || usuarioPerfil.getNombreCompleto().isEmpty()){
-                            nombreTextView.setText("Nombre no proporcionado");
-                        }else{
-                            nombreTextView.setText(usuarioPerfil.getNombreCompleto());
-                        }
-
-                        if (usuarioPerfil.getEmail() == null || usuarioPerfil.getEmail().isEmpty()){
-                            emailTextView.setText("Email no proporcionado");
-                        }else{
-                            emailTextView.setText(usuarioPerfil.getEmail()
-                            );
-                        }
-
-                        if (usuarioPerfil.getNro_telefono() == 0 ){
-                            telefonoTextView.setText("Teléfono no proporcionado");
-                        }else{
-                            telefonoTextView.setText(Integer.toString(usuarioPerfil.getNro_telefono()));
-                        }
-
-                        if (usuarioPerfil.getDireccion() == null || usuarioPerfil.getDireccion().isEmpty()){
-                            direccionTextView.setText("Dirección no proporcionada");
-                        }else{
-                            direccionTextView.setText(usuarioPerfil.getDireccion());
-                        }
-
-                        if (usuarioPerfil.getDni() == 0 ){
-                            dniTextView.setText("DNI no proporcionado");
-                        }else{
-                            dniTextView.setText(Integer.toString(usuarioPerfil.getDni()));
-                        }
-
-
+                        actualizarUI(usuarioPerfil);
 
                     }else{
-                        Toast.makeText(PerfilActivity.this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PerfilActivity.this, "Usuario no encontrado", Toast.LENGTH_LONG).show();
                     }
-
                 } else {
-                    Toast.makeText(PerfilActivity.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PerfilActivity.this, "Error al obtener los datos", Toast.LENGTH_LONG).show();
                 }
             }
             @Override
             public void onFailure(Call<List<UsuarioPerfil>> call, Throwable t){
-                Toast.makeText(PerfilActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(PerfilActivity.this, "Error perfil: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
+
 
     //Permisos acceso a galeria de fotos
     private void checkMediaPermission(){
@@ -252,12 +348,14 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
+
     //Acceder a la galeria
     private void openGallery(){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         selectImageLauncher.launch(intent);
     }
 
+    //Inicializacion y manejo del boton volver atras.
     public void init(){
         ImageView btnVolverPerfil = findViewById(R.id.btnVolverPerfil);
 
@@ -266,7 +364,5 @@ public class PerfilActivity extends AppCompatActivity {
             setResult(RESULT_OK, resultIntent);
             finish();
         });
-
     }
 }
-

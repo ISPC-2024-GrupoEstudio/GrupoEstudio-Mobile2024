@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proy_mobile2024.adapter.ProductoAdapter;
+import com.example.proy_mobile2024.model.CategoriaProducto;
 import com.example.proy_mobile2024.model.ItemCarritoData;
 import com.example.proy_mobile2024.model.Producto;
 import com.example.proy_mobile2024.model.Usuario;
@@ -41,6 +42,7 @@ public class GaleriaProductosActivity extends AppCompatActivity {
     private ProgressBar progressBarProductos;
     private TabLayout tblCategorias;
     private ImageView btnVolverGaleria;
+    private List<CategoriaProducto> categorias;
 
 
     @Override
@@ -63,15 +65,22 @@ public class GaleriaProductosActivity extends AppCompatActivity {
         botonCarrito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Crear un Intent para ir a la actividad del carrito
-                Intent intent = new Intent(GaleriaProductosActivity.this, CarritoActivity.class);
-                startActivity(intent);  // Iniciar la actividad del carrito
+                    if (usuarioEstaConectado() == false) {
+                        Toast.makeText(context, "Debes estar conectado para poder agregar un producto al carrito", Toast.LENGTH_LONG).show();
+
+                    }
+                    else {
+                        // Crear un Intent para ir a la actividad del carrito
+                        Intent intent = new Intent(GaleriaProductosActivity.this, CarritoActivity.class);
+                        startActivity(intent);  // Iniciar la actividad del carrito
+                    }
             }
         });
     }
 
     public void init(){
         context = GaleriaProductosActivity.this;
+        productosList = new ArrayList<Producto>();
         recyclerView = findViewById(R.id.recyclerViewProductos);
         progressBarProductos = findViewById(R.id.progressBarProductos);
         tblCategorias = findViewById(R.id.tblCategorias);
@@ -86,7 +95,8 @@ public class GaleriaProductosActivity extends AppCompatActivity {
         tblCategorias.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                filterProductList(tab.getText().toString());
+                CategoriaProducto categoria = (CategoriaProducto) tab.getTag();
+                filterProductList(categoria);
                 System.out.println(tab.getText());
             }
 
@@ -104,8 +114,7 @@ public class GaleriaProductosActivity extends AppCompatActivity {
         });
 
 
-
-        getProductosList();
+        cargarCategorias();
 
 
         // Crear el adaptador
@@ -116,7 +125,6 @@ public class GaleriaProductosActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(productoAdapter);
         tblCategorias.selectTab(tblCategorias.getTabAt(0));
-        filterProductList("Accesorios");
 
 
     }
@@ -124,7 +132,6 @@ public class GaleriaProductosActivity extends AppCompatActivity {
 
 
     private void getProductosList() {
-        productosList = new ArrayList<Producto>();
         progressBarProductos.setVisibility(ProgressBar.VISIBLE);
 
         RetrofitClient.getInstance(this).getApiService().obtenerProductos().enqueue(new Callback<List<Producto>>() {
@@ -135,6 +142,9 @@ public class GaleriaProductosActivity extends AppCompatActivity {
                     productoAdapter.setProductosList(listaProductos);
                     progressBarProductos.setVisibility(ProgressBar.INVISIBLE);
                     productosList = listaProductos;
+                    if (categorias.size() > 0) {
+                        filterProductList(categorias.get(0));
+                    }
                 } else {
                     System.out.println("Error en la respuesta: " + response.code());
                 }
@@ -149,21 +159,13 @@ public class GaleriaProductosActivity extends AppCompatActivity {
 
     }
 
-    private void filterProductList(String categoria) {
-        int categoriaId = 0;
-        switch (categoria) {
-            case "Accesorios": categoriaId = 1; break;
-            case "Cuchas": categoriaId = 2; break;
-            case "Juguetes": categoriaId = 3; break;
-            case "Ropa": categoriaId = 4; break;
-        }
-
+    private void filterProductList(CategoriaProducto categoria) {
         List<Producto> filteredList = new ArrayList<>();
         System.out.println("Product list len" + productosList.size());
         for (Producto producto : productosList) {
             System.out.println("cat");
             System.out.println(producto.getCategoria());
-            if (producto.getCategoria() == categoriaId) {
+            if (producto.getCategoria() == categoria.getId_categoria_producto()) {
                 filteredList.add(producto);
             }
         }
@@ -171,5 +173,36 @@ public class GaleriaProductosActivity extends AppCompatActivity {
         productoAdapter.setProductosList(filteredProductList);
     }
 
+    private boolean usuarioEstaConectado() {
+        SharedPreferences preferences = this.context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        return preferences.getBoolean("isLoggedIn", false);
+    }
+
+    private void cargarCategorias() {
+        Call<List<CategoriaProducto>> call = RetrofitClient.getInstance(context).getApiService().obtenerCategorias();
+        call.enqueue(new Callback<List<CategoriaProducto>>() {
+            @Override
+            public void onResponse(Call<List<CategoriaProducto>> call, Response<List<CategoriaProducto>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    categorias = response.body();
+                    tblCategorias.removeAllTabs();
+                    for (int i = 0; i < categorias.size(); i++) {
+                        TabLayout.Tab tab = tblCategorias.newTab();
+                        tab.setText(categorias.get(i).getNombre());
+                        tab.setTag(categorias.get(i));
+                        tblCategorias.addTab(tab);
+                    }
+                    getProductosList();
+                } else {
+                    System.out.println("Error en la respuesta: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriaProducto>> call, Throwable t) {
+                System.out.println("Error: " + t.getMessage());
+            }
+        });
+    }
 
 }

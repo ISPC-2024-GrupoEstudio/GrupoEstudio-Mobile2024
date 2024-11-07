@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,9 @@ public class ContactoFragment extends Fragment {
         etEmail = view.findViewById(R.id.et_email);
         etMsj = view.findViewById(R.id.et_msj);
 
+        etName.addTextChangedListener(createSanitizingTextWatcher(etName, "[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"));
+        etMsj.addTextChangedListener(createSanitizingTextWatcher(etMsj, "[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ,.?!]+"));
+
         view.findViewById(R.id.btn_enviar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,6 +42,31 @@ public class ContactoFragment extends Fragment {
         });
 
         return view;
+    }
+
+    // Método para sanitizar el input según un patrón de caracteres permitidos
+    private String sanitizeInput(String input, String pattern) {
+        return input.replaceAll("[^" + pattern + "]", "");
+    }
+
+    // Crea un TextWatcher que sanitiza el texto en tiempo real
+    private TextWatcher createSanitizingTextWatcher(EditText editText, String allowedPattern) {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String sanitized = sanitizeInput(s.toString(), allowedPattern);
+                if (!sanitized.equals(s.toString())) {
+                    editText.setText(sanitized);
+                    editText.setSelection(sanitized.length()); // Coloca el cursor al final
+                }
+            }
+        };
     }
 
     private String validarCampos(String nombre, String telefono, String email, String mensaje) {
@@ -89,14 +119,14 @@ public class ContactoFragment extends Fragment {
         String validacion = validarCampos(nombre, telefono, email, mensaje);
 
         if (validacion == null) {
-            Toast.makeText(getContext(), "Mensaje enviado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Mensaje enviado", Toast.LENGTH_LONG).show();
 
             etName.setText("");
             etTel.setText("");
             etEmail.setText("");
             etMsj.setText("");
         } else {
-            Toast.makeText(getContext(), validacion, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), validacion, Toast.LENGTH_LONG).show();
         }
     }
 }

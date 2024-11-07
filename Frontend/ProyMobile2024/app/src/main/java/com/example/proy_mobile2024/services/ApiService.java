@@ -1,5 +1,6 @@
 package com.example.proy_mobile2024.services;
 import com.example.proy_mobile2024.model.Carrito;
+import com.example.proy_mobile2024.model.CategoriaProducto;
 import com.example.proy_mobile2024.model.ItemCarritoData;
 import com.example.proy_mobile2024.model.Producto;
 import com.example.proy_mobile2024.model.TokenResponse;
@@ -16,6 +17,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -23,8 +25,11 @@ public interface ApiService {
 //    Call<Void> loginUser(@Body LoginData loginData);
 
     //2.solicitud de productos para galería (GET)
-    @GET("productos")
+    @GET("productos/")
     Call<List<Producto>> obtenerProductos();
+
+    @GET("productos/{id}/")
+    Call<Producto> obtenerProductosPorId(@Path("id") int id_producto);
     
     @POST("auth/login/")
     Call<TokenResponse> loginUser(@Body LoginData loginData);
@@ -32,8 +37,8 @@ public interface ApiService {
     @POST("auth/register/")
     Call<Usuario> registerUser(@Body Usuario usuario);
 
-    @POST("api/token/refresh/")
-    Call<TokenResponse> refreshToken(@Header("Authorization") String refresh);
+    @POST("token/refresh/")
+    Call<TokenResponse> refreshToken(@Body TokenRefreshRequest request);
 
     @GET("usuarios/")
     Call<List<UsuarioPerfil>> getPerfil();
@@ -46,6 +51,12 @@ public interface ApiService {
 
     @DELETE("delete-from-cart/{id}/")
     Call<Void> eliminarDeCarrito(@Path("id") int id_carrito);
+
+    @PUT("usuarios/{nombre_usuario}/")
+    Call<Void> actualizarPerfil(@Path("nombre_usuario") String nombreUsuario, @Body UsuarioPerfil usuarioPerfil);
+
+    @GET("categorias/")
+    Call<List<CategoriaProducto>> obtenerCategorias();
 
 }
 

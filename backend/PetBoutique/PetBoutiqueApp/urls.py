@@ -1,12 +1,12 @@
 from django.urls import path, include
 from rest_framework import routers
 from PetBoutiqueApp import views
-from .views import RoleListCreateAPIView, RoleRetrieveUpdateDestroyAPIView ,ProcessPaymentView,CheckoutView
+from .views import RoleListCreateAPIView, RoleRetrieveUpdateDestroyAPIView ,ProcessPaymentView,CheckoutView,CustomTokenRefreshView
 from .views import registrar_usuario
 from .views import CustomTokenObtainPairView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
-    TokenRefreshView,
+    TokenRefreshView, 
     
 )
 from .views import Login, CustomTokenObtainPairView 
@@ -49,7 +49,7 @@ urlpatterns = [
     path('checkout/', CheckoutView.as_view(), name='checkout'),
 
     path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
 

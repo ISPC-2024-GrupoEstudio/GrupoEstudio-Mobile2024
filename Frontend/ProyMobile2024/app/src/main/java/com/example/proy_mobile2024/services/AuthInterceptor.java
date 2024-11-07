@@ -38,29 +38,34 @@ public class AuthInterceptor implements Interceptor {
         // Si el token está expirado, usa el refresh token para obtener uno nuevo
         if (response.code() == 401 && refreshToken != null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://recdev.pythonanywhere.com/")
+                    .baseUrl("http://10.0.2.2:8000/api/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
             ApiService authService = retrofit.create(ApiService.class);
-            Call<TokenResponse> refreshCall = authService.refreshToken("Bearer " + refreshToken);
+            TokenRefreshRequest refreshRequest = new TokenRefreshRequest(refreshToken);
+            Call<TokenResponse> refreshCall = authService.refreshToken(refreshRequest);
 
             retrofit2.Response<TokenResponse> refreshResponse = refreshCall.execute();
-            if (refreshResponse.isSuccessful()) {
+            if (refreshResponse.isSuccessful() && refreshResponse.body() != null) {
                 TokenResponse newTokenResponse = refreshResponse.body();
                 String newToken = newTokenResponse.getToken();
 
+                // Guardar el nuevo token en SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("token", newToken);
+                editor.putString("accessToken", newToken);
+                editor.putString("refreshToken", newTokenResponse.getRefreshToken()); // También puedes actualizar el refresh token
                 editor.apply();
 
-                // Repetir la solicitud original con el nuevo token
                 Request newRequest = originalRequest.newBuilder()
                         .header("Authorization", "Bearer " + newToken)
                         .build();
 
                 response.close(); // Cierra la respuesta anterior antes de hacer otra llamada
                 return chain.proceed(newRequest);
+            } else {
+                // Manejar el caso en que el refresh token no es válido
+                // Por ejemplo, limpiar los tokens de SharedPreferences y redirigir al usuario a la pantalla de inicio de sesión
             }
         }
 

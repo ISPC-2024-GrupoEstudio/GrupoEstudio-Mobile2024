@@ -13,7 +13,8 @@
     <string name="itemnav_home">Home</string>
 
     <!--Activity Perfil-->
-    <string name="perfil_nombreCompleto">Nombre Apellido</string>
+    <string name="perfil_nombre">Nombre</string>
+    <string name="perfil_apellido">Apellido</string>
     <string name="perfil_email">ejemplo@gmail.com</string>
     <string name="perfil_telefono_nro">+54 9 03541 123456</string>
     <string name="perfil_telefono">Numero Telefonico</string>
@@ -26,6 +27,15 @@
     <string name="perfil_salir">Cerrar Sesión</string>
     <string name="perfil_editar_img">Editar Imagen</string>
     <string name="perfil_flecha_volver">Regresar</string>
+    <string name="perfil_editar_nombre">Nombre</string>
+    <string name="perfil_editar_apellido">Apellido</string>
+    <string name="perfil_editar_username">Username</string>
+    <string name="perfil_editar_email">Email</string>
+    <string name="perfil_editar_telefono">Teléfono</string>
+    <string name="perfil_editar_direccion">Dirección</string>
+    <string name="perfil_editar_dni">Número de DNI</string>
+    <string name="perfil_editar_guardar">Guardar Cambios</string>
+
 
 
     <!-- Fragmento Contacto -->
@@ -52,9 +62,10 @@
     <string name="contraseña">Contraseña</string>
     <string name="loginB">Login</string>
     <string name="forgot_pasword">Olvidé mi contraseña</string>
-    <string name="msjregistrate">¿No tienes cuenta?¡Registrate aqui!</string>
+    <string name="msjregistrate">¿No tienes cuenta? ¡Registrate aqui!</string>
     <string name="image_description_dog">perro</string>
     <string name="welcome_msj">¡Bienvenido de nuevo!</string>
+    <string name="toggle_pass_visibility">Toggle Password Visibility</string>
 
     <!-- Fragmento sobre_nosotros -->
     <string name="sobre_nosotros_descripcion">Somos un equipo de amantes de los animales que entiende la importancia de proporcionar a las mascotas el mejor cuidado y atención.
