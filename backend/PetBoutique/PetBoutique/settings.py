@@ -34,13 +34,13 @@ ALLOWED_HOSTS = [
     '10.0.2.2',
     '41c2-190-136-244-190.ngrok-free.app',
     '0898-190-136-244-190.ngrok-free.app',
-    'f96e-181-95-72-135.ngrok-free.app'
+    '34a4-181-95-72-135.ngrok-free.app'
     ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://0898-190-136-244-190.ngrok-free.app',
     'https://41c2-190-136-244-190.ngrok-free.app',
-    'https://1859-181-95-72-135.ngrok-free.app'
+    'https://34a4-181-95-72-135.ngrok-free.app'
 ]
 
 
@@ -126,7 +126,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pet_boutique',
         'USER': 'root',
-        'PASSWORD': 'mibasededatos',
+        'PASSWORD': 'contra.bd.24',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
