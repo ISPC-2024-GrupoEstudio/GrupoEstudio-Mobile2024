@@ -87,6 +87,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
     });
 
 
+    //Manej de los permisos para acceder a la galeria
     private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
         if (isGranted) {
             openGallery();
@@ -95,6 +96,8 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
         }
     });
 
+
+    //Metodo que crea un archivo temporal en formato jpg para luego subirlo a Cloudinary.
 
     private String subirImagenAlServidor(Bitmap bitmap) {
         executorService.submit(() -> {
@@ -119,12 +122,16 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
         return perfilImageUrl;
     }
 
+    //Actualizacion de la foto de perfil desde la bbdd.
+
 
     public void actualizarFotoPerfil(String nuevaFotoPerfil) {
         String usernameOriginal = obtenerUsernameUsuario();
 
         if (usuarioPerfilActual != null) {
             usuarioPerfilActual.setFotoPerfil(nuevaFotoPerfil);
+            perfilViewModel.setActualizacionFoto(true);
+            Toast.makeText(this, "Foto de perfil actualizada exitosamente", Toast.LENGTH_SHORT).show();
             perfilViewModel.actualizarPerfil(usernameOriginal, usuarioPerfilActual);
 
             // Guardar la URL de la imagen en SharedPreferences
@@ -163,6 +170,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
         direccionTextView = findViewById(R.id.perfil_direccion_txt);
         dniTextView = findViewById(R.id.perfil_dni_txt);
 
+        //Boton de Editar Perfil
         btnEditarPerfil.setOnClickListener(v -> {
             EditarPerfilDialogFragment dialogFragment = new EditarPerfilDialogFragment();
             dialogFragment.show(getSupportFragmentManager(), "EditarPerfilDialogo");
@@ -179,20 +187,24 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
             }
         });
 
-
+        //Manejo de mensajes de error
         perfilViewModel.getMensajeError().observe(this, mensajeError -> {
             if (mensajeError != null) {
                 Toast.makeText(this, mensajeError, Toast.LENGTH_LONG).show();
             };
         });
 
+        //Manejo de actualizacion exitosa
         perfilViewModel.getActualizacionExitosa().observe(this, exitoso -> {
-            if (exitoso != null && exitoso) {
-                Toast.makeText(this, "Foto de perfil actualizada exitosamente", Toast.LENGTH_SHORT).show();
-                actualizarUI(usuarioPerfilActual);
+            if (exitoso != null) {
+                if (exitoso) {
+                    actualizarUI(usuarioPerfilActual);
+                }
+                perfilViewModel.resetActualizacionExitosa();
             }
         });
 
+        //Manejo de obtencion del usuario
         perfilViewModel.getUsuarioPerfil().observe(this, usuarioPerfil -> {
             if (usuarioPerfil != null){
                 obtenerDatosUsuario();
@@ -214,6 +226,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
         init();
     }
 
+    //Datos de inicializacion de cloudinary
     private void initCloudinary(){
         cloudinary = new Cloudinary(ObjectUtils.asMap(
                 "cloud_name", "dgql9nx7t",
@@ -222,6 +235,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
         ));
     }
 
+    //Se actualizan los datos en la bbdd
     @Override
     public void onPerfilEdit(String nombre, String apellido, String email,long telefono, String direccion, long dni, String fotoPerfil){
 
@@ -236,11 +250,14 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
             usuarioPerfilActual.setDni(dni);
             usuarioPerfilActual.setFotoPerfil(fotoPerfil);
 
+            perfilViewModel.setActualizacionFoto(false);
             perfilViewModel.actualizarPerfil(usernameOriginal, usuarioPerfilActual);
+            Toast.makeText(this, "Perfil actualizado con éxito", Toast.LENGTH_SHORT).show();
 
         }
     }
 
+    //Se actualiza la activity con los datos traidos desde la bbdd
     private void actualizarUI(UsuarioPerfil usuario){
         if (usuario != null){
             nombreTextView.setText(usuario.getNombre() == null || usuario.getNombre().isEmpty() ? "Nombre no proporcionado" : usuario.getNombre());
@@ -260,12 +277,13 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
         }
     }
 
+    //Metodo para traer el username del usuario que inicio sesion
     private String obtenerUsernameUsuario(){
         SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         return preferences.getString("username", null);
     }
 
-
+    //Se actualizan los datos traidos desde la bbdd
     private void obtenerDatosUsuario(){
         RetrofitClient.getInstance(this).getApiService().getPerfil().enqueue(new Callback<List<UsuarioPerfil>>() {
             @Override
@@ -337,7 +355,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
         selectImageLauncher.launch(intent);
     }
 
-
+    //Inicializacion y manejo del boton volver atras.
     public void init(){
         ImageView btnVolverPerfil = findViewById(R.id.btnVolverPerfil);
 
