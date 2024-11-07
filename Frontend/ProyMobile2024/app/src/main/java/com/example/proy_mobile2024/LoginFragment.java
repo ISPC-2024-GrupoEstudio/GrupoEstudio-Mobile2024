@@ -436,7 +436,7 @@ public class LoginFragment extends Fragment {
         }
         Log.d("LoginUser", "Iniciando el proceso de login");
         LoginData loginData = new LoginData(username, password); // Asegúrate de tener la clase LoginData creada
-        Log.d("LoginUser", "Datos de login: " + loginData.getUsername() + ", " + loginData.getPassword());
+        Log.d("LoginUser", "Datos de login: " + loginData.getUsername() );
 
         ApiService apiService = RetrofitClient.getInstance(getActivity()).getApiService();
         Call<TokenResponse> call = apiService.loginUser(loginData);
