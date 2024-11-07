@@ -27,6 +27,7 @@ public class PerfilViewModel extends AndroidViewModel {
     private final MutableLiveData<Boolean> cargando = new MutableLiveData<>();
     private final MutableLiveData<String> mensajeError = new MutableLiveData<>();
     private final MutableLiveData<Boolean> actualizacionExitosa = new MutableLiveData<>();
+    private boolean isActualizacionFoto = false;
 
     public PerfilViewModel(@NonNull Application application){
         super(application);
@@ -46,6 +47,12 @@ public class PerfilViewModel extends AndroidViewModel {
     }
 
     public LiveData<Boolean> getActualizacionExitosa(){ return actualizacionExitosa; }
+
+    public void setActualizacionFoto(boolean isActualizacionFoto){ this.isActualizacionFoto = isActualizacionFoto; }
+
+    public boolean isActualizacionFoto(){ return isActualizacionFoto; }
+
+    public void resetActualizacionExitosa(){ actualizacionExitosa.setValue(null); }
 
     public void fetchPerfil(String username){
         cargando.setValue(true);

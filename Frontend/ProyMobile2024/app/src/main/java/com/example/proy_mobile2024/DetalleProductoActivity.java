@@ -50,7 +50,7 @@ public class DetalleProductoActivity extends AppCompatActivity {
 
         botonAgregar.setOnClickListener(v -> {
             if (usuarioEstaConectado() == false) {
-                Toast.makeText(context, "Debes estar conectado para poder agregar un producto al carrito", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Debes estar conectado para poder agregar un producto al carrito", Toast.LENGTH_LONG).show();
             } else {
                 agregarProductoAlCarrito(producto);
             }
@@ -90,7 +90,7 @@ public class DetalleProductoActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(context, "Producto agregado con exito al carrito", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Producto agregado con exito al carrito", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(context, "Error, datos invalidos", Toast.LENGTH_SHORT).show();
                 }
@@ -98,7 +98,7 @@ public class DetalleProductoActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(context, "Error al agregar el producto, intente nuevamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error al agregar el producto, intente nuevamente", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -121,13 +121,13 @@ public class DetalleProductoActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     producto = response.body();
                 } else {
-                    Toast.makeText(context, "Error al obtener el producto", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Error al obtener el producto", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Producto> call, Throwable t) {
-                Toast.makeText(context, "Error al obtener el producto", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error al obtener el producto", Toast.LENGTH_LONG).show();
             }
         });
     }

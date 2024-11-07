@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.content.SharedPreferences;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.google.android.material.navigation.NavigationView;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navigationView;
     ImageButton buttonDrawerToggle;
     TextView navHeaderTitle;
+    private ImageView headerProfileImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         buttonDrawerToggle = findViewById(R.id.buttonDrawerToggle);
 
+        // Después de obtener el headerView
+        View headerView = navigationView.getHeaderView(0);
+        headerProfileImage = headerView.findViewById(R.id.nav_header_image); // Asegúrate de añadir este ID en tu nav_header.xml
+
+        // Cargar la imagen de perfil
+        loadProfileImage();
+
         // Llama a checkLoginStatus() para establecer el estado inicial de los ítems del menú
         checkLoginStatus();
         // Inicializa el NavigationView
@@ -57,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Obtén la vista del encabezado
-        View headerView = navigationView.getHeaderView(0); // El índice 0 obtiene el primer encabezado
         navHeaderTitle = headerView.findViewById(R.id.nav_header_title); // Inicializa aquí
+
 
         // Referencia al TextView del encabezado
         TextView navHeaderTitle = headerView.findViewById(R.id.nav_header_title); // Cambia esto según tu XML
@@ -66,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         // Obtén el username desde SharedPreferences
         SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         String username = preferences.getString("username", "Usuario Desconocido"); // Cambia "username" por la clave que usas
+
+
 
         // Establece el nombre en el TextView del encabezado
         navHeaderTitle.setText(username);
@@ -84,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
         // Verifica el estado de inicio de sesión al cargar la actividad
         //checkLoginStatus();  // Verifica si el usuario está logueado o no
 
+
+
+
+
         if (savedInstanceState == null) {
             // Carga el fragmento de "Sobre Nosotros" solo si no hay un estado guardado
             getSupportFragmentManager().beginTransaction()
@@ -98,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                         .commit();
             }
         }
+
 
         System.out.println(">> MAIN ACTIVITY");//
 
@@ -175,6 +195,29 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    private void loadProfileImage() {
+        SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+        String profileImageUrl = preferences.getString("profile_image_url", "");
+
+        if (headerProfileImage != null) {  // Verificar que no sea null
+            if (!profileImageUrl.isEmpty()) {
+                Glide.with(this)
+                        .load(profileImageUrl)
+                        .transform(new CircleCrop())
+                        .placeholder(R.drawable.foto_icon)
+                        .error(R.drawable.foto_icon)
+                        .into(headerProfileImage);
+            } else {
+                // Si no hay URL, cargar la imagen por defecto
+                Glide.with(this)
+                        .load(R.drawable.foto_icon)
+                        .transform(new CircleCrop())
+                        .into(headerProfileImage);
+            }
+        }
+    }
+
+
     public void checkLoginStatus() {
         SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
         boolean isLoggedIn = preferences.getBoolean("isLoggedIn", false); // Cambia esto a la clave que uses para el estado de sesión
@@ -209,6 +252,15 @@ public class MainActivity extends AppCompatActivity {
         navigationView.inflateMenu(R.menu.drawer_menu);  // Inflar nuevamente el menú
         checkLoginStatus();
 
+        // Resetear la imagen de perfil
+        if (headerProfileImage != null) {
+            Glide.with(this)
+                    .load(R.drawable.foto_icon)
+                    .transform(new CircleCrop())
+                    .into(headerProfileImage);
+        }
+
+
         // Restablece el nombre de usuario en el TextView del header (si es necesario)
         if (navHeaderTitle != null) {
             navHeaderTitle.setText("Usuario desconocido");
@@ -217,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Muestra mensaje de logout exitoso
-        Toast.makeText(this, "Has cerrado tu sesión", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Has cerrado tu sesión", Toast.LENGTH_LONG).show();
 
         // Reemplaza el fragmento actual por el LoginFragment
         replaceFragment(new LoginFragment());
@@ -230,6 +282,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         checkLoginStatus(); // Refresca el menú al volver a la actividad
+        loadProfileImage();
+
+
     }
 
 }
+
+
+
+

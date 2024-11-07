@@ -38,13 +38,18 @@
             android:layout_height="wrap_content"
             android:hint="@string/perfil_editar_nombre"
             android:inputType="textPersonName"
+            android:maxLength="50"
             android:textSize="25sp"
-            android:paddingTop="40dp"
+            android:layout_marginTop="40dp"
             android:paddingBottom="20dp"
-            android:paddingStart="15dp"
+            android:padding="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:textStyle="normal"
             android:fontFamily="sans-serif-thin"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:background="@drawable/form_contacto"
+            android:ems="10"/>
 
         <EditText
             android:autofillHints="name"
@@ -53,13 +58,18 @@
             android:layout_height="wrap_content"
             android:hint="@string/perfil_editar_apellido"
             android:inputType="textPersonName"
+            android:maxLength="50"
             android:textSize="25sp"
-            android:paddingTop="35dp"
+            android:layout_marginTop="20dp"
             android:paddingBottom="20dp"
-            android:paddingStart="15dp"
+            android:padding="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:textStyle="normal"
             android:fontFamily="sans-serif-thin"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:background="@drawable/form_contacto"
+            android:ems="10"/>
 
         <EditText
             android:autofillHints="emailAddress"
@@ -69,12 +79,16 @@
             android:hint="@string/perfil_editar_email"
             android:inputType="textEmailAddress"
             android:textSize="25sp"
-            android:paddingTop="35dp"
+            android:layout_marginTop="20dp"
             android:paddingBottom="20dp"
-            android:paddingStart="15dp"
+            android:padding="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:textStyle="normal"
             android:fontFamily="sans-serif-thin"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:background="@drawable/form_contacto"
+            android:ems="10"/>
 
         <EditText
             android:autofillHints="phone"
@@ -83,13 +97,18 @@
             android:layout_height="wrap_content"
             android:hint="@string/perfil_editar_telefono"
             android:inputType="number"
+            android:maxLength="10"
             android:textSize="25sp"
-            android:paddingTop="35dp"
+            android:layout_marginTop="20dp"
             android:paddingBottom="20dp"
-            android:paddingStart="15dp"
+            android:padding="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:textStyle="normal"
             android:fontFamily="sans-serif-thin"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:background="@drawable/form_contacto"
+            android:ems="10"/>
 
         <EditText
             android:autofillHints="postalAddress"
@@ -98,13 +117,18 @@
             android:layout_height="wrap_content"
             android:hint="@string/perfil_editar_direccion"
             android:inputType="textPostalAddress"
+            android:maxLength="255"
             android:textSize="25sp"
-            android:paddingTop="35dp"
+            android:layout_marginTop="20dp"
             android:paddingBottom="20dp"
-            android:paddingStart="15dp"
+            android:padding="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:textStyle="normal"
             android:fontFamily="sans-serif-thin"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:background="@drawable/form_contacto"
+            android:ems="10"/>
 
         <EditText
             android:id="@+id/editar_dni"
@@ -112,14 +136,19 @@
             android:layout_height="wrap_content"
             android:hint="@string/perfil_editar_dni"
             android:inputType="number"
+            android:maxLength="8"
             android:textSize="25sp"
-            android:paddingTop="35dp"
+            android:layout_marginTop="20dp"
             android:paddingBottom="20dp"
-            android:paddingStart="15dp"
+            android:padding="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:textStyle="normal"
             android:fontFamily="sans-serif-thin"
             android:layout_marginBottom="30dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:background="@drawable/form_contacto"
+            android:ems="10"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_guardar_cambios"

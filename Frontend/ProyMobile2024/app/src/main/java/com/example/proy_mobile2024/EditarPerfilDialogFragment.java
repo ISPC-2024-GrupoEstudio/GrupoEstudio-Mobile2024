@@ -3,7 +3,11 @@ package com.example.proy_mobile2024;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +36,6 @@ public class EditarPerfilDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null){
             perfilImageUrl = getArguments().getString("perfilImageUrl");
-            Log.d("EditPerfil", perfilImageUrl);
         }
     }
 
@@ -52,7 +55,7 @@ public class EditarPerfilDialogFragment extends DialogFragment {
 
 
         EditText nombreEditText = view.findViewById(R.id.editar_nombre);
-        EditText apelidoEditText = view.findViewById(R.id.editar_apellido);
+        EditText apellidoEditText = view.findViewById(R.id.editar_apellido);
         EditText emailEditText = view.findViewById(R.id.editar_email);
         EditText telefonoEditText = view.findViewById(R.id.editar_telefono);
         EditText direccionEditText = view.findViewById(R.id.editar_direccion);
@@ -70,13 +73,90 @@ public class EditarPerfilDialogFragment extends DialogFragment {
 
         perfilViewModel.getUsuarioPerfil().observe(getViewLifecycleOwner(), usuarioPerfil -> {
             if (usuarioPerfil != null){
-                nombreEditText.setText(usuarioPerfil.getNombre() != null ? usuarioPerfil.getNombre() : "");
-                apelidoEditText.setText(usuarioPerfil.getApellido() != null ? usuarioPerfil.getApellido() : "");
-                emailEditText.setText(usuarioPerfil.getEmail() != null ? usuarioPerfil.getEmail() : "");
+                nombreEditText.setText(TextUtils.htmlEncode(usuarioPerfil.getNombre() != null ? usuarioPerfil.getNombre() : ""));
+                apellidoEditText.setText(TextUtils.htmlEncode(usuarioPerfil.getApellido() != null ? usuarioPerfil.getApellido() : ""));
+                emailEditText.setText(TextUtils.htmlEncode(usuarioPerfil.getEmail() != null ? usuarioPerfil.getEmail() : ""));
                 telefonoEditText.setText(usuarioPerfil.getNro_telefono() != 0 ? String.valueOf(usuarioPerfil.getNro_telefono()) : "");
-                direccionEditText.setText(usuarioPerfil.getDireccion() != null ? usuarioPerfil.getDireccion() : "");
+                direccionEditText.setText(TextUtils.htmlEncode(usuarioPerfil.getDireccion() != null ? usuarioPerfil.getDireccion() : ""));
                 dniEditText.setText(usuarioPerfil.getDni() != 0 ? String.valueOf(usuarioPerfil.getDni()) : "");
             }
+        });
+
+        nombreEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence caracter, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence caracter, int start, int before, int count) {
+                if (!isValidNombre(caracter.toString())){
+                    nombreEditText.setError("Solo se permiten letras");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable caracter) {
+                if (caracter.length() > 50){
+                    nombreEditText.setError("Máximo de 50 caracteres");
+                }
+            }
+        });
+
+        apellidoEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence caracter, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence caracter, int start, int before, int count) {
+                if (!isValidNombre(caracter.toString())){
+                    apellidoEditText.setError("Solo se permiten letras");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable caracter) {
+                if (caracter.length() > 50){
+                    apellidoEditText.setError("Máximo de 50 caracteres");
+                }
+            }
+        });
+
+        emailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence caracter, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence caracter, int start, int before, int count) {
+                if (!isValidEmail(caracter.toString())){
+                    emailEditText.setError("Correo electrónico inválido");
+                }else{
+                    emailEditText.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable caracter) {}
+        });
+
+        direccionEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence caracter, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence caracter, int start, int before, int count) {
+                String direccion = caracter.toString();
+                if (!isValidDireccion(direccion)){
+                    if (!contieneNumero(direccion)){
+                        direccionEditText.setError("La dirección debe tener al menos un número");
+                    }else {
+                        direccionEditText.setError("La dirección no puede contener símbolos");
+                    }
+                }else{
+                    direccionEditText.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable caracter) {}
         });
 
 
@@ -84,7 +164,7 @@ public class EditarPerfilDialogFragment extends DialogFragment {
             String telefono = telefonoEditText.getText().toString();
             String dni = dniEditText.getText().toString();
 
-            if (!validarCampos(telefono, dni)){
+            if (!validarCampos(nombreEditText.getText().toString(), apellidoEditText.getText().toString(),emailEditText.getText().toString(),telefono,direccionEditText.getText().toString(), dni)){
                 return;
             }
 
@@ -95,12 +175,12 @@ public class EditarPerfilDialogFragment extends DialogFragment {
                 long dniLong = Long.parseLong(dni);
 
                 UsuarioPerfil perfilActualizado = new UsuarioPerfil(
-                        nombreEditText.getText().toString(),
-                        apelidoEditText.getText().toString(),
+                        TextUtils.htmlEncode(nombreEditText.getText().toString()),
+                        TextUtils.htmlEncode(apellidoEditText.getText().toString()),
                         nombreUsuarioActual,
-                        emailEditText.getText().toString(),
+                        TextUtils.htmlEncode(emailEditText.getText().toString()),
                         telefonoLong,
-                        direccionEditText.getText().toString(),
+                        TextUtils.htmlEncode(direccionEditText.getText().toString()),
                         dniLong,
                         perfilImageUrl
 
@@ -108,20 +188,10 @@ public class EditarPerfilDialogFragment extends DialogFragment {
 
 
                 if (nombreUsuarioActual.isEmpty()){
-                    Toast.makeText(requireContext(), "Nombre de usuario obligatorio", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Nombre de usuario obligatorio", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                perfilViewModel.getActualizacionExitosa().observe(getViewLifecycleOwner(), new androidx.lifecycle.Observer<Boolean>(){
-                    @Override
-                    public void onChanged(Boolean exitoso){
-                        if (exitoso != null && exitoso){
-                            Toast.makeText(requireContext(), "Perfil actualizado con exito", Toast.LENGTH_SHORT).show();
-                            perfilViewModel.getActualizacionExitosa().removeObserver(this);
-                            dismiss();
-                        }
-                    }
-                });
 
                 perfilViewModel.actualizarPerfil(nombreUsuarioActual, perfilActualizado);
 
@@ -136,6 +206,8 @@ public class EditarPerfilDialogFragment extends DialogFragment {
                             perfilActualizado.getFotoPerfil()
                     );
                 }
+                dismiss();
+
             } catch (NumberFormatException e){
                 mostrarError("Por favor, ingrese valores válidos para teléfono y DNI");
             }
@@ -145,32 +217,103 @@ public class EditarPerfilDialogFragment extends DialogFragment {
 
     }
 
-    private boolean validarCampos(String telefono, String dni){
-        if (telefono.isEmpty() || dni.isEmpty()){
+    private boolean validarCampos(String nombre, String apellido, String email,String telefono,String direccion, String dni){
+        if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || direccion.isEmpty() || telefono.isEmpty() || dni.isEmpty()){
             mostrarError("Los campos no pueden estar vacíos");
             return false;
         }
 
-        if (telefono.length() > 10){
-            mostrarError("El teléfono debe tener máximo 10 dígitos");
+        if (nombre.length() < 2){
+            mostrarError("El nombre debe tener un mínimo de 2 caracteres");
             return false;
         }
 
-        if (dni.length() > 8){
-            mostrarError("El DNI debe tener máximo 8 digitos");
+        if (nombre.length() > 50){
+            mostrarError("El nombre puede tener un máximo de 50 caracteres");
             return false;
         }
 
-        if (!telefono.matches("\\d+") || !dni.matches("\\d+")){
-            mostrarError("Por favor ingrese solo números");
+        if (apellido.length() < 2){
+            mostrarError("El apellido debe tener un mínimo de 2 caracteres");
+            return false;
+        }
+
+        if (apellido.length() > 50){
+            mostrarError("El apellido puede tener un máximo de 50 caracteres");
+            return false;
+        }
+
+        if (telefono.length() != 10 ){
+            mostrarError("El teléfono debe tener 10 dígitos");
+            return false;
+        }
+
+        if (!isValidDireccion(direccion)){
+            mostrarError("La direccion no puede contener simbolos ");
+            return false;
+        }
+
+        if (dni.length() != 8){
+            mostrarError("El DNI debe tener 8 digitos");
+            return false;
+        }
+
+        if (!isValidNombre(nombre)){
+            mostrarError("Solo se permiten letras en el nombre");
+            return false;
+        }
+
+        if (!isValidNombre(apellido)){
+            mostrarError("Solo se permiten letras en el apellido");
+            return false;
+        }
+
+        if (email.length() < 5){
+            mostrarError("El email debe tener un minimo de 5 caracteres");
+            return false;
+        }
+
+        if (!isValidEmail(email)){
+            mostrarError("Correo electrónico inválido");
+            return false;
+        }
+
+        if (!telefono.matches("\\d+")){
+            mostrarError("Por favor ingrese solo números en el teléfono");
+            return false;
+        }
+
+        if (!dni.matches("\\d+")){
+            mostrarError("Por favor ingrese solo números en el DNI");
             return false;
         }
 
         return true;
     }
 
+    private boolean isValidNombre(String text){
+        return text.matches("^[a-zA-Z\\s]+$");
+    }
+
+    private boolean isValidEmail(String email){
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isValidDireccion(String direccion){
+        return direccion.length() >= 5 && direccion.length() <= 255 && direccion.matches("^[a-zA-Z0-9\\s]+$") && contieneNumero(direccion);
+    }
+
+    private boolean contieneNumero(String str){
+        for (int i = 0; i < str.length(); i++){
+            if (Character.isDigit(str.charAt(i))){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void mostrarError(String mensaje){
-        Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), mensaje, Toast.LENGTH_LONG).show();
     }
 
     private String obtenerUsernameUsuario(){
