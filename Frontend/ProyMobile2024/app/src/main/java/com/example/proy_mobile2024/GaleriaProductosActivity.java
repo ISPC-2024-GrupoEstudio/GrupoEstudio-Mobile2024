@@ -66,7 +66,7 @@ public class GaleriaProductosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                     if (usuarioEstaConectado() == false) {
-                        Toast.makeText(context, "Debes estar conectado para poder agregar un producto al carrito", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Debes estar conectado para poder agregar un producto al carrito", Toast.LENGTH_LONG).show();
 
                     }
                     else {
