@@ -32,15 +32,15 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '10.0.2.2',
-    '9c70-190-136-244-190.ngrok-free.app',
+    '41c2-190-136-244-190.ngrok-free.app',
     '0898-190-136-244-190.ngrok-free.app',
     'f96e-181-95-72-135.ngrok-free.app'
     ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://0898-190-136-244-190.ngrok-free.app',
-    'https://9c70-190-136-244-190.ngrok-free.app',
-    'https://f96e-181-95-72-135.ngrok-free.app'
+    'https://41c2-190-136-244-190.ngrok-free.app',
+    'https://1859-181-95-72-135.ngrok-free.app'
 ]
 
 
@@ -90,8 +90,8 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:4200',
     'https://0898-190-136-244-190.ngrok-free.app',
-    "https://9c70-190-136-244-190.ngrok-free.app",
-    'https://f96e-181-95-72-135.ngrok-free.app'
+    "https://41c2-190-136-244-190.ngrok-free.app",
+    'https://1859-181-95-72-135.ngrok-free.app'
 ]
 
 ROOT_URLCONF = 'PetBoutique.urls'
@@ -126,7 +126,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pet_boutique',
         'USER': 'root',
-        'PASSWORD': 'contra.bd.24',
+        'PASSWORD': 'mibasededatos',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
