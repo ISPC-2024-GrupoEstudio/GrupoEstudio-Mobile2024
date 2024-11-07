@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Muestra mensaje de logout exitoso
-        Toast.makeText(this, "Has cerrado tu sesión", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Has cerrado tu sesión", Toast.LENGTH_LONG).show();
 
         // Reemplaza el fragmento actual por el LoginFragment
         replaceFragment(new LoginFragment());

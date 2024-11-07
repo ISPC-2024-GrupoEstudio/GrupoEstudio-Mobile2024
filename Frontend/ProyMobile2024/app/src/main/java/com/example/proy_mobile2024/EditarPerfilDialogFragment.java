@@ -108,7 +108,7 @@ public class EditarPerfilDialogFragment extends DialogFragment {
 
 
                 if (nombreUsuarioActual.isEmpty()){
-                    Toast.makeText(requireContext(), "Nombre de usuario obligatorio", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Nombre de usuario obligatorio", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -162,7 +162,7 @@ public class EditarPerfilDialogFragment extends DialogFragment {
     }
 
     private void mostrarError(String mensaje){
-        Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), mensaje, Toast.LENGTH_LONG).show();
     }
 
     private String obtenerUsernameUsuario(){

@@ -45,7 +45,7 @@ public class CarritoActivity extends AppCompatActivity {
 
         if (!isLoggedIn) {
             Log.d("CarritoActivity", "El usuario no está autenticado. Redirigiendo a inicio de sesión.");
-            Toast.makeText(this, "Debes iniciar sesión para acceder al carrito", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Debes iniciar sesión para acceder al carrito", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(CarritoActivity.this, LandingActivity.class);
             startActivity(intent);
             finish(); // Termina esta actividad

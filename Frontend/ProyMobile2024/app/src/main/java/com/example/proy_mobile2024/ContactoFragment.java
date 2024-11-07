@@ -119,14 +119,14 @@ public class ContactoFragment extends Fragment {
         String validacion = validarCampos(nombre, telefono, email, mensaje);
 
         if (validacion == null) {
-            Toast.makeText(getContext(), "Mensaje enviado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Mensaje enviado", Toast.LENGTH_LONG).show();
 
             etName.setText("");
             etTel.setText("");
             etEmail.setText("");
             etMsj.setText("");
         } else {
-            Toast.makeText(getContext(), validacion, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), validacion, Toast.LENGTH_LONG).show();
         }
     }
 }

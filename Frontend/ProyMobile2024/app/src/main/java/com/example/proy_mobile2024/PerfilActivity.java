@@ -80,7 +80,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                     subirImagenAlServidor(bitmap);
                 } catch (IOException e) {
-                    Toast.makeText(this, "Error al cargar la imagen", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Error al cargar la imagen", Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -92,7 +92,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
         if (isGranted) {
             openGallery();
         } else {
-            Toast.makeText(this, "Permiso de galeria denegado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Permiso de galeria denegado", Toast.LENGTH_LONG).show();
         }
     });
 
@@ -116,7 +116,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
                 runOnUiThread(() -> actualizarFotoPerfil(perfilImageUrl));
             } catch (Exception e) {
                 Log.e("PerfilActivity", "Error al subir la imagen" + e.getMessage(), e);
-                runOnUiThread(() -> Toast.makeText(this, "Error al subir la imagen: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> Toast.makeText(this, "Error al subir la imagen: " + e.getMessage(), Toast.LENGTH_LONG).show());
             }
         });
         return perfilImageUrl;
@@ -131,7 +131,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
         if (usuarioPerfilActual != null) {
             usuarioPerfilActual.setFotoPerfil(nuevaFotoPerfil);
             perfilViewModel.setActualizacionFoto(true);
-            Toast.makeText(this, "Foto de perfil actualizada exitosamente", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Foto de perfil actualizada exitosamente", Toast.LENGTH_LONG).show();
             perfilViewModel.actualizarPerfil(usernameOriginal, usuarioPerfilActual);
 
             // Guardar la URL de la imagen en SharedPreferences
@@ -317,10 +317,10 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
                         actualizarUI(usuarioPerfil);
 
                     }else{
-                        Toast.makeText(PerfilActivity.this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PerfilActivity.this, "Usuario no encontrado", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(PerfilActivity.this, "Error al obtener los datos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PerfilActivity.this, "Error al obtener los datos", Toast.LENGTH_LONG).show();
                 }
             }
             @Override
