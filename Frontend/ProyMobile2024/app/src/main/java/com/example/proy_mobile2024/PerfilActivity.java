@@ -72,14 +72,14 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
 
     //Manejo de la imagen de perfil
     private final ActivityResultLauncher<Intent> selectImageLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == RESULT_OK && result.getData() != null){
+        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
             Uri imageUri = result.getData().getData();
-            if (imageUri != null){
+            if (imageUri != null) {
                 Glide.with(this).load(imageUri).transform(new CircleCrop()).into(imageview);
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                     subirImagenAlServidor(bitmap);
-                }catch (IOException e){
+                } catch (IOException e) {
                     Toast.makeText(this, "Error al cargar la imagen", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -89,15 +89,16 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
 
     //Manej de los permisos para acceder a la galeria
     private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-        if (isGranted){
+        if (isGranted) {
             openGallery();
-        }else{
+        } else {
             Toast.makeText(this, "Permiso de galeria denegado", Toast.LENGTH_SHORT).show();
         }
     });
 
 
     //Metodo que crea un archivo temporal en formato jpg para luego subirlo a Cloudinary.
+
     private String subirImagenAlServidor(Bitmap bitmap) {
         executorService.submit(() -> {
             try {
@@ -111,6 +112,7 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
                 perfilImageUrl = (String) uploadResult.get("secure_url");
                 Log.d("PerfilActivity", perfilImageUrl);
 
+
                 runOnUiThread(() -> actualizarFotoPerfil(perfilImageUrl));
             } catch (Exception e) {
                 Log.e("PerfilActivity", "Error al subir la imagen" + e.getMessage(), e);
@@ -121,16 +123,26 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
     }
 
     //Actualizacion de la foto de perfil desde la bbdd.
-    public void actualizarFotoPerfil(String nuevaFotoPerfil){
+
+
+    public void actualizarFotoPerfil(String nuevaFotoPerfil) {
         String usernameOriginal = obtenerUsernameUsuario();
 
-        if (usuarioPerfilActual != null){
+        if (usuarioPerfilActual != null) {
             usuarioPerfilActual.setFotoPerfil(nuevaFotoPerfil);
             perfilViewModel.setActualizacionFoto(true);
             Toast.makeText(this, "Foto de perfil actualizada exitosamente", Toast.LENGTH_SHORT).show();
             perfilViewModel.actualizarPerfil(usernameOriginal, usuarioPerfilActual);
+
+            // Guardar la URL de la imagen en SharedPreferences
+            SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("profile_image_url", nuevaFotoPerfil);
+            editor.apply();
+
         }
     }
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -295,6 +307,15 @@ public class PerfilActivity extends AppCompatActivity implements EditarPerfilDia
                         usuarioPerfilActual = usuarioPerfil;
                         textViewHeaderUsername.setText(usuarioPerfil.getUser_name());
                         actualizarUI(usuarioPerfil);
+
+                        // Guardar la URL de la imagen en SharedPreferences
+                        SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("profile_image_url", usuarioPerfil.getFotoPerfil());
+                        editor.apply();
+
+                        actualizarUI(usuarioPerfil);
+
                     }else{
                         Toast.makeText(PerfilActivity.this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
                     }
