@@ -112,16 +112,6 @@ public class EditarPerfilDialogFragment extends DialogFragment {
                     return;
                 }
 
-                perfilViewModel.getActualizacionExitosa().observe(getViewLifecycleOwner(), new androidx.lifecycle.Observer<Boolean>(){
-                    @Override
-                    public void onChanged(Boolean exitoso){
-                        if (exitoso != null && exitoso){
-                            Toast.makeText(requireContext(), "Perfil actualizado con exito", Toast.LENGTH_SHORT).show();
-                            perfilViewModel.getActualizacionExitosa().removeObserver(this);
-                            dismiss();
-                        }
-                    }
-                });
 
                 perfilViewModel.actualizarPerfil(nombreUsuarioActual, perfilActualizado);
 
@@ -136,6 +126,8 @@ public class EditarPerfilDialogFragment extends DialogFragment {
                             perfilActualizado.getFotoPerfil()
                     );
                 }
+                dismiss();
+
             } catch (NumberFormatException e){
                 mostrarError("Por favor, ingrese valores válidos para teléfono y DNI");
             }
