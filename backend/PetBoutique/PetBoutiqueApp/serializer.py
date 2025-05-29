@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Producto, CategoriaProducto, Proveedor, Pedido, EstadoPedido, ProductoXPedido, Roles, FormaDePago, TipoEnvio, Carrito, Usuario
+from .models import Producto, CategoriaProducto, Proveedor, Pedido, EstadoPedido, ProductoXPedido, Roles, FormaDePago, TipoEnvio, Carrito, Usuario, Cupon, Arrepentimiento
 # Importaciones referentes a Custom User
 from .models import CustomUser
 from django.contrib.auth.models import User
@@ -13,6 +13,8 @@ class ProductoSerializer(serializers.ModelSerializer):
         fields = '__all__'  
 
 class UsuarioSerializer(serializers.ModelSerializer):
+    telefono = serializers.IntegerField(max_value=9223372036854775807, required=False, allow_null=True)
+
     class Meta:
         model = Usuario
         fields = '__all__'  
@@ -103,4 +105,20 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return custom_user
         
 
+class CuponSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cupon
+        fields = '__all__'
 
+class UsuarioCuponSerializer(serializers.ModelSerializer):
+    cupones = serializers.PrimaryKeyRelatedField(queryset=Cupon.objects.all(), many=True)
+
+    class Meta:
+        model = Usuario
+        fields = ['cupones']
+
+
+class ArrepentimientoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Arrepentimiento
+        fields = '__all__'
