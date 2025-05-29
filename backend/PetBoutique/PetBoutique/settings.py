@@ -40,7 +40,8 @@ ALLOWED_HOSTS = [
 CSRF_TRUSTED_ORIGINS = [
     'https://0898-190-136-244-190.ngrok-free.app',
     'https://41c2-190-136-244-190.ngrok-free.app',
-    'https://34a4-181-95-72-135.ngrok-free.app'
+    'https://34a4-181-95-72-135.ngrok-free.app',
+    "http://10.0.2.2:8000//api/",
 ]
 
 
@@ -81,8 +82,8 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
       'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'ROTATE_REFRESH_TOKENS': True,
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
@@ -126,7 +127,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pet_boutique',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'mibasededatos9701',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
@@ -153,6 +154,24 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'ERROR',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
 
 
 # Internationalization

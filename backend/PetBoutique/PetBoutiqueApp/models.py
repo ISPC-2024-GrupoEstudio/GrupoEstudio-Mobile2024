@@ -268,13 +268,38 @@ class TipoEnvio(models.Model):
 
     def __str__(self):
         return self.id_tipo_envio
+    
+class Cupon(models.Model):
+    TIPO_DESCUENTO_CHOICES = [
+        ('PORCENTAJE', 'Porcentaje'),
+        ('MONTO', 'Monto fijo'),
+    ]
+
+    nombre = models.CharField(max_length=50)
+    descripcion = models.TextField()
+    tipo_descuento = models.CharField(max_length=20, choices=TIPO_DESCUENTO_CHOICES)
+    valor_descuento = models.FloatField()
+    imagen_url = models.URLField(blank=True, null=True)
+    fecha_vencimiento = models.DateField()
+    image_url = models.TextField(blank=True, null=True)    
+
+    class Meta:
+        verbose_name = "Cupón"
+        verbose_name_plural = "Cupones"
+
+    def __str__(self):
+        return f"{self.nombre} ({self.tipo_descuento})"
+    
+
+
+
 
 # Incorporamos usuario a registrar
 class Usuario(models.Model):
     nombre_usuario = models.CharField(primary_key=True, max_length=12)
     nombre = models.CharField(max_length=45, blank=True, null=True)
     direccion = models.CharField(max_length=45, blank=True, null=True)
-    telefono = models.BigIntegerField(blank=True, null=True)
+    telefono = models.IntegerField(blank=True, null=True)
     email = models.CharField(max_length=45, blank=True, null=True)
     apellido = models.CharField(max_length=45, blank=True, null=True)
     id_tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column='id_tipo_documento', blank=True, null=True)
@@ -291,6 +316,16 @@ class Usuario(models.Model):
 
     def __str__(self):
         return self.nombre_usuario
+
+class UsuarioCupon(models.Model):
+    #usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cupones_usuario")
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="cupones_usuario")
+    cupon = models.ForeignKey(Cupon, on_delete=models.CASCADE)
+    usado = models.BooleanField(default=False)
+    fecha_aplicado = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ('usuario', 'cupon')
 
 class Venta(models.Model):
     id_venta = models.AutoField(primary_key=True)
@@ -326,3 +361,13 @@ class CustomUser(models.Model):
 
     def __str__(self):
         return self.username
+ 
+class Arrepentimiento(models.Model):
+    nombre = models.CharField(max_length=100)
+    telefono = models.CharField(max_length=20)
+    email = models.EmailField()
+    motivo = models.TextField(blank=True, null=True)
+    fecha_envio = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.nombre} - {self.email}'

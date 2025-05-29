@@ -1,5 +1,3 @@
-import org.apache.tools.ant.util.JavaEnvUtils.VERSION_1_8
-
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -10,7 +8,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.7.0")
+        classpath("com.android.tools.build:gradle:8.8.0")
     }
 }
 
@@ -52,7 +50,6 @@ android {
         viewBinding = true
         dataBinding = true
     }
-    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
