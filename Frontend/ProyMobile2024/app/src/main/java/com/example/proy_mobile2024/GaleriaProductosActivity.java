@@ -1,9 +1,12 @@
 package com.example.proy_mobile2024;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -65,11 +68,17 @@ public class GaleriaProductosActivity extends AppCompatActivity {
         botonCarrito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if (usuarioEstaConectado() == false) {
-                        Toast.makeText(context, "Debes estar conectado para poder agregar un producto al carrito", Toast.LENGTH_LONG).show();
+                if (!usuarioEstaConectado()) {
+                    // Mostrar Toast
+                    Toast.makeText(context, "Debes estar conectado para poder agregar un producto al carrito", Toast.LENGTH_LONG).show();
 
-                    }
-                    else {
+                    new AlertDialog.Builder(GaleriaProductosActivity.this)
+                            .setTitle("Atención")
+                            .setMessage("Debés iniciar sesión para agregar productos al carrito.")
+                            .setPositiveButton("Aceptar", null)
+                            .show();
+
+                } else {
                         // Crear un Intent para ir a la actividad del carrito
                         Intent intent = new Intent(GaleriaProductosActivity.this, CarritoActivity.class);
                         startActivity(intent);  // Iniciar la actividad del carrito

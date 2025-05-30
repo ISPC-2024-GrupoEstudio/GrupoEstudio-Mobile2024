@@ -1,5 +1,6 @@
 package com.example.proy_mobile2024.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -64,7 +65,11 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
         holder.button.setOnClickListener(v -> {
             if (usuarioEstaConectado() == false) {
                 Toast.makeText(context, "Debes estar conectado para poder agregar un producto al carrito", Toast.LENGTH_SHORT).show();
-
+                new AlertDialog.Builder(context)
+                        .setTitle("Atención")
+                        .setMessage("Debés iniciar sesión para agregar productos al carrito.")
+                        .setPositiveButton("Aceptar", null)
+                        .show();
             }
             else {
                 // Agregar el producto al carrito

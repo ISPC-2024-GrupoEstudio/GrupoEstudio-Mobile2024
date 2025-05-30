@@ -1,9 +1,12 @@
 package com.example.proy_mobile2024;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,12 +52,21 @@ public class DetalleProductoActivity extends AppCompatActivity {
         });
 
         botonAgregar.setOnClickListener(v -> {
-            if (usuarioEstaConectado() == false) {
+            if (!usuarioEstaConectado()) {
+                // 1. Mostrar el mensaje Toast
                 Toast.makeText(context, "Debes estar conectado para poder agregar un producto al carrito", Toast.LENGTH_LONG).show();
+
+                new AlertDialog.Builder(DetalleProductoActivity.this)
+                        .setTitle("Atención")
+                        .setMessage("Debés iniciar sesión para agregar productos al carrito.")
+                        .setPositiveButton("Aceptar", null)
+                        .show();
+
             } else {
                 agregarProductoAlCarrito(producto);
             }
         });
+
 
         // Obtener datos del Intent
         Intent intent = getIntent();
