@@ -28,7 +28,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.example.proy_mobile2024.model.Producto;
 import com.google.android.material.navigation.NavigationView;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -81,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         String username = preferences.getString("username", "Usuario Desconocido"); // Cambia "username" por la clave que usas
 
 
-
         // Establece el nombre en el TextView del encabezado
         navHeaderTitle.setText(username);
         //if (!apellido.isEmpty()) {
@@ -98,9 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Verifica el estado de inicio de sesión al cargar la actividad
         //checkLoginStatus();  // Verifica si el usuario está logueado o no
-
-
-
 
 
         if (savedInstanceState == null) {
@@ -185,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().putFragment(outState, "currentFragment", currentFragment);
         }
     }
+
 
     private void replaceFragment(Fragment fragment){
         Log.d("MainActivity", "Reemplazando el fragmento");

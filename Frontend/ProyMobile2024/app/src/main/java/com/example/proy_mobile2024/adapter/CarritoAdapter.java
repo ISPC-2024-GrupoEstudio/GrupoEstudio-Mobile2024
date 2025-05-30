@@ -20,6 +20,7 @@ import com.example.proy_mobile2024.model.ItemCarritoData;
 import com.example.proy_mobile2024.model.Producto;
 import com.example.proy_mobile2024.services.RetrofitClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,15 +33,18 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoH
     private List<Carrito> productosCarrito;
     private String nombreUsuario;
 
-    public CarritoAdapter(Context context, List<Carrito> productosCarrito) {
+    private boolean esModoCheckout;
+
+    public CarritoAdapter(Context context, List<Carrito> productosCarrito, boolean esModoCheckout) {
         this.context = context;
-        this.productosCarrito = productosCarrito;
+        this.productosCarrito = productosCarrito != null ? productosCarrito : new ArrayList<>();
+        this.esModoCheckout = esModoCheckout;
         SharedPreferences sharedPreferences = this.context.getSharedPreferences("AuthPrefs", MODE_PRIVATE);
         this.nombreUsuario = sharedPreferences.getString("username", "");
     }
 
     public void setCarritoList(List<Carrito> productosCarrito) {
-        this.productosCarrito = productosCarrito;
+        this.productosCarrito = productosCarrito != null ? productosCarrito : new ArrayList<>();
         notifyDataSetChanged();
     }
 
@@ -51,19 +55,29 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoH
         return new CarritoHolder(view);
     }
 
+    public List<Carrito> getItems() {
+        return productosCarrito;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull CarritoHolder holder, int position) {
         Carrito carrito = productosCarrito.get(position);
         holder.render(carrito);
-        holder.btnEliminarItemCarrito.setOnClickListener(v -> {
-            eliminarItemCarrito(carrito);
-            this.actualizarCarrito();
-        });
+
+        if (esModoCheckout) {
+            holder.btnEliminarItemCarrito.setVisibility(View.GONE);
+        } else {
+            holder.btnEliminarItemCarrito.setVisibility(View.VISIBLE);
+            holder.btnEliminarItemCarrito.setOnClickListener(v -> {
+                eliminarItemCarrito(carrito);
+                this.actualizarCarrito();
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return productosCarrito.size();
+        return productosCarrito != null ? productosCarrito.size() : 0;
     }
 
     public static class CarritoHolder extends RecyclerView.ViewHolder {
@@ -140,5 +154,13 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoH
             eliminarItemCarrito(carrito);
         });
         this.actualizarCarrito();
+    }
+
+    public List<Producto> getListProducts() {
+        List<Producto> lista = new ArrayList<>();
+        for (Carrito item : productosCarrito) {
+            lista.add(item.getProducto());
+        }
+        return lista;
     }
 }
