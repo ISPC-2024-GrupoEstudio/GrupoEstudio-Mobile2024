@@ -33,6 +33,8 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import android.content.Intent;
+import android.net.Uri;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -146,6 +148,10 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new SobreNosotrosFragment();
                 } else if (id == R.id.nav_logout) { // Manejo del logout
                 logoutClick();
+                }else if (id == R.id.nav_web) {
+                String url = "https://github.com/ISPC-2024-GrupoEstudio/GrupoEstudio-2024";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
                 return true; // No es necesario continuar con el procesamiento
             }
 
