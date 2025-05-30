@@ -37,7 +37,6 @@
     <string name="perfil_editar_guardar">Guardar Cambios</string>
 
 
-
     <!-- Fragmento Contacto -->
     <string name="ingresar_nombre_contacto">Ingrese su nombre</string>
     <string name="ingresar_nombre_label_contacto">Ingrese su nombre:</string>
@@ -111,4 +110,9 @@
     <string name="descripcion_imagen_elim_prod_Cart">Boton para eliminar productos</string>
     <string name="descripcion_imagen_regsitro">Imagen decorativa de animales</string>
     <string name="descripcion_imagen_products">Imagen del producto</string>
+
+    <!--fragment checkout-->
+    <string name="resumen_de_tu_compra">Resumen de tu compra</string>
+
+
 </resources>

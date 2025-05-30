@@ -1,5 +1,7 @@
 package com.example.proy_mobile2024;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import com.example.proy_mobile2024.model.Producto;
 import com.example.proy_mobile2024.services.ApiService;
 import com.example.proy_mobile2024.services.RetrofitClient;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +36,14 @@ public class CarritoActivity extends AppCompatActivity {
     private Button btnVaciarCarrito;
     private ImageButton btnVolver;
     private ImageButton btnVolverMain;
+    private Button botonCheckout;
+    private List<Carrito> listaCarrito;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrito);
-
+        botonCheckout = findViewById(R.id.botonCheckout);
 
         SharedPreferences sharedPreferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
@@ -56,7 +61,7 @@ public class CarritoActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewCarrito);
 
         // Configurar el adaptador del carrito
-        this.carritoAdapter = new CarritoAdapter(this, new ArrayList<>());
+        this.carritoAdapter = new CarritoAdapter(this, listaCarrito, false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(carritoAdapter);
 
@@ -94,6 +99,14 @@ public class CarritoActivity extends AppCompatActivity {
 
         // por ultimo, actualiza la lista con la API
         this.carritoAdapter.actualizarCarrito();
+
+        botonCheckout.setOnClickListener(v -> {
+            ArrayList<Producto> productos = new ArrayList<>(carritoAdapter.getListProducts());
+
+            Intent intent = new Intent(this, CheckoutActivity.class);
+            intent.putExtra(CheckoutActivity.EXTRA_PRODUCTOS, productos); // ArrayList<Producto>
+            startActivity(intent);
+        });
 
     }
 
