@@ -5,6 +5,11 @@
       <config />
     </shared>
     <layouts>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_checkout.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_detalle_producto.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
@@ -56,7 +61,18 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="Validaciones en Editar Perfil" />
+    <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="Validaciones en Editar Perfil">
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/CheckoutActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/CheckoutActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/LandingActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/LandingActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/LoginFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/LoginFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/ApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/ApiService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/viewsmodels/LoginViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/viewsmodels/LoginViewModel.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -65,7 +81,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=R58RC21S7GM)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=/Users/florencianoelcarrillo/.android/avd/Pixel_8_API_35.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/Frontend/ProyMobile2024">
       <ProjectState />
@@ -75,8 +91,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="resourceFile" />
-        <option value="Class" />
         <option value="valueResourceFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -101,8 +117,8 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/ISPC-2024-GrupoEstudio/GrupoEstudio-Mobile2024.git&quot;,
-    &quot;accountId&quot;: &quot;86026e95-3944-4d0e-9117-d3dd58fd47da&quot;
+    &quot;url&quot;: &quot;git@github.com:ISPC-2024-GrupoEstudio/GrupoEstudio-Mobile2024.git&quot;,
+    &quot;accountId&quot;: &quot;c392405a-53da-4bcb-b6df-53b87e8518e4&quot;
   }
 }</component>
   <component name="ProblemsViewState">
@@ -126,13 +142,15 @@
     "ExportApk.ApkPathForProy-Mobile2024.app": "C:\\Users\\valea\\AndroidStudioProjects\\GrupoEstudio-Mobile2024\\Frontend\\ProyMobile2024\\app",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "ValeAngeletti",
+    "git-widget-placeholder": "FlorenciaCarrillo",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Users/Emiliano/OneDrive/Documentos/cloneRepo/GrupoEstudio-Mobile2024"
+    "last_opened_file_path": "D:/Users/Emiliano/OneDrive/Documentos/cloneRepo/GrupoEstudio-Mobile2024",
+    "settings.editor.selected.configurable": "com.google.urlassistant.datalayer.db.AppLinksAssistantSettingsConfigurable"
   },
   "keyToStringList": {
     "ExportApk.BuildVariants": [
@@ -146,8 +164,9 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
-      <module name="Proy-Mobile2024.app.main" />
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="Proy-Mobile2024.app" />
+      <option name="ANDROID_RUN_CONFIGURATION_SCHEMA_VERSION" value="1" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
@@ -155,10 +174,14 @@
       <option name="PM_INSTALL_OPTIONS" value="" />
       <option name="ALL_USERS" value="false" />
       <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="ALLOW_ASSUME_VERIFIED" value="false" />
       <option name="CLEAR_APP_STORAGE" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
+      <option name="RESTORE_ENABLED" value="false" />
+      <option name="RESTORE_FILE" value="" />
+      <option name="RESTORE_FRESH_INSTALL_ONLY" value="false" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
@@ -205,6 +228,7 @@
         <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY" value="" />
       <option name="ACTIVITY_CLASS" value="" />
       <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
       <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
@@ -292,5 +316,24 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="dal_apis">
+    <option name="consented" value="true" />
+  </component>
+  <component name="play_dynamic_filters_status">
+    <option name="appIdToCheckInfo">
+      <map>
+        <entry key="com.example.proy_mobile2024">
+          <value>
+            <CheckInfo lastCheckTimestamp="1748740381890" />
+          </value>
+        </entry>
+        <entry key="com.example.proy_mobile2024.test">
+          <value>
+            <CheckInfo lastCheckTimestamp="1748740381883" />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
