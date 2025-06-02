@@ -8,7 +8,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.8.0")
+        classpath("com.android.tools.build:gradle:8.6.0")
     }
 }
 
@@ -65,6 +65,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.6")
+    implementation("androidx.recyclerview:recyclerview:1.3.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -78,6 +79,9 @@ dependencies {
     implementation("com.auth0.android:lock:3.2.2")
     implementation("com.auth0.android:jwtdecode:2.0.0")
     implementation("com.cloudinary:cloudinary-android:3.0.2")
+    implementation ("com.google.android.flexbox:flexbox:3.0.0")
+    implementation ("androidx.cardview:cardview:1.0.0")
+
 
     //implementation(libs.coordinatorlayout)
 }
