@@ -144,7 +144,7 @@ class EstadoPedido(models.Model):
         db_table = 'estado_pedido'
 
     def __str__(self):
-        return self.id_estado_pedido
+        return str(self.id_estado_pedido)
 
 class FormaDePago(models.Model):
     id_forma_de_pago = models.IntegerField(primary_key=True)
@@ -155,7 +155,7 @@ class FormaDePago(models.Model):
         db_table = 'forma_de_pago'
 
     def __str__(self):
-        return self.id_forma_de_pago
+        return str(self.id_forma_de_pago)
 
 class Pedido(models.Model):
     id_pedido = models.AutoField(primary_key=True)
@@ -173,7 +173,7 @@ class Pedido(models.Model):
 
         
     def __str__(self):
-        return self.id_pedido
+        return str(self.id_pedido)
 
 class Producto(models.Model):
     id_producto = models.AutoField(primary_key=True)
@@ -267,7 +267,7 @@ class TipoEnvio(models.Model):
         db_table = 'tipo_envio'
 
     def __str__(self):
-        return self.id_tipo_envio
+        return str(self.id_tipo_envio)
     
 class Cupon(models.Model):
     TIPO_DESCUENTO_CHOICES = [

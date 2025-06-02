@@ -1,6 +1,7 @@
 package com.example.proy_mobile2024.services;
 import com.example.proy_mobile2024.model.Carrito;
 import com.example.proy_mobile2024.model.CategoriaProducto;
+import com.example.proy_mobile2024.model.Pedido;
 import com.example.proy_mobile2024.model.ItemCarritoData;
 import com.example.proy_mobile2024.model.Producto;
 import com.example.proy_mobile2024.model.TokenResponse;
@@ -15,7 +16,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -57,6 +57,9 @@ public interface ApiService {
 
     @GET("categorias/")
     Call<List<CategoriaProducto>> obtenerCategorias();
+
+    @GET("pedidos/")
+    Call<List<Pedido>> getPedidos();
 
 }
 

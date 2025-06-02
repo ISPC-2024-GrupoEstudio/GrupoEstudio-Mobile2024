@@ -12,6 +12,10 @@
                     android:id="@+id/nav_profile"
                     android:title="@string/itemnav_perfil"
                     android:icon="@drawable/miperfil_icono" />
+                <item
+                    android:id="@+id/nav_dashboard"
+                    android:title="Dashboard"
+                    android:icon="@drawable/dashboard_icono" />
 
         </group>
         <group
