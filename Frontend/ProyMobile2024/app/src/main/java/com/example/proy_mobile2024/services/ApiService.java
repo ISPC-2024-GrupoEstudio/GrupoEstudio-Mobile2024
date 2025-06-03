@@ -11,6 +11,7 @@ import java.util.List;
 import com.example.proy_mobile2024.model.LoginData;
 import com.example.proy_mobile2024.model.Usuario;
 import com.example.proy_mobile2024.model.UsuarioPerfil;
+import com.example.proy_mobile2024.model.ProductosXPedido;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -60,6 +61,9 @@ public interface ApiService {
 
     @GET("pedidos/")
     Call<List<Pedido>> getPedidos();
+
+    @GET("productoXPedido/por-pedido/{id}")
+    Call<List<ProductosXPedido>> obtenerProductosPorPedido(@Path("id") int idPedido);
 
 }
 

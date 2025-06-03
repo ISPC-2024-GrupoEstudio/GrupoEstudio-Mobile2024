@@ -33,7 +33,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import permission_classes, action
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import generics
 from rest_framework_simplejwt.views import TokenObtainPairView , TokenRefreshView
@@ -80,6 +80,12 @@ class EstadoPedidoViewSet(viewsets.ModelViewSet):
 class ProductosXPerdidoViewSet(viewsets.ModelViewSet):
     queryset = ProductoXPedido.objects.all()
     serializer_class = ProductoXPedidoSerializer
+
+    @action(detail=False, methods=['get'], url_path='por-pedido/(?P<id_pedido>\d+)')
+    def productos_por_pedido(self, request, id_pedido=None):
+        productos = ProductoXPedido.objects.filter(id_pedido=id_pedido)
+        serializer = self.get_serializer(productos, many=True)
+        return Response(serializer.data)
 
 class FormaDePagoViewSet(viewsets.ModelViewSet):
     queryset = FormaDePago.objects.all()
