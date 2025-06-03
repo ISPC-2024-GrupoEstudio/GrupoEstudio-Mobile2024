@@ -119,15 +119,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="Estilizacion Editar Perfil">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/ApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/ApiService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/PetBoutique/PetBoutiqueApp/serializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/PetBoutique/PetBoutiqueApp/serializer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/PetBoutique/PetBoutiqueApp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/PetBoutique/PetBoutiqueApp/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="Funcionalidad detalle pedido y correccion estilos" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -390,7 +382,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730998883649</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Funcionalidad detalle pedido y correccion estilos">
+      <option name="closed" value="true" />
+      <created>1748946029782</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1748946029782</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -400,7 +400,8 @@
     <MESSAGE value=".." />
     <MESSAGE value="Merge Developer ValeAngeletti" />
     <MESSAGE value="Validaciones en Editar Perfil" />
-    <option name="LAST_COMMIT_MESSAGE" value="Validaciones en Editar Perfil" />
+    <MESSAGE value="Funcionalidad detalle pedido y correccion estilos" />
+    <option name="LAST_COMMIT_MESSAGE" value="Funcionalidad detalle pedido y correccion estilos" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
