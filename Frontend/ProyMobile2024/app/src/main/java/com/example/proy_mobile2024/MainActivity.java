@@ -170,7 +170,12 @@ public class MainActivity extends AppCompatActivity {
                 if (id == R.id.nav_profile) {
                     Intent intent = new Intent(MainActivity.this, PerfilActivity.class);
                     startActivity(intent);
-                }/* if (id == R.id.nav_home) {
+                }
+                if (id == R.id.nav_dashboard) {
+                    Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                    startActivity(intent);
+                }
+                /* if (id == R.id.nav_home) {
                     // Redirige a otra actividad si tienes más
                     Intent intent = new Intent(MainActivity.this, LandingActivity.class);
                     startActivity(intent);
@@ -238,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.nav_profile).setVisible(isLoggedIn);
         navigationView.getMenu().findItem(R.id.nav_logout).setVisible(isLoggedIn);
         navigationView.getMenu().findItem(R.id.nav_cart).setVisible(isLoggedIn);
+        navigationView.getMenu().findItem(R.id.nav_dashboard).setVisible(isLoggedIn);
         // Puedes agregar un mensaje o redirigir a otra parte si lo deseas
         if (isLoggedIn) {
             Toast.makeText(this, "Bienvenido de nuevo", Toast.LENGTH_SHORT).show();

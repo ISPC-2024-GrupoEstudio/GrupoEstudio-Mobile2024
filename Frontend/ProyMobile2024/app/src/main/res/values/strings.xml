@@ -115,5 +115,42 @@
     <string name="resumen_de_tu_compra">Resumen de tu compra</string>
     <string name="nuestra_p_gina_web">Nuestra página web</string>
 
+    <!--Activity Dashboard -->
+    <string name="dash_img">gato rompiendo un fondo blanco</string>
+    <string name="dash_titulo">Dashboard</string>
+    <string name="dash_historial">Historial de Compras</string>
+    <string name="dash_historial_fondo">fondo violeta con cosas relacionadas a compras</string>
+    <string name="dash_cupones">Mis cupones</string>
+    <string name="dash_cupones_fondo">fondo verde con cosas relacionadas a cupones</string>
+    <string name="dash_recomendaciones">Recomendaciones:</string>
+
+    <!--Activity DetallePedido -->
+    <string name="detalle_titulo">Detalle Pedido</string>
+    <string name="detalle_total">Total: $0.00</string>
+
+    <!-- Item Producto Pedido -->
+    <string name="itemDetalle_img">imagen por default</string>
+    <string name="itemDetalle_nombre">Nombre</string>
+    <string name="itemDetalle_cant">Cantidad</string>
+    <string name="itemDetalle_precio">Precio:</string>
+    <string name="itemDetalle_subtotal">Subtotal:</string>
+
+
+    <!--Activity HistorialCompras -->
+    <string name="historial_titulo">Historial de Compras</string>
+
+    <!-- Card Historial Compras -->
+    <string name="cardHistorial_img">icono de un pedido con fondo verde</string>
+    <string name="cardHistorial_pedido">Pedido N°</string>
+    <string name="cardHistorial_fecha">Fecha:</string>
+    <string name="cardHistorial_hora">Hora:</string>
+    <string name="cardHistorial_estado">Estado:</string>
+    <string name="cardHistorial_domicilio">Domicilio:</string>
+    <string name="cardHistorial_btn">Ver Detalles</string>
+
+    <!-- Carrusel Dashboard-->
+    <string name="carrusel_titulo">Peluches</string>
+    <string name="carrusel_img">Producto recomendado</string>
+    <string name="carrusel_btn">Ver producto</string>
 
 </resources>

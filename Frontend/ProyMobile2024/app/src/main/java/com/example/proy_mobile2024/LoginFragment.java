@@ -471,6 +471,10 @@ public class LoginFragment extends Fragment {
 
                     // Guardar tokens y cualquier otro dato necesario en SharedPreferences
                     saveTokens(token, refreshToken, id_usuario, nombre, apellido, email, username);
+                    // Agregar esto después de saveTokens() en LoginFragment
+                    Log.d("LoginSaveDebug", "Guardando - Token: " + token);
+                    Log.d("LoginSaveDebug", "Guardando - ID Usuario: " + id_usuario);
+                    Log.d("LoginSaveDebug", "Guardando - Username del formulario: " + username);
                     ((MainActivity) getActivity()).checkLoginStatus();
                     // Redirigir a la actividad principal
                     //Intent intent = new Intent(getActivity(), LandingActivity.class);

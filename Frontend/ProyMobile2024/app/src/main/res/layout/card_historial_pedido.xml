@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="6dp"
+    android:background="@color/white"
+    android:layout_marginBottom="30dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginTop="10dp">
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="12dp"
+        card_view:flexDirection="row"
+        card_view:justifyContent="space_around"
+        card_view:alignItems="center"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/imgPedido"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:src="@drawable/pedidos_historial"
+            android:contentDescription="@string/cardHistorial_img"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="30dp">
+
+            <TextView android:id="@+id/textIdPedido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cardHistorial_pedido"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/black"/>
+
+            <TextView android:id="@+id/textFechaPedido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cardHistorial_fecha"
+                android:paddingBottom="5dp"
+                android:textColor="@color/black"/>
+
+            <TextView android:id="@+id/textHoraPedido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cardHistorial_hora"
+                android:paddingBottom="5dp"
+                android:textColor="@color/black"/>
+
+            <TextView android:id="@+id/textEstadoPedido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cardHistorial_estado"
+                android:paddingBottom="5dp"
+                android:textColor="@color/black"/>
+
+            <TextView android:id="@+id/textDomicilioPedido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cardHistorial_domicilio"
+                android:paddingBottom="5dp"
+                android:textColor="@color/black"/>
+
+            <Button
+                android:id="@+id/btnVerDetalle"
+                android:layout_width="180dp"
+                android:layout_height="50dp"
+                android:text="@string/cardHistorial_btn"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+    </com.google.android.flexbox.FlexboxLayout>
+
+</androidx.cardview.widget.CardView>
