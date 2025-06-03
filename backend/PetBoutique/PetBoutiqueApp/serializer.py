@@ -40,6 +40,8 @@ class EstadoPedidoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductoXPedidoSerializer(serializers.ModelSerializer):
+    id_producto = ProductoSerializer()
+
     class Meta:
         model = ProductoXPedido
         fields = '__all__'

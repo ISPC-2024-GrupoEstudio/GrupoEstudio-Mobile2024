@@ -81,6 +81,8 @@ dependencies {
     implementation("com.cloudinary:cloudinary-android:3.0.2")
     implementation ("com.google.android.flexbox:flexbox:3.0.0")
     implementation ("androidx.cardview:cardview:1.0.0")
+    implementation ("com.squareup.picasso:picasso:2.71828")
+
 
 
     //implementation(libs.coordinatorlayout)
