@@ -2,9 +2,11 @@ package com.example.proy_mobile2024;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proy_mobile2024.adapter.CarritoAdapter;
 import com.example.proy_mobile2024.model.Carrito;
+import com.example.proy_mobile2024.model.PedidoCheckoutData;
+import com.example.proy_mobile2024.model.PedidoCheckoutItemData;
+import com.example.proy_mobile2024.model.PreferenciaResponse;
 import com.example.proy_mobile2024.model.Producto;
 import com.example.proy_mobile2024.services.RetrofitClient;
 
@@ -41,13 +46,14 @@ public class CheckoutActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<Producto> productos;
     private ImageButton btnVolver;
+    private Button btnPagar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_checkout); // Asegurate de tener este layout
+        setContentView(R.layout.activity_checkout);
 
-        recyclerCheckout = findViewById(R.id.recyclerProductos); // Usá el mismo ID que en el fragmento
+        recyclerCheckout = findViewById(R.id.recyclerProductos);
         recyclerCheckout.setLayoutManager(new LinearLayoutManager(this));
 
         listaCarrito = new ArrayList<>();
@@ -104,6 +110,42 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
+        btnPagar = findViewById(R.id.btnPagar);
+        btnPagar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkout();
+            }
+        });
+
+    }
+
+    private void checkout() {
+        SharedPreferences sharedPreferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+        String nombre_usuario = sharedPreferences.getString("id_usuario", "");
+
+        Log.d("Checkout", "Nombre de usuario: " + nombre_usuario);
+
+        PedidoCheckoutData pedidoCheckoutData = new PedidoCheckoutData();
+        pedidoCheckoutData.setExternal_reference(nombre_usuario);
+        pedidoCheckoutData.setItemsCarrito(listaCarrito);
+
+        RetrofitClient.getInstance(this).getApiService().obtenerPreferencia(pedidoCheckoutData).enqueue(new Callback<PreferenciaResponse>() {
+            @Override
+            public void onResponse(Call<PreferenciaResponse> call, Response<PreferenciaResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+
+                  Intent intent = new Intent(Intent.ACTION_VIEW);
+                  intent.setData(Uri.parse(response.body().getInit_point()));
+                  startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PreferenciaResponse> call, Throwable t) {
+                Toast.makeText(CheckoutActivity.this, "Error al cargar el carrito", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void cargarCarrito() {

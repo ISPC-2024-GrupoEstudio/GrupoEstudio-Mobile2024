@@ -456,9 +456,11 @@ public class LoginFragment extends Fragment {
                     tvContador.setText("");
                     Log.d("LoginUser", "Login exitoso");
                     TokenResponse tokenResponse = response.body();
-                    String token = response.body().getToken();
-                    String refreshToken = response.body().getRefreshToken();
+                    Log.d("TokenResponse", tokenResponse.getToken());
+                    Log.d("TokenResponse", tokenResponse.getRefreshToken());
+                    Log.d("TokenResponse", tokenResponse.getUsuario().getNombre());
 
+                    // Guardar el token en SharedPreferences
                     nombreDeUsuario = tokenResponse.getUsuario().getNombre(); // Guardar el nombre en la variable de instancia
                     Log.d("LoginUser", "Nombre de usuario obtenido: " + nombreDeUsuario);
 
@@ -468,11 +470,7 @@ public class LoginFragment extends Fragment {
                     String id_usuario = response.body().getUsuario().getNombreUsuario();
 
                     // Guardar tokens y cualquier otro dato necesario en SharedPreferences
-                    saveTokens(token, refreshToken, id_usuario, nombre, apellido, email, username);
-                    // Agregar esto después de saveTokens() en LoginFragment
-                    Log.d("LoginSaveDebug", "Guardando - Token: " + token);
-                    Log.d("LoginSaveDebug", "Guardando - ID Usuario: " + id_usuario);
-                    Log.d("LoginSaveDebug", "Guardando - Username del formulario: " + username);
+                    saveTokens(tokenResponse.getToken(), tokenResponse.getRefreshToken(), id_usuario, nombre, apellido, email, username);
                     ((MainActivity) getActivity()).checkLoginStatus();
                     // Redirigir a la actividad principal
                     //Intent intent = new Intent(getActivity(), LandingActivity.class);

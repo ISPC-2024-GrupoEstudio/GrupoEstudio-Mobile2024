@@ -3,6 +3,10 @@ import com.example.proy_mobile2024.model.Carrito;
 import com.example.proy_mobile2024.model.CategoriaProducto;
 import com.example.proy_mobile2024.model.Pedido;
 import com.example.proy_mobile2024.model.ItemCarritoData;
+import com.example.proy_mobile2024.model.LoginResponse;
+import com.example.proy_mobile2024.model.PedidoCheckoutData;
+import com.example.proy_mobile2024.model.PedidoCheckoutItemData;
+import com.example.proy_mobile2024.model.PreferenciaResponse;
 import com.example.proy_mobile2024.model.Producto;
 import com.example.proy_mobile2024.model.TokenResponse;
 
@@ -59,6 +63,9 @@ public interface ApiService {
     @GET("categorias/")
     Call<List<CategoriaProducto>> obtenerCategorias();
 
+    @POST("preferencia/")
+    Call<PreferenciaResponse> obtenerPreferencia (@Body PedidoCheckoutData pedido);
+    
     @GET("pedidos/")
     Call<List<Pedido>> getPedidos();
 
