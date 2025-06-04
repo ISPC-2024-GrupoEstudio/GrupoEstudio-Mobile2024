@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DashboardActivity"
+    android:background="@color/white">
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:alignItems="center"
+        app:justifyContent="center"
+        app:flexDirection="column">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient" />
+
+        <ImageView
+            android:id="@+id/btnVolverDashboard"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/flecha_volver"
+            android:layout_marginStart="-320dp"
+            android:layout_marginTop="-45dp"
+            android:contentDescription="@string/perfil_flecha_volver"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:paddingTop="30dp"
+            android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:src="@drawable/gato_dashboard"
+                android:layout_gravity="center|top"
+                android:contentDescription="@string/dash_img"/>
+
+            <TextView
+                android:id="@+id/dashboard_titulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/user_name"
+                android:text="@string/dash_titulo"
+                android:textColor="@color/black"
+                android:textSize="40sp"
+                android:layout_gravity="center|bottom"
+                android:paddingTop="180dp"/>
+
+        </FrameLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardHistorial"
+            android:layout_width="400dp"
+            android:layout_height="250dp"
+            app:cardCornerRadius="30dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            app:cardElevation="10dp"
+            android:layout_marginEnd="100dp"
+            app:cardUseCompatPadding="true">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/fondo_historial_dashboard"
+                    android:layout_gravity="start"
+                    android:contentDescription="@string/dash_historial_fondo"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|bottom"
+                    android:padding="15dp"
+                    android:paddingStart="50dp"
+                    android:paddingEnd="10dp"
+                    android:text="@string/dash_historial"
+                    android:textColor="@android:color/white"
+                    android:textSize="30sp"
+                    android:background="#80000000"
+                    android:elevation="4dp" />
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardCupones"
+            android:layout_width="400dp"
+            android:layout_height="250dp"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="10dp"
+            android:layout_marginStart="100dp"
+            app:cardUseCompatPadding="true">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/fondo_cupon_dashboard"
+                    android:contentDescription="@string/dash_cupones_fondo"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|start"
+                    android:padding="20dp"
+                    android:text="@string/dash_cupones"
+                    android:textColor="@android:color/white"
+                    android:textSize="30sp"
+                    android:background="#80000000"
+                    android:elevation="4dp" />
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/celeste"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dash_recomendaciones"
+                    android:textSize="28sp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"/>
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:clipChildren="false"
+                    android:overScrollMode="never"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="40dp"
+                    android:layout_marginTop="50dp"/>
+        </FrameLayout>
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+</ScrollView>

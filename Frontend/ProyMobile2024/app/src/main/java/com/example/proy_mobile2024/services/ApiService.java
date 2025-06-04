@@ -1,6 +1,7 @@
 package com.example.proy_mobile2024.services;
 import com.example.proy_mobile2024.model.Carrito;
 import com.example.proy_mobile2024.model.CategoriaProducto;
+import com.example.proy_mobile2024.model.Pedido;
 import com.example.proy_mobile2024.model.ItemCarritoData;
 import com.example.proy_mobile2024.model.LoginResponse;
 import com.example.proy_mobile2024.model.PedidoCheckoutData;
@@ -14,6 +15,7 @@ import java.util.List;
 import com.example.proy_mobile2024.model.LoginData;
 import com.example.proy_mobile2024.model.Usuario;
 import com.example.proy_mobile2024.model.UsuarioPerfil;
+import com.example.proy_mobile2024.model.ProductosXPedido;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -63,6 +65,12 @@ public interface ApiService {
 
     @POST("preferencia/")
     Call<PreferenciaResponse> obtenerPreferencia (@Body PedidoCheckoutData pedido);
+    
+    @GET("pedidos/")
+    Call<List<Pedido>> getPedidos();
+
+    @GET("productoXPedido/por-pedido/{id}")
+    Call<List<ProductosXPedido>> obtenerProductosPorPedido(@Path("id") int idPedido);
 
 }
 
