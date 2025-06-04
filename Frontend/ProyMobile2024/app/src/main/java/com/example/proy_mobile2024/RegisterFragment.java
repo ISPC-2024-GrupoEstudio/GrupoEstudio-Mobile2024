@@ -2,10 +2,13 @@ package com.example.proy_mobile2024;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import com.example.proy_mobile2024.LoginFragment;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
@@ -35,9 +38,9 @@ import retrofit2.Response;
 public class RegisterFragment extends Fragment {
 
     private EditText etNombre, etApellido, etDni, etUsuario, etEmail, etContrasena, etConfirmarContrasena;
-    private Button btnRegistrar;
     private Spinner spinner_tipo_DNI;
-    private int selected_tipo_DNI;
+    private Button btnRegistrar;
+    private int selected_tipo_DNI = 0;
 
     // Constantes para validaciones
     private static final int MIN_USER_LENGTH = 5; // Mínimo de 5 caracteres para el usuario
@@ -47,9 +50,12 @@ public class RegisterFragment extends Fragment {
     private boolean isPasswordVisible = false;  // Estado de visibilidad de la contraseña
     private boolean isConfirmPasswordVisible = false; // Estado de visibilidad de la confirmación de contraseña
 
+
+
     public RegisterFragment() {
         // Constructor vacío requerido
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -239,6 +245,12 @@ public class RegisterFragment extends Fragment {
                     return; // Salir del método si el campo está vacío
                 }
 
+                // Validar que se haya seleccionado un tipo de DNI
+                if (id_tipo_documento == 0) {  // 0 significa no seleccionado o default
+                    Toast.makeText(getActivity(), "Por favor, seleccione un tipo de DNI", Toast.LENGTH_LONG).show();
+                    return; // No continuar con el registro
+                }
+
                 // Validaciones
                 if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() ||
                         nombreUsuario.isEmpty() || email.isEmpty() || password.isEmpty() || confirmarContrasena.isEmpty()) {
@@ -359,31 +371,71 @@ public class RegisterFragment extends Fragment {
     }
 
     private void prepararSpinner() {
-        // Crear un ArrayAdapter con la opción "DNI"
+        // Supongamos que tu arreglo de strings incluye un placeholder en la posición 0
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_spinner_item, new String[]{"DNI"});
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.tipos_dni)); // Array con placeholder
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // Aplicar el adaptador al spinner
         spinner_tipo_DNI.setAdapter(adapter);
 
-        // Preseleccionar la opción "DNI"
+        // Inicializamos en el placeholder
         spinner_tipo_DNI.setSelection(0);
 
-        // Configurar un listener para manejar la selección
         spinner_tipo_DNI.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Valor asociado a la selección
-                int selectedValue = 1; // Valor que deseas usar
-                selected_tipo_DNI = selectedValue;
+                if (position == 0) {
+                    // No seleccionó un tipo válido
+                    selected_tipo_DNI = 0;
+                } else {
+                    // Aquí asigna el id o valor correspondiente para cada tipo de documento
+                    // Ejemplo simple:
+                    selected_tipo_DNI = position;  // o el valor que corresponda
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // No hacer nada
+                selected_tipo_DNI = 0;
             }
         });
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        Spinner spinnerDni = view.findViewById(R.id.spinner_tipo_DNI);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.tipos_dni)
+        ) {
+            @Override
+            public boolean isEnabled(int position) {
+                // Desactiva la selección del primer ítem (el placeholder)
+                return position != 0;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView textView = (TextView) view;
+                if (position == 0) {
+                    textView.setTextColor(Color.GRAY); // Color gris para el placeholder
+                } else {
+                    textView.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDni.setAdapter(adapter);
+
     }
 
 }

@@ -81,6 +81,7 @@
             <Spinner
                 android:id="@+id/spinner_tipo_DNI"
                 android:layout_width="match_parent"
+                android:background="@drawable/form_contacto"
                 android:layout_height="54dp" />
 
             <EditText
