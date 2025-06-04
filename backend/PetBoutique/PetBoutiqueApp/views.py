@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status, generics, permissions
 import json
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -301,6 +301,8 @@ def crear_preferencia(request):
             external_reference = data.get("external_reference")
             print("External Reference enviada a MP:", external_reference)
 
+            checkout_from = data.get("from")
+            from_param = "?from=app" if checkout_from == "app" else ""
 
             preference_data = {
                 "items": [
@@ -312,7 +314,7 @@ def crear_preferencia(request):
                     } for item in items
                 ],
                 "back_urls": {
-                    "success": "https://ef8c-2803-9800-9880-b71e-1cf7-dfe6-d28d-39fe.ngrok-free.app/api/pago-exitoso/",
+                    "success": "https://4db6-2803-9800-988a-7e8b-3198-99c-665e-b13e.ngrok-free.app/api/pago-exitoso" + from_param,
                     "failure": "https://tusitio.com/failure",
                     "pending": "https://tusitio.com/pending"
                 },
@@ -395,6 +397,8 @@ def procesar_pago_exitoso(request):
     print("Datos recibidos:", request.GET)
 
     external_reference = request.query_params.get('external_reference') # nombre_usuario
+    checkout_from = request.query_params.get('from')
+
     print("Referencia externa recibida:", external_reference)
 
     if not external_reference:
@@ -403,7 +407,14 @@ def procesar_pago_exitoso(request):
     try:
         procesar_pedido(external_reference)
         print("Pedido procesado correctamente")
-        return redirect('http://localhost:4200/dashboard')
+        
+        if (checkout_from == "app"):
+            response = HttpResponse(status=302)
+            response["Location"] = f"petboutique://pago"
+            return response
+        else:
+            return redirect('http://localhost:4200/dashboard')
+
     except Exception as e:
         print("Error al procesar el pedido:", str(e))
         return JsonResponse({'error': str(e)}, status=500)
@@ -432,9 +443,11 @@ class Login(TokenObtainPairView):
         if user:
             # Serializa el token y el usuario
             login_serializer = self.serializer_class(data=request.data)
+            usuario = Usuario.objects.get(nombre_usuario=username)
             if login_serializer.is_valid():
                 print(f"Usuario autenticado: {user.username}")
-                usuario_serializer = UserSerializer(user)
+                usuario_serializer = UsuarioSerializer(usuario)
+                # usuario_serializer = UserSerializer(user)
                 return Response({
                     'token': login_serializer.validated_data.get('access'),
                     'refresh_token': login_serializer.validated_data.get('refresh'),
