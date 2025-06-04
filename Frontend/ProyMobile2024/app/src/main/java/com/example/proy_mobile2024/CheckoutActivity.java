@@ -123,6 +123,9 @@ public class CheckoutActivity extends AppCompatActivity {
     private void checkout() {
         SharedPreferences sharedPreferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
         String nombre_usuario = sharedPreferences.getString("id_usuario", "");
+
+        Log.d("Checkout", "Nombre de usuario: " + nombre_usuario);
+
         PedidoCheckoutData pedidoCheckoutData = new PedidoCheckoutData();
         pedidoCheckoutData.setExternal_reference(nombre_usuario);
         pedidoCheckoutData.setItemsCarrito(listaCarrito);
