@@ -73,6 +73,22 @@ public class MainActivity extends AppCompatActivity {
 
         // Llama a checkLoginStatus() para establecer el estado inicial de los ítems del menú
         checkLoginStatus();
+
+        // Verificar si el login fue exitoso desde IntroduccionActivity
+        if (getIntent().getBooleanExtra("loginSuccess", false)) {
+            // Actualizar el NavigationView con los datos del usuario
+            updateNavigationHeaderFromPreferences();
+
+            // Opcional: navegar directamente al fragmento deseado
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new SobreNosotrosFragment())
+                        .commit();
+            }
+
+            // Mostrar mensaje de bienvenida
+            Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+        }
         // Inicializa el NavigationView
         navigationView = findViewById(R.id.nav_view);
 
@@ -188,6 +204,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+
     }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -209,11 +227,12 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void loadProfileImage() {
+    // Reemplazar el método loadProfileImage existente en MainActivity.java con esta versión:
+    public void loadProfileImage() {
         SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         String profileImageUrl = preferences.getString("profile_image_url", "");
 
-        if (headerProfileImage != null) {  // Verificar que no sea null
+        if (headerProfileImage != null) {
             if (!profileImageUrl.isEmpty()) {
                 Glide.with(this)
                         .load(profileImageUrl)
@@ -221,13 +240,17 @@ public class MainActivity extends AppCompatActivity {
                         .placeholder(R.drawable.foto_icon)
                         .error(R.drawable.foto_icon)
                         .into(headerProfileImage);
+                Log.d("MainActivity", "Imagen de perfil cargada desde URL: " + profileImageUrl);
             } else {
                 // Si no hay URL, cargar la imagen por defecto
                 Glide.with(this)
                         .load(R.drawable.foto_icon)
                         .transform(new CircleCrop())
                         .into(headerProfileImage);
+                Log.d("MainActivity", "Cargando imagen de perfil por defecto");
             }
+        } else {
+            Log.w("MainActivity", "headerProfileImage es null");
         }
     }
 
@@ -251,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Forzar actualización del menú
         invalidateOptionsMenu();
+        updateSobreNosotrosFragment();
     }
 
     public void logoutClick() {
@@ -300,6 +324,33 @@ public class MainActivity extends AppCompatActivity {
         loadProfileImage();
 
 
+    }
+
+    public void updateSobreNosotrosFragment() {
+        // Buscar el fragment actual
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        if (currentFragment instanceof SobreNosotrosFragment) {
+            ((SobreNosotrosFragment) currentFragment).updateServicios();
+        }
+    }
+
+    private void updateNavigationHeaderFromPreferences() {
+        SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+        String username = preferences.getString("username", "Usuario Desconocido");
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView navHeaderTitle = headerView.findViewById(R.id.nav_header_title);
+
+        if (navHeaderTitle != null && !username.isEmpty()) {
+            navHeaderTitle.setText(username);
+        }
+
+        // NUEVO: También cargar la imagen de perfil aquí
+        loadProfileImage();
+
+        // También actualizar el estado del menú
+        checkLoginStatus();
     }
 
 }

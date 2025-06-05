@@ -4,10 +4,12 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:fontFamily">@font/poppins</item>
     </style>
 
     <style name="Theme.ProyMobile2024" parent="Base.Theme.ProyMobile2024" />
     <style name="tabStyle" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">@font/poppins</item>
     </style>
 </resources>

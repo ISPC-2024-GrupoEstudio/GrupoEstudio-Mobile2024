@@ -32,27 +32,31 @@
             android:text="@string/itemDetalle_img"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_semibold"/>
 
         <TextView
             android:id="@+id/tvCantidad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/itemDetalle_cant"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_regular"/>
 
         <TextView
             android:id="@+id/tvPrecio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/itemDetalle_precio"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_regular"/>
 
         <TextView
             android:id="@+id/tvSubtotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/itemDetalle_subtotal"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_semibold"/>
     </LinearLayout>
 </LinearLayout>

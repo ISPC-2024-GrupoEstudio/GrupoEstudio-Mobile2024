@@ -1,250 +1,162 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:paddingTop="?attr/actionBarSize"
-    android:background="@drawable/gradient">
+    android:fillViewport="true"
+    android:background="@color/white">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/white"
         android:layout_height="wrap_content"
-        android:paddingBottom="72dp">
+        android:orientation="vertical">
 
-        <!-- Imagen de una mujer con perro -->
-
-        <!-- Título Sobre Nosotros -->
-        <ImageView
-            android:id="@+id/imageView_sobre_nosotros"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="26dp"
+        <!-- Sección Superior con Logo y Banner -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
             android:background="@drawable/gradient"
-            android:contentDescription="logo"
-            android:scaleType="fitCenter"
-            android:src="@drawable/logox"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="76dp">
 
-        <TextView
-            android:id="@+id/textView_sobre_nosotros_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Sobre Nosotros: La Mejor Opción"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageView_sobre_nosotros" />
+            <!-- Logo -->
+            <ImageView
+                android:id="@+id/imageView_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="Logo"
+                android:scaleType="fitCenter"
+                android:src="@drawable/logox" />
 
-        <!-- Descripción de Sobre Nosotros -->
-        <TextView
-            android:id="@+id/textView_sobre_nosotros_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/sobre_nosotros_descripcion"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_sobre_nosotros_title" />
+            <!-- Banner Image -->
+            <ImageView
+                android:id="@+id/imageView_banner"
+                android:layout_width="wrap_content"
+                android:layout_height="180dp"
+                android:layout_below="@id/imageView_logo"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="Banner"
+                android:src="@drawable/banner_home" />
 
-        <ImageView
-            android:id="@+id/imageView_mujer"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="16dp"
-            android:contentDescription="Imagen sobre nosotros con una mujer y su perro"
-            android:scaleType="fitCenter"
-            android:src="@drawable/mujerconperro"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_sobre_nosotros_description" />
-        <!-- Misión -->
-        <TextView
-            android:id="@+id/textView_mision_title"
-            android:layout_width="0dp"
+
+        </RelativeLayout>
+
+
+        <!-- Sección de Servicios -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:orientation="vertical"
             android:background="@color/white"
-            android:paddingBottom="10dp"
-            android:text="@string/sobre_nosotros_mision_titulo"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageView_mujer" />
+            android:padding="14dp">
 
-        <TextView
-            android:id="@+id/textView_mision"
-            android:layout_width="0dp"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Servicios:"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:fontFamily="@font/poppins_bold"
+                android:layout_marginBottom="20dp" />
+
+            <!-- Grid de Servicios usando FlexboxLayout -->
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/flexbox_servicios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexWrap="wrap"
+                app:justifyContent="space_around"
+                app:alignItems="stretch">
+
+                <!-- Los cards se agregarán dinámicamente desde Java -->
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+        </LinearLayout>
+
+        <!-- Sección de Ubicación y Contacto -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:orientation="vertical"
             android:background="@color/white"
-            android:text="@string/sobre_nosotros_mision"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_mision_title" />
+            android:padding="24dp">
 
-        <!-- Visión -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ubicación y Contacto"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:fontFamily="@font/poppins_bold"
+                android:layout_marginBottom="16dp" />
 
-        <!-- Historia -->
+            <!-- Mapa -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
 
-        <TextView
-            android:id="@+id/textView_historia_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:text="@string/sobre_nosotros_historia_titulo"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:layout_marginTop="56dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_mision"
-            tools:layout_editor_absoluteY="1077dp" />
+                <WebView
+                    android:id="@+id/webview_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
 
-        <TextView
-            android:id="@+id/textView_historia"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/sobre_nosotros_historia"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_historia_title" />
+            </androidx.cardview.widget.CardView>
 
-        <!-- Beneficios -->
-        <TextView
-            android:id="@+id/textView_beneficios_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:paddingBottom="8dp"
-            android:text="@string/sobre_nosotros_beneficios_titulo"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_historia" />
+            <!-- Información de Contacto -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:padding="16dp"
+                android:layout_marginBottom="30dp">
 
-        <TextView
-            android:id="@+id/textView_beneficios"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/sobre_nosotros_beneficios"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_beneficios_title" />
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_sporte"
+                    android:contentDescription="Soporte"
+                    android:layout_marginEnd="12dp" />
 
-        <!-- Soporte Técnico -->
-        <TextView
-            android:id="@+id/textView_soporte_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:paddingBottom="8dp"
-            android:text="Soporte Técnico"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_beneficios" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/icon_soporte"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="8dp"
-            android:contentDescription="Icono de Soporte Técnico"
-            android:src="@drawable/iconosoporte"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_soporte_title" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Soporte Técnico"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins_medium" />
 
-        <TextView
-            android:id="@+id/textView_soporte"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autoLink="email"
-            android:background="@color/white"
-            android:text="soporte@petboutique.com"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/icon_soporte"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/icon_soporte"
-            app:layout_constraintTop_toTopOf="@+id/icon_soporte" />
+                    <TextView
+                        android:id="@+id/textView_email_soporte"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="soporte@petboutique.com"
+                        android:textSize="14sp"
+                        android:textColor="@color/violeta_perfil_iconos"
+                        android:fontFamily="@font/poppins_regular"
+                        android:autoLink="email" />
 
-        <!-- Encuéntranos en Nuestro Local -->
-        <TextView
-            android:id="@+id/textView_local_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:paddingBottom="8dp"
-            android:text="Encuéntranos en Nuestro Local"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_soporte" />
+                </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView_local_address"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="123 Calle de las Mascotas, Ciudad Mascotaville"
-            android:textAlignment="center"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_local_title" />
+            </LinearLayout>
 
-        <!-- Google Maps Button -->
-        <Button
-            android:id="@+id/button_google_maps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Ver en Google Maps"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_local_address" />
+        </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
 </ScrollView>
-
-
-
-
-

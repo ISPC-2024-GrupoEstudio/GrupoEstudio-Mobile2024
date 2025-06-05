@@ -45,7 +45,8 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:paddingBottom="10dp"
+            android:fontFamily="@font/poppins_semibold"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerHistorial"

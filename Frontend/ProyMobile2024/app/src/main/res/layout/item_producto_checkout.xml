@@ -11,12 +11,14 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:text="Nombre"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:fontFamily="@font/poppins_semibold"/>
 
     <TextView
         android:id="@+id/textPrecio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="$0.00"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:fontFamily="@font/poppins_semibold"/>
 </LinearLayout>

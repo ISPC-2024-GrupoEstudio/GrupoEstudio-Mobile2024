@@ -8,7 +8,8 @@
     android:hapticFeedbackEnabled="false"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="20dp"
+    android:layout_marginTop="10dp">
 
     <Space
         android:layout_width="376dp"
@@ -42,7 +43,8 @@
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:maxLength="20"/>
+                android:maxLength="20"
+                android:fontFamily="@font/poppins_regular"/>
 
             <EditText
                 android:id="@+id/et_lastname"
@@ -59,7 +61,8 @@
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:maxLength="20"/>
+                android:maxLength="20"
+                android:fontFamily="@font/poppins_regular"/>
 
             <EditText
                 android:id="@+id/et_email"
@@ -76,14 +79,21 @@
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:maxLength="50"/>
+                android:maxLength="50"
+                android:fontFamily="@font/poppins_regular"/>
 
             <Spinner
                 android:id="@+id/spinner_tipo_DNI"
                 android:layout_width="match_parent"
+<<<<<<< HEAD
                 android:background="@drawable/form_contacto"
                 android:textColor="@color/black"
                 android:layout_height="54dp" />
+=======
+                android:layout_height="54dp"
+                android:background="@drawable/form_contacto"
+                android:fontFamily="@font/poppins_regular"/>
+>>>>>>> 1d13caef7e37d341c40148b0e55aacfc27445d77
 
             <EditText
                 android:id="@+id/dni"
@@ -100,8 +110,8 @@
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:maxLength="8"/>
-
+                android:maxLength="8"
+                android:fontFamily="@font/poppins_regular"/>
 
 
             <EditText
@@ -119,13 +129,15 @@
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:maxLength="12"/>
+                android:maxLength="12"
+                android:fontFamily="@font/poppins_regular"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp">
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/poppins_regular">
 
                 <EditText
                     android:id="@+id/et_password"
@@ -139,7 +151,8 @@
                     android:padding="10dp"
                     android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/black"/>
+                    android:textColorHint="@color/black"
+                    android:fontFamily="@font/poppins_regular"/>
 
                 <ImageView
                     android:id="@+id/imageViewPassword"
@@ -173,7 +186,8 @@
                     android:padding="10dp"
                     android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/black"/>
+                    android:textColorHint="@color/black"
+                    android:fontFamily="@font/poppins_regular"/>
 
                 <ImageView
                     android:id="@+id/imageViewConfirmPassword"
@@ -201,7 +215,8 @@
                 android:textColor="#000000"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                tools:ignore="VisualLintButtonSize" />
+                tools:ignore="VisualLintButtonSize"
+                android:fontFamily="@font/poppins_semibold"/>
 
 
             <LinearLayout
@@ -218,7 +233,8 @@
                     android:textStyle="bold"
                     android:text="Ya tienes cuenta?"
                     android:textAlignment="center"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/poppins_semibold"/>
 
                 <TextView
                     android:id="@+id/ingresa_register"
@@ -228,7 +244,8 @@
                     android:textStyle="bold"
                     android:text="INGRESA!"
                     android:textAlignment="center"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/purple"
+                    android:fontFamily="@font/poppins_semibold"/>
 
             </LinearLayout>
 
@@ -237,7 +254,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="113dp"
                 android:contentDescription="@string/descripcion_imagen_regsitro"
-                app:srcCompat="@drawable/portadala2" />
+                app:srcCompat="@drawable/img_registro" />
 
 
         </LinearLayout>
