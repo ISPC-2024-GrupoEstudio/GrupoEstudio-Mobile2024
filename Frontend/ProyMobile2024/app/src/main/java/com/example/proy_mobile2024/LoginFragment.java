@@ -444,12 +444,6 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback<TokenResponse>() {
             @Override
             public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
-                // Añade esto en tu método onResponse de loginUser, justo después de guardar los tokens
-                NavigationView navigationView = getActivity().findViewById(R.id.nav_view); // Asegúrate de que este ID sea correcto
-                View headerView = navigationView.getHeaderView(0); // Obtiene la vista del encabezado
-                TextView navUsername = headerView.findViewById(R.id.nav_header_title); // Asegúrate de que este ID sea correcto
-                navUsername.setText(loginData.getUsername());
-
                 Log.d("LoginUser", "Respuesta recibida del servidor");
                 if (response.isSuccessful() && response.body() != null) {
                     failedAttempts = 0; // Reiniciar contador en caso de éxito
@@ -461,7 +455,7 @@ public class LoginFragment extends Fragment {
                     Log.d("TokenResponse", tokenResponse.getUsuario().getNombre());
 
                     // Guardar el token en SharedPreferences
-                    nombreDeUsuario = tokenResponse.getUsuario().getNombre(); // Guardar el nombre en la variable de instancia
+                    nombreDeUsuario = tokenResponse.getUsuario().getNombre();
                     Log.d("LoginUser", "Nombre de usuario obtenido: " + nombreDeUsuario);
 
                     String nombre = response.body().getUsuario().getNombre();
@@ -470,20 +464,38 @@ public class LoginFragment extends Fragment {
                     String id_usuario = response.body().getUsuario().getNombreUsuario();
 
                     // Guardar tokens y cualquier otro dato necesario en SharedPreferences
-                    saveTokens(tokenResponse.getToken(), tokenResponse.getRefreshToken(), id_usuario, nombre, apellido, email, username);
-                    ((MainActivity) getActivity()).checkLoginStatus();
-                    // Redirigir a la actividad principal
-                    //Intent intent = new Intent(getActivity(), LandingActivity.class);
-                    // Puedes pasar datos adicionales si es necesario
-                    // intent.putExtra("nombreUsuario", nombre);
-                    //startActivity(intent);
-                    // Redirigir al SobreNosotrosFragment
-                    Fragment sobreNosotrosFragment = new SobreNosotrosFragment(); // Crea una instancia del fragmento
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragment_container, sobreNosotrosFragment); // Cambia 'fragment_container' por el ID de tu contenedor de fragmentos
-                    transaction.addToBackStack(null); // Añadir a la pila de retroceso, si deseas poder volver al fragmento anterior
-                    transaction.commit(); // Realiza la transacción
+                    saveTokens(tokenResponse.getToken(), tokenResponse.getRefreshToken(), id_usuario, nombre, apellido, email, loginData.getUsername());
+
+                    // SOLUCIÓN: Verificar si estamos en MainActivity antes de acceder al NavigationView
+                    if (getActivity() instanceof MainActivity) {
+                        // Solo actualizar el NavigationView si estamos en MainActivity
+                        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
+                        if (navigationView != null) {
+                            View headerView = navigationView.getHeaderView(0);
+                            TextView navUsername = headerView.findViewById(R.id.nav_header_title);
+                            if (navUsername != null) {
+                                navUsername.setText(loginData.getUsername());
+                            }
+                        }
+
+                        ((MainActivity) getActivity()).checkLoginStatus();
+
+                        // Redirigir al SobreNosotrosFragment
+                        Fragment sobreNosotrosFragment = new SobreNosotrosFragment();
+                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.fragment_container, sobreNosotrosFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    } else if (getActivity() instanceof IntroduccionActivity) {
+                        // Si estamos en IntroduccionActivity, redirigir a MainActivity
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        intent.putExtra("loginSuccess", true); // Flag para indicar login exitoso
+                        startActivity(intent);
+                        getActivity().finish(); // Opcional: cerrar IntroduccionActivity
+                    }
+
                 } else {
+                    // ... resto del código de manejo de errores permanece igual
                     Log.e("LoginError", "Error en el login: " + response.code());
                     SharedPreferences preferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
@@ -494,10 +506,9 @@ public class LoginFragment extends Fragment {
                     if (failedAttempts >= 4) {
                         failedAttempts = 5;
                         isLocked = true;
-                        lockUntil = System.currentTimeMillis() + 5 * 60 * 1000; // Bloquear por 5 minutos
+                        lockUntil = System.currentTimeMillis() + 5 * 60 * 1000;
                         saveLockState(true);
                         bloquearBoton();
-                        // Mostrar el mensaje de bloqueo
                         showAlert("Bloqueado", "Has excedido el número de intentos. Intenta de nuevo en 5 minutos.");
                         updateFailedAttemptsText();
                         return;
@@ -507,9 +518,6 @@ public class LoginFragment extends Fragment {
                         showAlert("Error", "Credenciales incorrectas. Intentos fallidos: " + failedAttempts);
                     }
                 }
-
-
-
             }
 
             @Override

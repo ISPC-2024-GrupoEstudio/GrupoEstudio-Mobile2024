@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:fillViewport="true"
+    tools:context=".IntroCard1Fragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="14dp"
+        android:layout_gravity="center">
+
+        <!-- Mancha de fondo SVG -->
+        <ImageView
+            android:id="@+id/background_blob"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/mancha_violeta"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:foregroundGravity="center"/>
+
+        <!-- Título principal -->
+        <TextView
+            android:id="@+id/title_welcome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Bienvenid@s a Pet Boutique"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_bold"
+            android:textAlignment="center"
+            android:elevation="2dp"
+            android:lineSpacingExtra="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Subtítulo -->
+        <TextView
+            android:id="@+id/subtitle_who"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="¿Quiénes somos?"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#666666"
+            android:fontFamily="@font/poppins_semibold"
+            android:textAlignment="center"
+            android:elevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_welcome" />
+
+        <!-- Descripción -->
+        <TextView
+            android:id="@+id/description_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Somos un equipo apasionado por los animales que ofrece en PetBoutique productos cuidadosamente seleccionados para el bienestar de las mascotas y la satisfacción de sus dueños, con un servicio excepcional y una amplia variedad que mejora la vida de los perros."
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:fontFamily="@font/poppins_regular"
+            android:textAlignment="center"
+            android:lineSpacingExtra="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/subtitle_who" />
+
+        <!-- Imagen del perro -->
+        <ImageView
+            android:id="@+id/dog_image"
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/quienes_somos_perro"
+            android:contentDescription="Perro mirando hacia arriba"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_text" />
+
+        <!-- Botón Continuar -->
+        <Button
+            android:id="@+id/button_continue"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/botonnuevo"
+            android:text="Continuar"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_semibold"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dog_image"/>
+
+        <!-- Texto de login -->
+        <TextView
+            android:id="@+id/text_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="32dp"
+            android:text="¿Tenés una cuenta? Inicia Sesión !"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:fontFamily="@font/poppins_regular"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_continue" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

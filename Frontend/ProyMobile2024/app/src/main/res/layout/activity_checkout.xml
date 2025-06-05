@@ -1,101 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <ImageButton
-        android:id="@+id/btnVolverCart"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/volver"
-        app:srcCompat="@drawable/back" />
-
-    <TextView
-        android:text="@string/resumen_de_tu_compra"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/btn_contacto"
-        android:textAllCaps="false"
-        android:textColor="#000000"
-        android:gravity="center" />
+        android:orientation="vertical">
 
-    <!-- RecyclerView con layout_height 0dp y weight 1 para ocupar espacio -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerProductos"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:nestedScrollingEnabled="true" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient"/>
 
-    <!-- 2. Formulario de envío -->
-    <TextView
-        android:text="Datos de envío"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:layout_marginTop="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_contacto"
-        android:textAllCaps="false"
-        android:textColor="#000000"
-        android:gravity="center" />
+        <ImageButton
+            android:id="@+id/btnVolverCart"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:background="@color/transparente"
+            android:contentDescription="@string/volver"
+            app:srcCompat="@drawable/flecha_volver"
+            android:layout_gravity="start"
+            android:layout_marginTop="-60dp"/>
 
-    <EditText
-        android:id="@+id/etNombre"
-        android:hint="Nombre completo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:text="@string/resumen_de_tu_compra"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="7dp"
+            android:fontFamily="@font/poppins_semibold"/>
 
-    <EditText
-        android:id="@+id/etDireccion"
-        android:hint="Dirección"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <!-- RecyclerView con layout_height 0dp y weight 1 para ocupar espacio -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerProductos"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:nestedScrollingEnabled="true"
+            android:padding="20dp"/>
 
-    <EditText
-        android:id="@+id/etCiudad"
-        android:hint="Ciudad / Provincia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <!-- 2. Formulario de envío -->
+        <TextView
+            android:text="Datos de envío"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:fontFamily="@font/poppins_bold"/>
 
-    <EditText
-        android:id="@+id/etCodigoPostal"
-        android:hint="Código Postal"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/etNombre"
+            android:hint="Nombre completo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:textSize="20sp"
+            android:fontFamily="@font/poppins_regular"
+            android:inputType="textPersonName"
+            android:background="@color/grey"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"/>
 
-    <EditText
-        android:id="@+id/etTelefono"
-        android:hint="Teléfono"
-        android:inputType="phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/divisor_detalle"/>
 
-    <!-- 3. Total -->
-    <TextView
-        android:id="@+id/tvTotal"
-        android:text="Total: $0.00"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#000000" />
+        <EditText
+            android:id="@+id/etDireccion"
+            android:hint="Dirección"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/black"
+            android:inputType="text"
+            android:background="@color/grey"
+            android:textColorHint="@color/black"/>
 
-    <!-- 4. Botón de Mercado Pago -->
-    <Button
-        android:id="@+id/btnPagar"
-        android:text="Pagar con Mercado Pago"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/divisor_detalle"/>
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/etCiudad"
+            android:hint="Ciudad / Provincia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/black"
+            android:inputType="text"
+            android:background="@color/grey"
+            android:textColorHint="@color/black"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/divisor_detalle"/>
+
+        <EditText
+            android:id="@+id/etCodigoPostal"
+            android:hint="Código Postal"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/black"
+            android:background="@color/grey"
+            android:textColorHint="@color/black"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/divisor_detalle"/>
+
+        <EditText
+            android:id="@+id/etTelefono"
+            android:hint="Teléfono"
+            android:inputType="phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/black"
+            android:background="@color/grey"
+            android:textColorHint="@color/black"/>
+
+        <!-- 3. Total -->
+        <TextView
+            android:id="@+id/tvTotal"
+            android:text="Total: $0.00"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:padding="20dp"
+            android:fontFamily="@font/poppins_semibold"/>
+
+        <!-- 4. Botón de Mercado Pago -->
+        <Button
+            android:id="@+id/btnPagar"
+            android:text="Pagar con Mercado Pago"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/poppins_semibold"/>
+    </LinearLayout>
+
+
+
+</ScrollView>

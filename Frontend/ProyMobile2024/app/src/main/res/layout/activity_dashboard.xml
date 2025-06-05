@@ -39,7 +39,7 @@
             android:layout_marginBottom="20dp">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="350dp"
                 android:layout_height="200dp"
                 android:src="@drawable/gato_dashboard"
                 android:layout_gravity="center|top"
@@ -54,7 +54,8 @@
                 android:textColor="@color/black"
                 android:textSize="40sp"
                 android:layout_gravity="center|bottom"
-                android:paddingTop="180dp"/>
+                android:paddingTop="180dp"
+                android:fontFamily="@font/poppins_semibold"/>
 
         </FrameLayout>
 
@@ -92,7 +93,8 @@
                     android:textColor="@android:color/white"
                     android:textSize="30sp"
                     android:background="#80000000"
-                    android:elevation="4dp" />
+                    android:elevation="4dp"
+                    android:fontFamily="@font/poppins_regular"/>
             </FrameLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
@@ -124,14 +126,15 @@
                     android:textColor="@android:color/white"
                     android:textSize="30sp"
                     android:background="#80000000"
-                    android:elevation="4dp" />
+                    android:elevation="4dp"
+                    android:fontFamily="@font/poppins_regular"/>
             </FrameLayout>
         </androidx.cardview.widget.CardView>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/celeste"
+            android:background="@color/grey"
             android:paddingTop="15dp"
             android:paddingBottom="15dp">
 
@@ -141,7 +144,9 @@
                     android:text="@string/dash_recomendaciones"
                     android:textSize="28sp"
                     android:paddingStart="20dp"
-                    android:paddingEnd="20dp"/>
+                    android:paddingEnd="20dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/poppins_semibold"/>
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager"

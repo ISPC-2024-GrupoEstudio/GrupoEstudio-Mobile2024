@@ -37,6 +37,7 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="15sp"
+        android:fontFamily="@font/poppins_semibold"
         />
 
 </LinearLayout>
