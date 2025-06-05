@@ -87,6 +87,7 @@
                 android:layout_width="match_parent"
 <<<<<<< HEAD
                 android:background="@drawable/form_contacto"
+                android:textColor="@color/black"
                 android:layout_height="54dp" />
 =======
                 android:layout_height="54dp"

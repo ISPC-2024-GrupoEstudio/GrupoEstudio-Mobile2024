@@ -338,16 +338,6 @@ public class RegisterFragment extends Fragment {
                         Toast.makeText(getActivity(), "Error durante el registro de usuario, intente nuevamente", Toast.LENGTH_LONG).show();
                     }
                 });
-
-
-
-                // Simulación de registro exitoso
-                //Toast.makeText(getActivity(), "Registro exitoso", Toast.LENGTH_SHORT).show();
-
-                // Navegar al LoginActivity o LoginFragment
-                /*getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new LoginFragment())
-                        .commit();*/
             }
         });
 
@@ -361,8 +351,7 @@ public class RegisterFragment extends Fragment {
 
     // Método para verificar si el usuario o email ya existen (Simulación)
     private void checkUserOrEmailExists(String username, String email) {
-        // Lógica para verificar con la base de datos
-        // Si existen, mostrar mensaje de error
+
     }
 
     // Método para guardar los datos del usuario en la base de datos
@@ -371,28 +360,23 @@ public class RegisterFragment extends Fragment {
     }
 
     private void prepararSpinner() {
-        // Supongamos que tu arreglo de strings incluye un placeholder en la posición 0
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_spinner_item,
-                getResources().getStringArray(R.array.tipos_dni)); // Array con placeholder
+                R.layout.spinner_item,
+                getResources().getStringArray(R.array.tipos_dni));
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
 
         spinner_tipo_DNI.setAdapter(adapter);
 
-        // Inicializamos en el placeholder
         spinner_tipo_DNI.setSelection(0);
 
         spinner_tipo_DNI.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    // No seleccionó un tipo válido
                     selected_tipo_DNI = 0;
                 } else {
-                    // Aquí asigna el id o valor correspondiente para cada tipo de documento
-                    // Ejemplo simple:
-                    selected_tipo_DNI = position;  // o el valor que corresponda
+                    selected_tipo_DNI = position;
                 }
             }
 
@@ -403,7 +387,6 @@ public class RegisterFragment extends Fragment {
         });
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -411,12 +394,11 @@ public class RegisterFragment extends Fragment {
         Spinner spinnerDni = view.findViewById(R.id.spinner_tipo_DNI);
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
                 requireContext(),
-                android.R.layout.simple_spinner_item,
+                R.layout.spinner_item,
                 getResources().getStringArray(R.array.tipos_dni)
         ) {
             @Override
             public boolean isEnabled(int position) {
-                // Desactiva la selección del primer ítem (el placeholder)
                 return position != 0;
             }
 
@@ -425,7 +407,7 @@ public class RegisterFragment extends Fragment {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView textView = (TextView) view;
                 if (position == 0) {
-                    textView.setTextColor(Color.GRAY); // Color gris para el placeholder
+                    textView.setTextColor(Color.GRAY);
                 } else {
                     textView.setTextColor(Color.BLACK);
                 }
@@ -433,9 +415,7 @@ public class RegisterFragment extends Fragment {
             }
         };
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         spinnerDni.setAdapter(adapter);
-
     }
-
 }

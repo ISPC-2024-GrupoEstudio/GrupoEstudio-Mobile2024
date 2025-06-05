@@ -51,7 +51,6 @@ public class ContactoFragment extends Fragment {
             Log.d("ContactoDebug", "No se encontró el usuario en SharedPreferences");
         }
 
-
         btnEnviar.setOnClickListener(v -> enviarMensaje());
 
         return view;
@@ -71,8 +70,6 @@ public class ContactoFragment extends Fragment {
         etName.addTextChangedListener(createSanitizingTextWatcher(etName, "[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"));
         etMsj.addTextChangedListener(createSanitizingTextWatcher(etMsj, "[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ,.?!]+"));
     }
-
-
 
     private void enviarMensaje() {
         String nombre = etName.getText().toString().trim();
