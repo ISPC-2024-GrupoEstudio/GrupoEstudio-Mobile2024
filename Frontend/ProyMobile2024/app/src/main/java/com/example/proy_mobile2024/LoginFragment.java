@@ -400,6 +400,8 @@ public class LoginFragment extends Fragment {
         editor.putString("email", email);
         editor.putString("username", username);
         editor.putBoolean("isLoggedIn", true);
+
+        Log.d("LoginDebug", "Guardando tokens y datos: nombre="+nombre+", email="+email);
         editor.apply();
 
         // Datos de depuración
