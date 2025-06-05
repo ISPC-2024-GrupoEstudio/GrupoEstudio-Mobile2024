@@ -42,7 +42,8 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:paddingBottom="10dp"
+            android:fontFamily="@font/poppins_semibold"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerProductos"
@@ -68,7 +69,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:fontFamily="@font/poppins_semibold"/>
 
     </com.google.android.flexbox.FlexboxLayout>
 

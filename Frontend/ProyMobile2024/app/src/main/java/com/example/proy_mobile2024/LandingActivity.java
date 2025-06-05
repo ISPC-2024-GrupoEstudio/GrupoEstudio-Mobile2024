@@ -27,8 +27,9 @@ public class LandingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(LandingActivity.this, MainActivity.class);
+                Intent intent = new Intent(LandingActivity.this, IntroduccionActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
