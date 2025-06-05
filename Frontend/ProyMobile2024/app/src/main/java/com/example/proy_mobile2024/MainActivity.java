@@ -227,11 +227,12 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void loadProfileImage() {
+    // Reemplazar el método loadProfileImage existente en MainActivity.java con esta versión:
+    public void loadProfileImage() {
         SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         String profileImageUrl = preferences.getString("profile_image_url", "");
 
-        if (headerProfileImage != null) {  // Verificar que no sea null
+        if (headerProfileImage != null) {
             if (!profileImageUrl.isEmpty()) {
                 Glide.with(this)
                         .load(profileImageUrl)
@@ -239,13 +240,17 @@ public class MainActivity extends AppCompatActivity {
                         .placeholder(R.drawable.foto_icon)
                         .error(R.drawable.foto_icon)
                         .into(headerProfileImage);
+                Log.d("MainActivity", "Imagen de perfil cargada desde URL: " + profileImageUrl);
             } else {
                 // Si no hay URL, cargar la imagen por defecto
                 Glide.with(this)
                         .load(R.drawable.foto_icon)
                         .transform(new CircleCrop())
                         .into(headerProfileImage);
+                Log.d("MainActivity", "Cargando imagen de perfil por defecto");
             }
+        } else {
+            Log.w("MainActivity", "headerProfileImage es null");
         }
     }
 
@@ -340,6 +345,9 @@ public class MainActivity extends AppCompatActivity {
         if (navHeaderTitle != null && !username.isEmpty()) {
             navHeaderTitle.setText(username);
         }
+
+        // NUEVO: También cargar la imagen de perfil aquí
+        loadProfileImage();
 
         // También actualizar el estado del menú
         checkLoginStatus();
