@@ -1,4 +1,5 @@
 package com.example.proy_mobile2024.services;
+import com.example.proy_mobile2024.Cupon;
 import com.example.proy_mobile2024.model.Carrito;
 import com.example.proy_mobile2024.model.CategoriaProducto;
 import com.example.proy_mobile2024.model.Pedido;
@@ -71,6 +72,9 @@ public interface ApiService {
 
     @GET("productoXPedido/por-pedido/{id}")
     Call<List<ProductosXPedido>> obtenerProductosPorPedido(@Path("id") int idPedido);
+
+    @GET("cupones/")
+    Call<List<Cupon>> obtenerCupones();
 
 }
 

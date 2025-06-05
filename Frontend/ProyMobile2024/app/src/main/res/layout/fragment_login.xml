@@ -126,13 +126,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contrasenalog"
             app:layout_constraintWidth_percent="0.8"
-<<<<<<< HEAD
             android:background="@drawable/button_bg"
-            app:backgroundTint="@null"/>
-=======
+            app:backgroundTint="@null"
             android:fontFamily="@font/poppins_bold"
             android:textAlignment="center"/>
->>>>>>> 1d13caef7e37d341c40148b0e55aacfc27445d77
+
 
         <TextView
             android:id="@+id/forgotPasssword"
