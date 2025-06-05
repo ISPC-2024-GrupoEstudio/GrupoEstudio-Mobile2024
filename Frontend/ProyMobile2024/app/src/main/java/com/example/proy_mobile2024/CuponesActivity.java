@@ -482,8 +482,13 @@ private TextView createButton(String text, int couponIndex, boolean isViewButton
     button.setClickable(true);
     button.setFocusable(true);
 
-    button.setBackgroundResource(android.R.drawable.btn_default); // para que tenga apariencia de botón
-
+    GradientDrawable border = new GradientDrawable();
+    border.setShape(GradientDrawable.RECTANGLE);
+    border.setCornerRadius(dpToPx(12)); // Bordes redondeados
+    border.setColor(Color.TRANSPARENT); // Fondo transparente
+    border.setStroke(dpToPx(2), Color.WHITE); // Borde blanco de 2dp
+    button.setBackground(border);
+    button.setPadding(dpToPx(24), dpToPx(8), dpToPx(24), dpToPx(8));
     // Click listener
     button.setOnClickListener(new View.OnClickListener() {
         @Override
