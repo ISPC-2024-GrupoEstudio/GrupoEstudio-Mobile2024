@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".DetalleProductoActivity"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/white">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,9 +27,9 @@
 
                 <ImageView
                     android:id="@+id/btnVolver"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/back"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/flecha_volver"
                     android:contentDescription="@string/descripcion_detalleprod"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -69,19 +70,21 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/tvPrecio"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:fontFamily="@font/poppins_semibold"/>
 
                 <TextView
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="$"
-                    android:textColor="@color/pet_green"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/tvNombre"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:fontFamily="@font/poppins_semibold"/>
 
                 <TextView
                     android:id="@+id/tvPrecio"
@@ -93,7 +96,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvNombre"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:fontFamily="@font/poppins_semibold"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -110,7 +114,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:fontFamily="@font/poppins_regular"/>
 
             </LinearLayout>
 
@@ -123,7 +128,8 @@
                 android:background="@color/pet_violet"
                 android:text="Agregar"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:fontFamily="@font/poppins_semibold"/>
 
         </LinearLayout>
     </ScrollView>

@@ -73,6 +73,22 @@ public class MainActivity extends AppCompatActivity {
 
         // Llama a checkLoginStatus() para establecer el estado inicial de los ítems del menú
         checkLoginStatus();
+
+        // Verificar si el login fue exitoso desde IntroduccionActivity
+        if (getIntent().getBooleanExtra("loginSuccess", false)) {
+            // Actualizar el NavigationView con los datos del usuario
+            updateNavigationHeaderFromPreferences();
+
+            // Opcional: navegar directamente al fragmento deseado
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new SobreNosotrosFragment())
+                        .commit();
+            }
+
+            // Mostrar mensaje de bienvenida
+            Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+        }
         // Inicializa el NavigationView
         navigationView = findViewById(R.id.nav_view);
 
@@ -188,6 +204,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+
     }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -251,6 +269,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Forzar actualización del menú
         invalidateOptionsMenu();
+        updateSobreNosotrosFragment();
     }
 
     public void logoutClick() {
@@ -300,6 +319,30 @@ public class MainActivity extends AppCompatActivity {
         loadProfileImage();
 
 
+    }
+
+    public void updateSobreNosotrosFragment() {
+        // Buscar el fragment actual
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        if (currentFragment instanceof SobreNosotrosFragment) {
+            ((SobreNosotrosFragment) currentFragment).updateServicios();
+        }
+    }
+
+    private void updateNavigationHeaderFromPreferences() {
+        SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+        String username = preferences.getString("username", "Usuario Desconocido");
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView navHeaderTitle = headerView.findViewById(R.id.nav_header_title);
+
+        if (navHeaderTitle != null && !username.isEmpty()) {
+            navHeaderTitle.setText(username);
+        }
+
+        // También actualizar el estado del menú
+        checkLoginStatus();
     }
 
 }

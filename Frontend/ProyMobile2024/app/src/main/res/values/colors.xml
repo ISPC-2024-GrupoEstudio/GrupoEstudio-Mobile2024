@@ -4,7 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="purple">#5b4cbd</color>
     <color name="LightGrey">#efefef</color>
-    <color name="grey">#d2d2d2</color>
+    <color name="grey">#4Dd2d2d2</color>
     <color name="darkGrey">#616161</color>
     <color name="pet_green">#C93AD6C7</color>
     <color name="pet_greenSecondary">#BF69B5DF</color>
@@ -18,6 +18,7 @@
     <color name="rojo_perfil_salir">#B52020</color>
     <color name="transparente">#00FF0000</color>
     <color name="celeste_perfil_img">#BF35A7E6</color>
+    <color name="gris_claro">#F5F5F5</color>
 
 
 

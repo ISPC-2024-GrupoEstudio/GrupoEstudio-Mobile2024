@@ -1,5 +1,6 @@
 package com.example.proy_mobile2024.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -91,9 +92,10 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
     public class ProductoHolder extends RecyclerView.ViewHolder {
         private TextView nombre, precio;
         private ImageView imagen;
-        private Button button;
+        private ImageView button;
         private ConstraintLayout tarjetaproductolayout;
 
+        @SuppressLint("WrongViewCast")
         public ProductoHolder(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.nombre);
