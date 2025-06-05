@@ -47,7 +47,7 @@
     <string name="ingresar_msj_contacto">Ingrese su mensaje</string>
     <string name="ingresar_msj_label_contacto">Ingrese su mensaje:</string>
     <string name="whatsapp_contacto">WhatsApp de contacto</string>
-    <string name="titulo_contacto">¡CONTACTANOS!</string>
+    <string name="titulo_contacto">¡Contáctese con nosotros!</string>
     <string name="subtitulo_contacto">¡Nos comunicaremos a la brevedad!</string>
     <string name="btn_enviar">Enviar</string>
     <string name="num_whatsapp">3518542789</string>
@@ -121,7 +121,7 @@
     <string name="dash_historial">Historial de Compras</string>
     <string name="dash_historial_fondo">fondo violeta con cosas relacionadas a compras</string>
     <string name="dash_cupones">Mis cupones</string>
-    <string name="dash_cupones_fondo">fondo verde con cosas relacionadas a cupones</string>
+    <string name="dash_cupones_fondo">fondo verde con cosas relacionadas a los cupones</string>
     <string name="dash_recomendaciones">Recomendaciones:</string>
 
     <!--Activity DetallePedido -->

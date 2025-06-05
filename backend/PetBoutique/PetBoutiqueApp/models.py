@@ -307,7 +307,7 @@ class Usuario(models.Model):
     numero_cliente = models.IntegerField(blank=True, null=True)
     id_rol = models.ForeignKey(Rol, models.DO_NOTHING, db_column='id_rol', blank=True, null=True)
     estado = models.TextField(blank=True, null=True)  # This field type is a guess.
-    password = models.CharField(max_length=45, blank=True, null=True)
+    # password = models.CharField(max_length=45, blank=True, null=True)
     fotoPerfil = models.CharField(max_length=600, blank=True, null=True)
 
     class Meta:
