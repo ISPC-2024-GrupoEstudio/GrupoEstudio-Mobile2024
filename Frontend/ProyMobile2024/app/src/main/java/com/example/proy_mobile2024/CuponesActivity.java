@@ -284,60 +284,6 @@ public class CuponesActivity extends AppCompatActivity {
         button.setBackground(border);
         button.setPadding(dpToPx(24), dpToPx(8), dpToPx(24), dpToPx(8));
 
-        // Click listener
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Cupon cupon = cupones[couponIndex];
-//                Log.d("DEBUG", "Botón presionado");
-//                Log.d("DEBUG", "Creando request con: " + cupon.getNombre());
-//
-//                if (isViewButton) {
-//                    // Toast local
-//                    Toast.makeText(getApplicationContext(),
-//                            "Cupón aplicado: " + cupon.getNombre(),
-//                            Toast.LENGTH_SHORT).show();
-//
-//                    // Recuperar nombre de usuario
-//                    SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-//                    String nombreUsuario = prefs.getString("nombre_usuario", null);
-//
-//                    if (nombreUsuario == null) {
-//                        Toast.makeText(getApplicationContext(),
-//                                "Usuario no encontrado", Toast.LENGTH_SHORT).show();
-//                        return;
-//                    }
-//
-//                    // Preparar request
-//                    MisCuponRequest request = new MisCuponRequest(nombreUsuario, cupon.getNombre());
-//
-//                    ApiService apiService = RetrofitClient.getInstance(getApplicationContext()).getApiService();
-//                    //Call<Void> call = apiService.agregarCupon(nombreUsuario, request); // <-- importante
-//
-//
-//
-//                    Log.d("DEBUG", "Llamada Retrofit creada");
-//
-//                    Log.d("DEBUG", "Usuario: " + nombreUsuario);
-//
-//                    call.enqueue(new Callback<Void>() {
-//                        @Override
-//                        public void onResponse(Call<Void> call, Response<Void> response) {
-//                            if (response.isSuccessful()) {
-//                                Log.d("API", "Cupón agregado correctamente");
-//                            } else {
-//                                Log.e("API", "Error al agregar: código " + response.code());
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<Void> call, Throwable t) {
-//                            Log.e("API", "Fallo al conectar: " + t.getMessage());
-//                        }
-//                    });
-//                }
-//            }
-//        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -366,6 +312,14 @@ public class CuponesActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             Log.d("CuponesActivity", "Cupón agregado con éxito: " + cupon.getNombre());
                             Toast.makeText(CuponesActivity.this, "Cupón aplicado correctamente", Toast.LENGTH_SHORT).show();
+                            String username = prefs.getString("username", null); // Asegurate de haber guardado esto al loguear
+
+                            if (username != null) {
+                                mostrarCuponesUsuario(username, token);
+                            } else {
+                                Log.e("CuponesActivity", "⚠️ Username no encontrado en SharedPreferences");
+                            }
+
                         } else {
                             Toast.makeText(CuponesActivity.this, "Error al aplicar cupón", Toast.LENGTH_SHORT).show();
                             Log.e("API", "Error código: " + response.code());
@@ -382,11 +336,36 @@ public class CuponesActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         return button;
     }
+
+    private void mostrarCuponesUsuario(String nombreUsuario, String token) {
+        ApiService apiService = RetrofitClient.getInstance(getApplicationContext()).getApiService();
+
+        Call<List<Cupon>> call = apiService.obtenerCuponesUsuario("Bearer " + token, nombreUsuario);
+
+        call.enqueue(new Callback<List<Cupon>>() {
+            @Override
+            public void onResponse(Call<List<Cupon>> call, Response<List<Cupon>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Cupon> cupones = response.body();
+
+                    Log.d("CuponesActivity", "Cupones aplicados para " + nombreUsuario + ":");
+                    for (Cupon c : cupones) {
+                        Log.d("CuponesActivity", "- " + c.getNombre() + " (ID: " + c.getId() + ")");
+                    }
+                } else {
+                    Log.e("CuponesActivity", "Error al obtener cupones. Código: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Cupon>> call, Throwable t) {
+                Log.e("CuponesActivity", "Error de red al obtener cupones: " + t.getMessage());
+            }
+        });
+    }
+
 
     private void setupListeners() {
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -397,9 +376,7 @@ public class CuponesActivity extends AppCompatActivity {
         });
     }
 
-//    private void onViewCupon(Cupon cupon) {
-//        Toast.makeText(this, "Se aplicó un cupón con " + cupon.getDiscount() + " en " + cupon.getVenue(), Toast.LENGTH_SHORT).show();
-//    }
+
     private void onViewCupon(Cupon cupon) {
         String tipo = cupon.getTipoDescuento();
         double valor = cupon.getValorDescuento();
@@ -412,7 +389,6 @@ public class CuponesActivity extends AppCompatActivity {
         String mensaje = "Se aplicó un cupón de " + descuento + " en " + nombre;
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
 }
-
 
 
     private int dpToPx(int dp) {
