@@ -6,7 +6,7 @@ public class PedidoCheckoutData{
     private String external_reference;
     private List<PedidoCheckoutItemData> items;
     private String from = "app";
-
+    private double montoFinal;
 
     public String getExternal_reference() {
         return external_reference;
@@ -31,5 +31,13 @@ public class PedidoCheckoutData{
            itemsData.add(itemData);
         }
         this.items = itemsData;
+    }
+
+    public double getMontoFinal() {
+        return montoFinal;
+    }
+
+    public void setMontoFinal(double montoFinal) {
+        this.montoFinal = montoFinal;
     }
 }
