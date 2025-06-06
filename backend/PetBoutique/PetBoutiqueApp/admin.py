@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Venta,  Usuario, TipoEnvio, TipoDocumento, Rol, Proveedor, ProductoXVenta, ProductoXPedido, Carrito, Producto, Pedido, FormaDePago, EstadoPedido,CategoriaProducto
+from .models import Venta,  Usuario, TipoEnvio, TipoDocumento, Rol, Proveedor, ProductoXVenta, ProductoXPedido, Carrito, Producto, Pedido, FormaDePago, EstadoPedido,CategoriaProducto, Cupon, Arrepentimiento
 
 # Importaciones para API autenticación
 from django.contrib.auth import get_user_model
@@ -19,3 +19,8 @@ admin.site.register(TipoDocumento)
 admin.site.register(TipoEnvio)
 admin.site.register(Usuario)
 admin.site.register(Venta)
+admin.site.register(Arrepentimiento)
+
+@admin.register(Cupon)
+class CuponAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'tipo_descuento', 'valor_descuento', 'fecha_vencimiento')

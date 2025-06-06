@@ -8,6 +8,19 @@
         <item name="android:textColorPrimary">@color/black</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowBackground">#FFFFFF</item>
+
+        <item name="android:fontFamily">@font/poppins</item>
     </style>
+
+    <style name="NavigationViewStyle" parent="Widget.Design.NavigationView">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="background">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <string-array name="tipos_dni">
+        <item>Seleccione tipo de DNI</item>
+        <item>DNI</item>
+    </string-array>
 
 </resources>

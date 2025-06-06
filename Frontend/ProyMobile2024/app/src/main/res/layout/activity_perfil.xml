@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PerfilActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/perfil_layout_header"
@@ -31,7 +32,8 @@
             android:text="@string/user_name"
             android:textSize="40sp"
             android:textColor="@color/black"
-            android:contentDescription="@string/user_name" />
+            android:contentDescription="@string/user_name"
+            android:fontFamily="@font/poppins_semibold"/>
 
         <ImageView
             android:id="@+id/btnVolverPerfil"
@@ -76,14 +78,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp">
 
             <ImageView
                 android:id="@+id/perfil_name_img"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginStart="30dp"
                 android:src="@drawable/foto_icon"
                 android:contentDescription="@string/perfil_nombre" />
@@ -100,20 +102,22 @@
                 android:textStyle="normal"
                 android:gravity="center_vertical"
                 android:textColor="@color/negro_texto_perfil"
-                android:fontFamily="sans-serif-thin" />
+                android:fontFamily="@font/poppins_regular"
+                android:paddingTop="20dp"/>
 
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/perfil_seccion_apellido"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp">
 
             <ImageView
                 android:id="@+id/perfil_apellido_img"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginStart="30dp"
                 android:src="@drawable/usuario_icono"
                 android:contentDescription="@string/perfil_apellido"/>
@@ -128,7 +132,8 @@
                 android:textSize="22sp"
                 android:gravity="center_vertical"
                 android:textColor="@color/negro_texto_perfil"
-                android:fontFamily="sans-serif-thin" />
+                android:fontFamily="@font/poppins_regular"
+                android:paddingTop="20dp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -139,14 +144,15 @@
         <RelativeLayout
             android:id="@+id/perfil_seccion_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp">
 
             <ImageView
                 android:id="@+id/perfil_email_img"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginStart="30dp"
                 android:src="@drawable/mail_icono"
                 android:contentDescription="@string/perfil_email"/>
@@ -162,7 +168,8 @@
                 android:textSize="22sp"
                 android:gravity="center_vertical"
                 android:textColor="@color/negro_texto_perfil"
-                android:fontFamily="sans-serif-thin" />
+                android:fontFamily="@font/poppins_regular"
+                android:paddingTop="20dp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -173,14 +180,15 @@
         <RelativeLayout
             android:id="@+id/perfil_seccion_telefono"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp">
 
             <ImageView
                 android:id="@+id/perfil_telefono_img"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginStart="30dp"
                 android:src="@drawable/telefono_icono"
                 android:contentDescription="@string/perfil_telefono"/>
@@ -196,7 +204,8 @@
                 android:textSize="22sp"
                 android:gravity="center_vertical"
                 android:textColor="@color/negro_texto_perfil"
-                android:fontFamily="sans-serif-thin" />
+                android:fontFamily="@font/poppins_regular"
+                android:paddingTop="20dp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -207,14 +216,15 @@
         <RelativeLayout
             android:id="@+id/perfil_seccion_direccion"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp">
 
             <ImageView
                 android:id="@+id/perfil_direccion_img"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginStart="30dp"
                 android:src="@drawable/direccion_icono"
                 android:contentDescription="@string/perfil_direccion_label"/>
@@ -230,7 +240,8 @@
                 android:textSize="22sp"
                 android:gravity="center_vertical"
                 android:textColor="@color/negro_texto_perfil"
-                android:fontFamily="sans-serif-thin" />
+                android:fontFamily="@font/poppins_regular"
+                android:paddingTop="20dp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -241,17 +252,19 @@
         <RelativeLayout
             android:id="@+id/perfil_seccion_dni"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp">
 
             <ImageView
                 android:id="@+id/perfil_dni_img"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginStart="30dp"
                 android:src="@drawable/dni"
-                android:contentDescription="@string/user_name"/>
+                android:contentDescription="@string/user_name"
+                android:foregroundGravity="center_vertical"/>
 
             <TextView
                 android:id="@+id/perfil_dni_txt"
@@ -264,7 +277,8 @@
                 android:textSize="22sp"
                 android:gravity="center_vertical"
                 android:textColor="@color/negro_texto_perfil"
-                android:fontFamily="sans-serif-thin" />
+                android:fontFamily="@font/poppins_regular"
+                android:paddingTop="20dp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -288,7 +302,8 @@
                 android:background="@drawable/degrade_boton"
                 android:text="@string/perfil_editar"
                 android:textColor="@color/negro_texto_perfil"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:fontFamily="@font/poppins_semibold"/>
 
         </RelativeLayout>
 

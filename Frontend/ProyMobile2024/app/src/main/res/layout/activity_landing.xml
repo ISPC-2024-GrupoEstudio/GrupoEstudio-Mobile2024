@@ -6,45 +6,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
-    tools:context=".LandingActivity">
+    tools:context=".LandingActivity"
+    android:fitsSystemWindows="true">
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="464dp"
-        android:layout_height="245dp"
-        android:layout_marginTop="44dp"
-        android:contentDescription="@string/landing_descripcionBanderin"
-        android:src="@drawable/logox"
+        android:layout_width="400dp"
+        android:layout_height="200dp"
+        android:contentDescription="Logo Pet Boutique"
+        android:src="@drawable/logo"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
-        android:text="@string/landing_bienvenida"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/logo"
-        app:layout_constraintStart_toStartOf="@+id/logo"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4" />
 
     <Button
         android:id="@+id/button_start"
-        android:layout_width="120dp"
-        android:layout_height="118dp"
-        android:layout_marginTop="44dp"
-        android:background="@drawable/button_background"
-        android:text="@string/landing_boton"
+        android:layout_width="200dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/botonnuevo"
+        android:text="Iniciar"
         android:textColor="@android:color/white"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/title"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="@+id/title"
-        app:layout_constraintTop_toBottomOf="@id/title" />
-
+        android:fontFamily="@font/poppins_semibold"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="@+id/logo"
+        app:layout_constraintStart_toStartOf="@+id/logo"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,10 @@
                     android:id="@+id/nav_profile"
                     android:title="@string/itemnav_perfil"
                     android:icon="@drawable/miperfil_icono" />
+                <item
+                    android:id="@+id/nav_dashboard"
+                    android:title="Dashboard"
+                    android:icon="@drawable/dashboard_icono" />
 
         </group>
         <group
@@ -51,7 +55,15 @@
                 <item
                     android:id="@+id/nav_contactus"
                     android:title="@string/itemnav_contanctus"
-                    android:icon="@drawable/contactus_icon" />
+                    android:icon="@drawable/baseline_call_24" />
+        </group>
+
+        <group
+            android:id="@+id/web">
+                <item
+                    android:id="@+id/nav_web"
+                    android:title="@string/nuestra_p_gina_web"
+                    android:icon="@drawable/baseline_offline_share_24" />
         </group>
 
 

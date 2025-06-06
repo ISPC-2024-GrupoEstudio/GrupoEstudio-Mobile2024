@@ -1,5 +1,3 @@
-import org.apache.tools.ant.util.JavaEnvUtils.VERSION_1_8
-
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -10,7 +8,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.7.0")
+        classpath("com.android.tools.build:gradle:8.6.0")
     }
 }
 
@@ -52,7 +50,6 @@ android {
         viewBinding = true
         dataBinding = true
     }
-    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -68,6 +65,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.6")
+    implementation("androidx.recyclerview:recyclerview:1.3.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -81,6 +79,11 @@ dependencies {
     implementation("com.auth0.android:lock:3.2.2")
     implementation("com.auth0.android:jwtdecode:2.0.0")
     implementation("com.cloudinary:cloudinary-android:3.0.2")
+    implementation ("com.google.android.flexbox:flexbox:3.0.0")
+    implementation ("androidx.cardview:cardview:1.0.0")
+    implementation ("com.squareup.picasso:picasso:2.71828")
+
+
 
     //implementation(libs.coordinatorlayout)
 }

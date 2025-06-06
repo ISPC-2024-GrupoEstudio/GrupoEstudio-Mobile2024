@@ -31,7 +31,8 @@ public class PerfilRepository {
 
     public void getPerfil(PerfilCallback callback){
         SharedPreferences sharedPreferences = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
-        String username = sharedPreferences.getString("username -> ", null);
+        String username = sharedPreferences.getString("username ->", null);
+
 
         if (username == null){
             callback.enError("No se encontro el username en Shared preferences");

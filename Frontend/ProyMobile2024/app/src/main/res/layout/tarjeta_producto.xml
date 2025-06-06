@@ -6,27 +6,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:background="@drawable/fondo_tarjeta"
-    android:elevation="3dp"
+    android:background="@color/white"
     android:padding="8dp">
 
     <ImageView
         android:id="@+id/imagenProducto"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/descripcion_imagen_products"
-
-        android:scaleType="centerCrop"
+        android:background="@color/gris_claro"
         app:layout_constraintBottom_toTopOf="@+id/nombre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.6"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="1.0"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:elevation="4dp"/>
 
     <TextView
         android:id="@+id/nombre"
@@ -36,43 +34,53 @@
         android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagenProducto" />
+        app:layout_constraintTop_toBottomOf="@+id/imagenProducto"
+        android:fontFamily="@font/poppins_bold"
+        android:textAlignment="textStart"/>
 
-    <TextView
-        android:id="@+id/precio"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/precioContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="0.0"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombre" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/nombre"
+        tools:ignore="MissingConstraints"
+        android:layout_marginTop="5dp">
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="$"
-        android:textColor="@color/pet_green"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/precio"
-        app:layout_constraintEnd_toStartOf="@+id/precio"
-        app:layout_constraintTop_toTopOf="@+id/precio" />
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textAlignment="textStart"/>
 
-    <Button
+        <TextView
+            android:id="@+id/precio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_semibold"/>
+
+    </LinearLayout>
+    <ImageButton
         android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/pet_violet"
-        android:text="Agregar"
-        android:textSize="10sp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/btn_circulo"
+        android:src="@drawable/ic_bolsa"
+        android:contentDescription="Agregar al carrito"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/precio" />
+        app:layout_constraintTop_toBottomOf="@+id/precioContainer" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

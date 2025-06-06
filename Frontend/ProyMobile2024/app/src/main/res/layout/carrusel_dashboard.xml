@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    card_view:cardCornerRadius="20dp"
+    card_view:cardElevation="5dp"
+    card_view:cardBackgroundColor="@color/violetaClaro">
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/cardCarrusel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        card_view:flexDirection="column"
+        card_view:justifyContent="center"
+        card_view:alignItems="center">
+
+        <TextView
+            android:id="@+id/tituloCardCarrusel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/carrusel_titulo"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_gravity="center|top"
+            android:paddingTop="40dp"
+            android:fontFamily="@font/poppins_semibold"/>
+
+        <ImageView
+            android:id="@+id/imgCardCarrusel"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:src="@drawable/item_carrusel1"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:layout_margin="20dp"
+            android:contentDescription="@string/carrusel_img"/>
+
+
+        <Button
+            android:id="@+id/btnCardCarrusel"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="@string/carrusel_btn"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:backgroundTint="@color/purple"
+            android:textColor="@color/white"
+            android:fontFamily="@font/poppins_semibold"/>
+    </com.google.android.flexbox.FlexboxLayout>
+</androidx.cardview.widget.CardView>

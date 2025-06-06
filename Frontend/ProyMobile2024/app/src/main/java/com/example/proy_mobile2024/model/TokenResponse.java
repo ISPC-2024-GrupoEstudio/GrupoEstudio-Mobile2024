@@ -1,5 +1,7 @@
 package com.example.proy_mobile2024.model;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 public class TokenResponse {

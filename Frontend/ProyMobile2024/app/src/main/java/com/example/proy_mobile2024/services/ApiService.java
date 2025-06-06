@@ -1,7 +1,14 @@
 package com.example.proy_mobile2024.services;
+import com.example.proy_mobile2024.Cupon;
 import com.example.proy_mobile2024.model.Carrito;
 import com.example.proy_mobile2024.model.CategoriaProducto;
+import com.example.proy_mobile2024.model.MisCuponRequest;
+import com.example.proy_mobile2024.model.Pedido;
 import com.example.proy_mobile2024.model.ItemCarritoData;
+import com.example.proy_mobile2024.model.LoginResponse;
+import com.example.proy_mobile2024.model.PedidoCheckoutData;
+import com.example.proy_mobile2024.model.PedidoCheckoutItemData;
+import com.example.proy_mobile2024.model.PreferenciaResponse;
 import com.example.proy_mobile2024.model.Producto;
 import com.example.proy_mobile2024.model.TokenResponse;
 
@@ -10,7 +17,9 @@ import java.util.List;
 import com.example.proy_mobile2024.model.LoginData;
 import com.example.proy_mobile2024.model.Usuario;
 import com.example.proy_mobile2024.model.UsuarioPerfil;
+import com.example.proy_mobile2024.model.ProductosXPedido;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -57,6 +66,30 @@ public interface ApiService {
 
     @GET("categorias/")
     Call<List<CategoriaProducto>> obtenerCategorias();
+
+    @POST("preferencia/")
+    Call<PreferenciaResponse> obtenerPreferencia (@Body PedidoCheckoutData pedido);
+    
+    @GET("pedidos/")
+    Call<List<Pedido>> getPedidos();
+
+    @GET("productoXPedido/por-pedido/{id}")
+    Call<List<ProductosXPedido>> obtenerProductosPorPedido(@Path("id") int idPedido);
+
+    @GET("cupones/")
+    Call<List<Cupon>> obtenerCupones();
+
+    @POST("mis-cupones/")
+    Call<ResponseBody> aplicarCupon(
+            @Header("Authorization") String authHeader,
+            @Body MisCuponRequest request
+    );
+
+    @GET("mis-cupones/{nombreUsuario}/")
+    Call<List<Cupon>> obtenerCuponesUsuario(
+            @Header("Authorization") String authHeader,
+            @Path("nombreUsuario") String nombreUsuario
+    );
 
 }
 

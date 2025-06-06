@@ -40,6 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import com.example.proy_mobile2024.R;
 import com.example.proy_mobile2024.model.LoginData;
 import com.example.proy_mobile2024.model.TokenResponse;
+import com.example.proy_mobile2024.model.UsuarioPerfil;
 import com.example.proy_mobile2024.services.ApiService;
 import com.example.proy_mobile2024.services.RetrofitClient;
 import com.example.proy_mobile2024.viewsmodels.LoginViewModel;
@@ -51,6 +52,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Context;
 
 import java.net.HttpCookie;
+import java.util.List;
 
 import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
@@ -398,6 +400,8 @@ public class LoginFragment extends Fragment {
         editor.putString("email", email);
         editor.putString("username", username);
         editor.putBoolean("isLoggedIn", true);
+
+        Log.d("LoginDebug", "Guardando tokens y datos: nombre="+nombre+", email="+email);
         editor.apply();
 
         // Datos de depuración
@@ -421,22 +425,23 @@ public class LoginFragment extends Fragment {
         alertDialog.show();
     }
 
+    // Reemplazar el método loginUser existente con esta versión actualizada:
     private void loginUser(String username, String password) {
         if (isLocked) {
             long remainingTime = lockUntil - System.currentTimeMillis();
             if (remainingTime > 0) {
                 showAlert("Bloqueado", "Has excedido el número de intentos. Intenta de nuevo en " + (remainingTime / 60000) + " minutos.");
-                return; // Salir si está bloqueado
+                return;
             } else {
-                isLocked = false; // Desbloquear si el tiempo ha pasado
+                isLocked = false;
                 tvContador.setText("");
-                failedAttempts = 0; // Reiniciar el contador de intentos fallidos
+                failedAttempts = 0;
                 saveLockState(false);
             }
         }
         Log.d("LoginUser", "Iniciando el proceso de login");
-        LoginData loginData = new LoginData(username, password); // Asegúrate de tener la clase LoginData creada
-        Log.d("LoginUser", "Datos de login: " + loginData.getUsername() );
+        LoginData loginData = new LoginData(username, password);
+        Log.d("LoginUser", "Datos de login: " + loginData.getUsername());
 
         ApiService apiService = RetrofitClient.getInstance(getActivity()).getApiService();
         Call<TokenResponse> call = apiService.loginUser(loginData);
@@ -444,22 +449,14 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback<TokenResponse>() {
             @Override
             public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
-                // Añade esto en tu método onResponse de loginUser, justo después de guardar los tokens
-                NavigationView navigationView = getActivity().findViewById(R.id.nav_view); // Asegúrate de que este ID sea correcto
-                View headerView = navigationView.getHeaderView(0); // Obtiene la vista del encabezado
-                TextView navUsername = headerView.findViewById(R.id.nav_header_title); // Asegúrate de que este ID sea correcto
-                navUsername.setText(loginData.getUsername());
-
                 Log.d("LoginUser", "Respuesta recibida del servidor");
                 if (response.isSuccessful() && response.body() != null) {
-                    failedAttempts = 0; // Reiniciar contador en caso de éxito
+                    failedAttempts = 0;
                     tvContador.setText("");
                     Log.d("LoginUser", "Login exitoso");
                     TokenResponse tokenResponse = response.body();
-                    String token = response.body().getToken();
-                    String refreshToken = response.body().getRefreshToken();
 
-                    nombreDeUsuario = tokenResponse.getUsuario().getNombre(); // Guardar el nombre en la variable de instancia
+                    nombreDeUsuario = tokenResponse.getUsuario().getNombre();
                     Log.d("LoginUser", "Nombre de usuario obtenido: " + nombreDeUsuario);
 
                     String nombre = response.body().getUsuario().getNombre();
@@ -467,21 +464,38 @@ public class LoginFragment extends Fragment {
                     String email = response.body().getUsuario().getEmail();
                     String id_usuario = response.body().getUsuario().getNombreUsuario();
 
-                    // Guardar tokens y cualquier otro dato necesario en SharedPreferences
-                    saveTokens(token, refreshToken, id_usuario, nombre, apellido, email, username);
-                    ((MainActivity) getActivity()).checkLoginStatus();
-                    // Redirigir a la actividad principal
-                    //Intent intent = new Intent(getActivity(), LandingActivity.class);
-                    // Puedes pasar datos adicionales si es necesario
-                    // intent.putExtra("nombreUsuario", nombre);
-                    //startActivity(intent);
-                    // Redirigir al SobreNosotrosFragment
-                    Fragment sobreNosotrosFragment = new SobreNosotrosFragment(); // Crea una instancia del fragmento
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragment_container, sobreNosotrosFragment); // Cambia 'fragment_container' por el ID de tu contenedor de fragmentos
-                    transaction.addToBackStack(null); // Añadir a la pila de retroceso, si deseas poder volver al fragmento anterior
-                    transaction.commit(); // Realiza la transacción
+                    // Guardar tokens y datos básicos
+                    saveTokens(tokenResponse.getToken(), tokenResponse.getRefreshToken(), id_usuario, nombre, apellido, email, loginData.getUsername());
+
+                    obtenerImagenPerfilDespuesLogin(loginData.getUsername());
+
+                    // Resto del código para actualizar UI
+                    if (getActivity() instanceof MainActivity) {
+                        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
+                        if (navigationView != null) {
+                            View headerView = navigationView.getHeaderView(0);
+                            TextView navUsername = headerView.findViewById(R.id.nav_header_title);
+                            if (navUsername != null) {
+                                navUsername.setText(loginData.getUsername());
+                            }
+                        }
+
+                        ((MainActivity) getActivity()).checkLoginStatus();
+
+                        Fragment sobreNosotrosFragment = new SobreNosotrosFragment();
+                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.fragment_container, sobreNosotrosFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    } else if (getActivity() instanceof IntroduccionActivity) {
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        intent.putExtra("loginSuccess", true);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+
                 } else {
+                    // Manejo de errores (código existente)
                     Log.e("LoginError", "Error en el login: " + response.code());
                     SharedPreferences preferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
@@ -492,10 +506,9 @@ public class LoginFragment extends Fragment {
                     if (failedAttempts >= 4) {
                         failedAttempts = 5;
                         isLocked = true;
-                        lockUntil = System.currentTimeMillis() + 5 * 60 * 1000; // Bloquear por 5 minutos
+                        lockUntil = System.currentTimeMillis() + 5 * 60 * 1000;
                         saveLockState(true);
                         bloquearBoton();
-                        // Mostrar el mensaje de bloqueo
                         showAlert("Bloqueado", "Has excedido el número de intentos. Intenta de nuevo en 5 minutos.");
                         updateFailedAttemptsText();
                         return;
@@ -505,15 +518,11 @@ public class LoginFragment extends Fragment {
                         showAlert("Error", "Credenciales incorrectas. Intentos fallidos: " + failedAttempts);
                     }
                 }
-
-
-
             }
 
             @Override
             public void onFailure(Call<TokenResponse> call, Throwable t) {
                 Log.e("LoginError", "Error de conexión: " + t.getMessage());
-                // Mostrar mensaje de error en la UI
                 showAlert("Error", "Error de conexión: " + t.getMessage());
             }
         });
@@ -568,6 +577,44 @@ public class LoginFragment extends Fragment {
             countDownTimer.cancel();
             countDownTimer = null;
         }
+    }
+
+
+    private void obtenerImagenPerfilDespuesLogin(String username) {
+        RetrofitClient.getInstance(getActivity()).getApiService().getPerfil().enqueue(new Callback<List<UsuarioPerfil>>() {
+            @Override
+            public void onResponse(Call<List<UsuarioPerfil>> call, Response<List<UsuarioPerfil>> response) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    List<UsuarioPerfil> usuarios = response.body();
+
+                    // Buscar el usuario por username
+                    for (UsuarioPerfil usuario : usuarios) {
+                        if (usuario.getUser_name().equals(username)) {
+                            // Guardar la URL de la imagen en SharedPreferences
+                            SharedPreferences preferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("profile_image_url", usuario.getFotoPerfil());
+                            editor.apply();
+
+                            Log.d("LoginFragment", "Imagen de perfil guardada: " + usuario.getFotoPerfil());
+
+                            // Actualizar la imagen en MainActivity si estamos ahí
+                            if (getActivity() instanceof MainActivity) {
+                                ((MainActivity) getActivity()).loadProfileImage();
+                            }
+                            break;
+                        }
+                    }
+                } else {
+                    Log.w("LoginFragment", "No se pudo obtener los datos del perfil");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<UsuarioPerfil>> call, Throwable t) {
+                Log.e("LoginFragment", "Error al obtener imagen de perfil: " + t.getMessage());
+            }
+        });
     }
 
 }

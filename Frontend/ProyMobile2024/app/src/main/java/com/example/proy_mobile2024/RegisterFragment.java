@@ -2,10 +2,13 @@ package com.example.proy_mobile2024;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import com.example.proy_mobile2024.LoginFragment;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
@@ -35,9 +38,9 @@ import retrofit2.Response;
 public class RegisterFragment extends Fragment {
 
     private EditText etNombre, etApellido, etDni, etUsuario, etEmail, etContrasena, etConfirmarContrasena;
-    private Button btnRegistrar;
     private Spinner spinner_tipo_DNI;
-    private int selected_tipo_DNI;
+    private Button btnRegistrar;
+    private int selected_tipo_DNI = 0;
 
     // Constantes para validaciones
     private static final int MIN_USER_LENGTH = 5; // Mínimo de 5 caracteres para el usuario
@@ -47,9 +50,12 @@ public class RegisterFragment extends Fragment {
     private boolean isPasswordVisible = false;  // Estado de visibilidad de la contraseña
     private boolean isConfirmPasswordVisible = false; // Estado de visibilidad de la confirmación de contraseña
 
+
+
     public RegisterFragment() {
         // Constructor vacío requerido
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -239,6 +245,12 @@ public class RegisterFragment extends Fragment {
                     return; // Salir del método si el campo está vacío
                 }
 
+                // Validar que se haya seleccionado un tipo de DNI
+                if (id_tipo_documento == 0) {  // 0 significa no seleccionado o default
+                    Toast.makeText(getActivity(), "Por favor, seleccione un tipo de DNI", Toast.LENGTH_LONG).show();
+                    return; // No continuar con el registro
+                }
+
                 // Validaciones
                 if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() ||
                         nombreUsuario.isEmpty() || email.isEmpty() || password.isEmpty() || confirmarContrasena.isEmpty()) {
@@ -326,16 +338,6 @@ public class RegisterFragment extends Fragment {
                         Toast.makeText(getActivity(), "Error durante el registro de usuario, intente nuevamente", Toast.LENGTH_LONG).show();
                     }
                 });
-
-
-
-                // Simulación de registro exitoso
-                //Toast.makeText(getActivity(), "Registro exitoso", Toast.LENGTH_SHORT).show();
-
-                // Navegar al LoginActivity o LoginFragment
-                /*getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new LoginFragment())
-                        .commit();*/
             }
         });
 
@@ -349,8 +351,7 @@ public class RegisterFragment extends Fragment {
 
     // Método para verificar si el usuario o email ya existen (Simulación)
     private void checkUserOrEmailExists(String username, String email) {
-        // Lógica para verificar con la base de datos
-        // Si existen, mostrar mensaje de error
+
     }
 
     // Método para guardar los datos del usuario en la base de datos
@@ -359,31 +360,62 @@ public class RegisterFragment extends Fragment {
     }
 
     private void prepararSpinner() {
-        // Crear un ArrayAdapter con la opción "DNI"
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_spinner_item, new String[]{"DNI"});
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.spinner_item,
+                getResources().getStringArray(R.array.tipos_dni));
 
-        // Aplicar el adaptador al spinner
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+
         spinner_tipo_DNI.setAdapter(adapter);
 
-        // Preseleccionar la opción "DNI"
         spinner_tipo_DNI.setSelection(0);
 
-        // Configurar un listener para manejar la selección
         spinner_tipo_DNI.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Valor asociado a la selección
-                int selectedValue = 1; // Valor que deseas usar
-                selected_tipo_DNI = selectedValue;
+                if (position == 0) {
+                    selected_tipo_DNI = 0;
+                } else {
+                    selected_tipo_DNI = position;
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // No hacer nada
+                selected_tipo_DNI = 0;
             }
         });
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        Spinner spinnerDni = view.findViewById(R.id.spinner_tipo_DNI);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
+                requireContext(),
+                R.layout.spinner_item,
+                getResources().getStringArray(R.array.tipos_dni)
+        ) {
+            @Override
+            public boolean isEnabled(int position) {
+                return position != 0;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView textView = (TextView) view;
+                if (position == 0) {
+                    textView.setTextColor(Color.GRAY);
+                } else {
+                    textView.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        spinnerDni.setAdapter(adapter);
+    }
 }

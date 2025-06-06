@@ -144,7 +144,7 @@ class EstadoPedido(models.Model):
         db_table = 'estado_pedido'
 
     def __str__(self):
-        return self.id_estado_pedido
+        return str(self.id_estado_pedido)
 
 class FormaDePago(models.Model):
     id_forma_de_pago = models.IntegerField(primary_key=True)
@@ -155,7 +155,7 @@ class FormaDePago(models.Model):
         db_table = 'forma_de_pago'
 
     def __str__(self):
-        return self.id_forma_de_pago
+        return str(self.id_forma_de_pago)
 
 class Pedido(models.Model):
     id_pedido = models.AutoField(primary_key=True)
@@ -173,7 +173,7 @@ class Pedido(models.Model):
 
         
     def __str__(self):
-        return self.id_pedido
+        return str(self.id_pedido)
 
 class Producto(models.Model):
     id_producto = models.AutoField(primary_key=True)
@@ -267,14 +267,39 @@ class TipoEnvio(models.Model):
         db_table = 'tipo_envio'
 
     def __str__(self):
-        return self.id_tipo_envio
+        return str(self.id_tipo_envio)
+    
+class Cupon(models.Model):
+    TIPO_DESCUENTO_CHOICES = [
+        ('PORCENTAJE', 'Porcentaje'),
+        ('MONTO', 'Monto fijo'),
+    ]
+
+    nombre = models.CharField(max_length=50)
+    descripcion = models.TextField()
+    tipo_descuento = models.CharField(max_length=20, choices=TIPO_DESCUENTO_CHOICES)
+    valor_descuento = models.FloatField()
+    imagen_url = models.URLField(blank=True, null=True)
+    fecha_vencimiento = models.DateField()
+    image_url = models.TextField(blank=True, null=True)    
+
+    class Meta:
+        verbose_name = "Cupón"
+        verbose_name_plural = "Cupones"
+
+    def __str__(self):
+        return f"{self.nombre} ({self.tipo_descuento})"
+    
+
+
+
 
 # Incorporamos usuario a registrar
 class Usuario(models.Model):
     nombre_usuario = models.CharField(primary_key=True, max_length=12)
     nombre = models.CharField(max_length=45, blank=True, null=True)
     direccion = models.CharField(max_length=45, blank=True, null=True)
-    telefono = models.BigIntegerField(blank=True, null=True)
+    telefono = models.IntegerField(blank=True, null=True)
     email = models.CharField(max_length=45, blank=True, null=True)
     apellido = models.CharField(max_length=45, blank=True, null=True)
     id_tipo_documento = models.ForeignKey(TipoDocumento, models.DO_NOTHING, db_column='id_tipo_documento', blank=True, null=True)
@@ -282,7 +307,7 @@ class Usuario(models.Model):
     numero_cliente = models.IntegerField(blank=True, null=True)
     id_rol = models.ForeignKey(Rol, models.DO_NOTHING, db_column='id_rol', blank=True, null=True)
     estado = models.TextField(blank=True, null=True)  # This field type is a guess.
-    password = models.CharField(max_length=45, blank=True, null=True)
+    # password = models.CharField(max_length=45, blank=True, null=True)
     fotoPerfil = models.CharField(max_length=600, blank=True, null=True)
 
     class Meta:
@@ -291,6 +316,16 @@ class Usuario(models.Model):
 
     def __str__(self):
         return self.nombre_usuario
+
+class UsuarioCupon(models.Model):
+    #usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cupones_usuario")
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="cupones_usuario")
+    cupon = models.ForeignKey(Cupon, on_delete=models.CASCADE)
+    usado = models.BooleanField(default=False)
+    fecha_aplicado = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ('usuario', 'cupon')
 
 class Venta(models.Model):
     id_venta = models.AutoField(primary_key=True)
@@ -326,3 +361,13 @@ class CustomUser(models.Model):
 
     def __str__(self):
         return self.username
+ 
+class Arrepentimiento(models.Model):
+    nombre = models.CharField(max_length=100)
+    telefono = models.CharField(max_length=20)
+    email = models.EmailField()
+    motivo = models.TextField(blank=True, null=True)
+    fecha_envio = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.nombre} - {self.email}'

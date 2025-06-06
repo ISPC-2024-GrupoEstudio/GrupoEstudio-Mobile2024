@@ -3,10 +3,14 @@ package com.example.proy_mobile2024;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.content.SharedPreferences;
 import android.widget.ImageView;
@@ -28,7 +32,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.example.proy_mobile2024.model.Producto;
 import com.google.android.material.navigation.NavigationView;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import android.content.Intent;
+import android.net.Uri;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -43,8 +53,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+
+            // Para íconos oscuros en status bar transparente
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                );
+            }
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -65,6 +89,22 @@ public class MainActivity extends AppCompatActivity {
 
         // Llama a checkLoginStatus() para establecer el estado inicial de los ítems del menú
         checkLoginStatus();
+
+        // Verificar si el login fue exitoso desde IntroduccionActivity
+        if (getIntent().getBooleanExtra("loginSuccess", false)) {
+            // Actualizar el NavigationView con los datos del usuario
+            updateNavigationHeaderFromPreferences();
+
+            // Opcional: navegar directamente al fragmento deseado
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new SobreNosotrosFragment())
+                        .commit();
+            }
+
+            // Mostrar mensaje de bienvenida
+            Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+        }
         // Inicializa el NavigationView
         navigationView = findViewById(R.id.nav_view);
 
@@ -79,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
         // Obtén el username desde SharedPreferences
         SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         String username = preferences.getString("username", "Usuario Desconocido"); // Cambia "username" por la clave que usas
-
 
 
         // Establece el nombre en el TextView del encabezado
@@ -98,9 +137,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Verifica el estado de inicio de sesión al cargar la actividad
         //checkLoginStatus();  // Verifica si el usuario está logueado o no
-
-
-
 
 
         if (savedInstanceState == null) {
@@ -144,6 +180,10 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new SobreNosotrosFragment();
                 } else if (id == R.id.nav_logout) { // Manejo del logout
                 logoutClick();
+                }else if (id == R.id.nav_web) {
+                String url = "https://github.com/ISPC-2024-GrupoEstudio/GrupoEstudio-2024";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
                 return true; // No es necesario continuar con el procesamiento
             }
 
@@ -162,7 +202,12 @@ public class MainActivity extends AppCompatActivity {
                 if (id == R.id.nav_profile) {
                     Intent intent = new Intent(MainActivity.this, PerfilActivity.class);
                     startActivity(intent);
-                }/* if (id == R.id.nav_home) {
+                }
+                if (id == R.id.nav_dashboard) {
+                    Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                    startActivity(intent);
+                }
+                /* if (id == R.id.nav_home) {
                     // Redirige a otra actividad si tienes más
                     Intent intent = new Intent(MainActivity.this, LandingActivity.class);
                     startActivity(intent);
@@ -175,6 +220,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+
     }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -186,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     private void replaceFragment(Fragment fragment){
         Log.d("MainActivity", "Reemplazando el fragmento");
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -195,11 +243,12 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void loadProfileImage() {
+    // Reemplazar el método loadProfileImage existente en MainActivity.java con esta versión:
+    public void loadProfileImage() {
         SharedPreferences preferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE);
         String profileImageUrl = preferences.getString("profile_image_url", "");
 
-        if (headerProfileImage != null) {  // Verificar que no sea null
+        if (headerProfileImage != null) {
             if (!profileImageUrl.isEmpty()) {
                 Glide.with(this)
                         .load(profileImageUrl)
@@ -207,13 +256,17 @@ public class MainActivity extends AppCompatActivity {
                         .placeholder(R.drawable.foto_icon)
                         .error(R.drawable.foto_icon)
                         .into(headerProfileImage);
+                Log.d("MainActivity", "Imagen de perfil cargada desde URL: " + profileImageUrl);
             } else {
                 // Si no hay URL, cargar la imagen por defecto
                 Glide.with(this)
                         .load(R.drawable.foto_icon)
                         .transform(new CircleCrop())
                         .into(headerProfileImage);
+                Log.d("MainActivity", "Cargando imagen de perfil por defecto");
             }
+        } else {
+            Log.w("MainActivity", "headerProfileImage es null");
         }
     }
 
@@ -229,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.nav_profile).setVisible(isLoggedIn);
         navigationView.getMenu().findItem(R.id.nav_logout).setVisible(isLoggedIn);
         navigationView.getMenu().findItem(R.id.nav_cart).setVisible(isLoggedIn);
+        navigationView.getMenu().findItem(R.id.nav_dashboard).setVisible(isLoggedIn);
         // Puedes agregar un mensaje o redirigir a otra parte si lo deseas
         if (isLoggedIn) {
             Toast.makeText(this, "Bienvenido de nuevo", Toast.LENGTH_SHORT).show();
@@ -236,6 +290,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Forzar actualización del menú
         invalidateOptionsMenu();
+        updateSobreNosotrosFragment();
     }
 
     public void logoutClick() {
@@ -285,6 +340,33 @@ public class MainActivity extends AppCompatActivity {
         loadProfileImage();
 
 
+    }
+
+    public void updateSobreNosotrosFragment() {
+        // Buscar el fragment actual
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        if (currentFragment instanceof SobreNosotrosFragment) {
+            ((SobreNosotrosFragment) currentFragment).updateServicios();
+        }
+    }
+
+    private void updateNavigationHeaderFromPreferences() {
+        SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+        String username = preferences.getString("username", "Usuario Desconocido");
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView navHeaderTitle = headerView.findViewById(R.id.nav_header_title);
+
+        if (navHeaderTitle != null && !username.isEmpty()) {
+            navHeaderTitle.setText(username);
+        }
+
+        // Carga la imagen de perfil
+        loadProfileImage();
+
+        // Actualiza el estado del menú
+        checkLoginStatus();
     }
 
 }

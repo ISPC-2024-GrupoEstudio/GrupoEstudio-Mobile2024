@@ -7,7 +7,8 @@
     android:layout_marginTop="70dp"
     android:background="#FFFFFF"
     tools:context=".ContactoFragment"
-    tools:ignore="ExtraText">
+    tools:ignore="ExtraText"
+    android:fitsSystemWindows="true">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,24 +40,11 @@
                         android:id="@+id/tvtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-black"
+                        android:fontFamily="@font/poppins_semibold"
                         android:gravity="center"
                         android:text="@string/titulo_contacto"
                         android:textColor="#000000"
-                        android:textSize="24sp" />
-
-                    <TextView
-                        android:id="@+id/tvtitle2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="none"
-                        android:fontFamily="sans-serif-medium"
-                        android:gravity="center"
-                        android:scrollHorizontally="false"
-                        android:singleLine="false"
-                        android:text="@string/subtitulo_contacto"
-                        android:textColor="#000000"
-                        android:textSize="22sp" />
+                        android:textSize="24sp"/>
 
                     <TextView
                         android:id="@+id/tvname"
@@ -64,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="15dp"
-                        android:fontFamily="sans-serif-medium"
+                        android:fontFamily="@font/poppins_regular"
                         android:text="@string/ingresar_nombre_label_contacto"
                         android:textColor="#000000"
                         android:textSize="16sp" />
@@ -96,7 +84,8 @@
                             app:layout_constraintWidth_max="488dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
-                            android:maxLength="30"/>
+                            android:maxLength="30"
+                            android:fontFamily="@font/poppins_thin"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -106,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="15dp"
-                        android:fontFamily="sans-serif-medium"
+                        android:fontFamily="@font/poppins_regular"
                         android:text="@string/ingresar_tel_label_contacto"
                         android:textColor="#000000"
                         android:textSize="16sp" />
@@ -138,7 +127,8 @@
                             app:layout_constraintWidth_max="488dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
-                            android:maxLength="15"/>
+                            android:maxLength="15"
+                            android:fontFamily="@font/poppins_thin"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -148,7 +138,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="15dp"
-                        android:fontFamily="sans-serif-medium"
+                        android:fontFamily="@font/poppins_regular"
                         android:text="@string/ingresar_email_label_contacto"
                         android:textColor="#000000"
                         android:textSize="16sp" />
@@ -180,7 +170,8 @@
                             app:layout_constraintWidth_max="488dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
-                            android:maxLength="50"/>
+                            android:maxLength="50"
+                            android:fontFamily="@font/poppins_thin"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -190,7 +181,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="15dp"
-                        android:fontFamily="sans-serif-medium"
+                        android:fontFamily="@font/poppins_regular"
                         android:text="@string/ingresar_msj_label_contacto"
                         android:textSize="16sp"
                         android:textColor="@color/black"/>
@@ -221,7 +212,8 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintWidth_max="488dp"
                             android:textColorHint="@color/black"
-                            android:maxLength="250"/>
+                            android:maxLength="250"
+                            android:fontFamily="@font/poppins_thin"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -231,13 +223,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="15dp"
-                        android:background="@drawable/btn_contacto"
+                        android:background="@drawable/button_bg"
                         android:backgroundTint="@null"
                         android:text="@string/btn_enviar"
                         android:textAllCaps="false"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_semibold"/>
 
                 </LinearLayout>
 
@@ -246,9 +239,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:id="@+id/tv_ws"

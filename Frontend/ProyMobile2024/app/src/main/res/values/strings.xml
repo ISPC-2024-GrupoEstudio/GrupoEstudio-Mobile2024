@@ -11,6 +11,7 @@
     <string name="itemnav_cerrsesion">Cerrar sesión</string>
     <string name="itemnav_contanctus">Contactanos</string>
     <string name="itemnav_home">Home</string>
+    <string name="btn_volver">Volver atrás</string>
 
     <!--Activity Perfil-->
     <string name="perfil_nombre">Nombre</string>
@@ -37,7 +38,6 @@
     <string name="perfil_editar_guardar">Guardar Cambios</string>
 
 
-
     <!-- Fragmento Contacto -->
     <string name="ingresar_nombre_contacto">Ingrese su nombre</string>
     <string name="ingresar_nombre_label_contacto">Ingrese su nombre:</string>
@@ -48,7 +48,7 @@
     <string name="ingresar_msj_contacto">Ingrese su mensaje</string>
     <string name="ingresar_msj_label_contacto">Ingrese su mensaje:</string>
     <string name="whatsapp_contacto">WhatsApp de contacto</string>
-    <string name="titulo_contacto">¡CONTACTANOS!</string>
+    <string name="titulo_contacto">¡Contáctese con nosotros!</string>
     <string name="subtitulo_contacto">¡Nos comunicaremos a la brevedad!</string>
     <string name="btn_enviar">Enviar</string>
     <string name="num_whatsapp">3518542789</string>
@@ -99,9 +99,9 @@
     <string name="landing_descripcionBanderin">Imagen logo de petboutique</string>
     <string name="landing_bienvenida">Bienvenid@s a Pet Boutique</string>
     <string name="landing_boton">Empezar</string>
-    <string name="volver">volver_a_productos</string>
-    <string name="carrito">Carrito</string>
-    <string name="descripcion_Cart">Logo de carrito</string>
+
+
+
     <string name="descripcion_detalleprod">Volver a productos</string>
     <string name="descripcion_imagendetalleprod">Imagen de producto detallado</string>
     <string name="descripcion_imagen_volver_products">Volver al home</string>
@@ -111,4 +111,55 @@
     <string name="descripcion_imagen_elim_prod_Cart">Boton para eliminar productos</string>
     <string name="descripcion_imagen_regsitro">Imagen decorativa de animales</string>
     <string name="descripcion_imagen_products">Imagen del producto</string>
+
+    <!--fragment checkout-->
+    <string name="resumen_de_tu_compra">Resumen de tu compra</string>
+    <string name="nuestra_p_gina_web">Nuestra página web</string>
+    <string name="check_datos">Datos de envío</string>
+
+    <!--Activity Dashboard -->
+    <string name="dash_img">gato rompiendo un fondo blanco</string>
+    <string name="dash_titulo">Dashboard</string>
+    <string name="dash_historial">Historial de Compras</string>
+    <string name="dash_historial_fondo">fondo violeta con cosas relacionadas a compras</string>
+    <string name="dash_cupones">Mis cupones</string>
+    <string name="dash_cupones_fondo">fondo verde con cosas relacionadas a los cupones</string>
+    <string name="dash_recomendaciones">Recomendaciones:</string>
+
+    <!--Activity DetallePedido -->
+    <string name="detalle_titulo">Detalle Pedido</string>
+    <string name="detalle_total">Total: $0.00</string>
+
+    <!-- Item Producto Pedido -->
+    <string name="itemDetalle_img">imagen por default</string>
+    <string name="itemDetalle_nombre">Nombre</string>
+    <string name="itemDetalle_cant">Cantidad</string>
+    <string name="itemDetalle_precio">Precio:</string>
+    <string name="itemDetalle_subtotal">Subtotal:</string>
+
+
+    <!--Activity HistorialCompras -->
+    <string name="historial_titulo">Historial de Compras</string>
+
+    <!-- Card Historial Compras -->
+    <string name="cardHistorial_img">icono de un pedido con fondo verde</string>
+    <string name="cardHistorial_pedido">Pedido N°</string>
+    <string name="cardHistorial_fecha">Fecha:</string>
+    <string name="cardHistorial_hora">Hora:</string>
+    <string name="cardHistorial_estado">Estado:</string>
+    <string name="cardHistorial_domicilio">Domicilio:</string>
+    <string name="cardHistorial_btn">Ver Detalles</string>
+
+    <!-- Carrusel Dashboard-->
+    <string name="carrusel_titulo">Peluches</string>
+    <string name="carrusel_img">Producto recomendado</string>
+    <string name="carrusel_btn">Ver producto</string>
+
+    <!-- Activity Carrito-->
+    <string name="cart_volver">volver_a_productos</string>
+    <string name="cart_carrito">Carrito</string>
+    <string name="cart_descripcion">Logo de carrito</string>
+    <string name="cart_vaciar">Vacíar Carrito</string>
+    <string name="cart_pago">Proceder al pago</string>
+
 </resources>
