@@ -8,7 +8,8 @@
     android:padding="0dp"
     android:background="@android:color/white"
     android:clipToPadding="false"
-    tools:context=".LoginFragment">
+    tools:context=".LoginFragment"
+    android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
