@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".CarritoActivity">
+    tools:context=".CarritoActivity"
+    android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/navbar_carrito"
@@ -19,7 +20,7 @@
         style="@android:style/Widget.DeviceDefault.ImageButton"
         android:layout_width="52dp"
         android:layout_height="52dp"
-        android:contentDescription="@string/volver"
+        android:contentDescription="@string/cart_volver"
         app:srcCompat="@drawable/flecha_volver"
         tools:ignore="MissingConstraints"
         android:background="@color/transparente"/>
@@ -30,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:scaleType="fitCenter"
-        android:contentDescription="@string/carrito"
+        android:contentDescription="@string/cart_carrito"
         app:srcCompat="@drawable/logo"
         tools:ignore="MissingConstraints"
         android:background="@color/transparente"
@@ -54,14 +55,14 @@
             android:layout_height="40dp"
             android:layout_gravity="start"
             android:layout_marginStart="30dp"
-            android:contentDescription="@string/descripcion_Cart"
+            android:contentDescription="@string/cart_descripcion"
             android:src="@drawable/carritopngcolor"/>
 
         <Button
             android:id="@+id/btnVaciarCarrito"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vaciar Carrito"
+            android:text="@string/cart_vaciar"
             android:layout_marginStart="100dp"
             android:fontFamily="@font/poppins_semibold"/>
     </LinearLayout>
@@ -84,7 +85,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Proceder al pago"
+        android:text="@string/cart_pago"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
