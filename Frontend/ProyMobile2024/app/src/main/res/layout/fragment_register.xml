@@ -85,15 +85,10 @@
             <Spinner
                 android:id="@+id/spinner_tipo_DNI"
                 android:layout_width="match_parent"
-<<<<<<< HEAD
                 android:background="@drawable/form_contacto"
                 android:textColor="@color/black"
-                android:layout_height="54dp" />
-=======
                 android:layout_height="54dp"
-                android:background="@drawable/form_contacto"
                 android:fontFamily="@font/poppins_regular"/>
->>>>>>> 1d13caef7e37d341c40148b0e55aacfc27445d77
 
             <EditText
                 android:id="@+id/dni"
@@ -207,7 +202,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:background="@drawable/btn_contacto"
+                android:background="@drawable/button_bg"
                 android:backgroundTint="@null"
                 android:minHeight="48dp"
                 android:text="Registro"

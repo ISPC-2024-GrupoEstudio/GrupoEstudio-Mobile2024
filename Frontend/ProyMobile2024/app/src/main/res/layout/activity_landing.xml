@@ -13,7 +13,7 @@
         android:layout_width="400dp"
         android:layout_height="200dp"
         android:contentDescription="Logo Pet Boutique"
-        android:src="@drawable/logox"
+        android:src="@drawable/logo"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -222,7 +222,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="15dp"
-                        android:background="@drawable/btn_contacto"
+                        android:background="@drawable/button_bg"
                         android:backgroundTint="@null"
                         android:text="@string/btn_enviar"
                         android:textAllCaps="false"
