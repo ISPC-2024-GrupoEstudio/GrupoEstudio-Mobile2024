@@ -105,11 +105,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="Estilizacion Editar Perfil">
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/CheckoutActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/CheckoutActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/ApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/ApiService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/PetBoutique/PetBoutique/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/PetBoutique/PetBoutique/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

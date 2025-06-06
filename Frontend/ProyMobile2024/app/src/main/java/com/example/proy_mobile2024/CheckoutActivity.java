@@ -193,26 +193,27 @@ public class CheckoutActivity extends AppCompatActivity {
 
 
     private void checkout() {
-        aplicarDescuentos();
+        //aplicarDescuentos();  // Podés comentar para que no modifique totalConDescuento
+
         SharedPreferences sharedPreferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
         String nombre_usuario = sharedPreferences.getString("id_usuario", "");
 
         Log.d("Checkout", "Nombre de usuario: " + nombre_usuario);
-        Log.d("Checkout", "Monto final con descuento: " + totalConDescuento);
+        Log.d("Checkout", "Monto final sin descuento: " + totalSinDescuento);
 
         PedidoCheckoutData pedidoCheckoutData = new PedidoCheckoutData();
         pedidoCheckoutData.setExternal_reference(nombre_usuario);
         pedidoCheckoutData.setItemsCarrito(listaCarrito);
-        pedidoCheckoutData.setMontoFinal(totalConDescuento);
+        pedidoCheckoutData.setMontoFinal(totalSinDescuento);  // <--- ACÁ envías el total sin descuento
 
         RetrofitClient.getInstance(this).getApiService().obtenerPreferencia(pedidoCheckoutData).enqueue(new Callback<PreferenciaResponse>() {
             @Override
             public void onResponse(Call<PreferenciaResponse> call, Response<PreferenciaResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
 
-                  Intent intent = new Intent(Intent.ACTION_VIEW);
-                  intent.setData(Uri.parse(response.body().getInit_point()));
-                  startActivity(intent);
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(response.body().getInit_point()));
+                    startActivity(intent);
                 }
             }
 
@@ -222,6 +223,7 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void cargarCarrito() {
         SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
