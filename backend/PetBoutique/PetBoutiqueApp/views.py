@@ -304,14 +304,23 @@ def crear_preferencia(request):
             checkout_from = data.get("from")
             from_param = "?from=app" if checkout_from == "app" else ""
 
+            monto_final = data.get("montoFinal", None)
+            if monto_final is None:
+                return JsonResponse({"error": "Falta el montoFinal"}, status=400)
+
             preference_data = {
                 "items": [
                     {
-                        "title": item["title"],
-                        "quantity": item["quantity"],
-                        "unit_price": float(item["unit_price"]),
+                        # "title": item["title"],
+                        # "quantity": item["quantity"],
+                        # "unit_price": float(item["unit_price"]),
+                        # "currency_id": "ARS",
+
+                        "title": "Total del pedido con descuento",
+                        "quantity": 1,
+                        "unit_price": float(monto_final),
                         "currency_id": "ARS",
-                    } for item in items
+                    } #for item in items
                 ],
                 "back_urls": {
                     "success": "https://4db6-2803-9800-988a-7e8b-3198-99c-665e-b13e.ngrok-free.app/api/pago-exitoso" + from_param,

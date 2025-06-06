@@ -1,8 +1,10 @@
 package com.example.proy_mobile2024;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,11 +19,29 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import okhttp3.ResponseBody;
+import retrofit2.Callback;
+import retrofit2.Call;
+import retrofit2.Response;
+
+import com.example.proy_mobile2024.model.MisCuponRequest;
+import com.example.proy_mobile2024.services.ApiService;
+import com.example.proy_mobile2024.services.RetrofitClient;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import retrofit2.Call;
+
 public class CuponesActivity extends AppCompatActivity {
 
     private ImageView btnBack;
     private LinearLayout cuponesContainer;
     private Cupon[] cupones;
+    private Set<Integer> cuponesAplicados = new HashSet<>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,42 +49,69 @@ public class CuponesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cupones);
 
         initViews();
-        initCuponesData();
-        generateCupones();
+        //initCuponesData();
+        //generateCupones();
         setupListeners();
+
+        cuponesContainer = findViewById(R.id.cupones_container);
+        cargarCuponesDesdeAPI();
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String nombreUsuario = sharedPreferences.getString("username", null);
+
     }
 
     private void initViews() {
         btnBack = findViewById(R.id.btn_back);
         cuponesContainer = findViewById(R.id.cupones_container);
     }
+    private void cargarCuponesDesdeAPI() {
+        ApiService apiService = RetrofitClient.getInstance(this).getApiService();
+        Call<List<Cupon>> call = apiService.obtenerCupones();
 
-    private void initCuponesData() {
-        cupones = new Cupon[]{
-                new Cupon("32%", "Peludos Abrigados",
-                        new int[]{Color.parseColor("#9C63D6"), Color.parseColor("#5BA3F5")},
-                        Color.parseColor("#8E24AA")),
+        call.enqueue(new Callback<List<Cupon>>() {
+            @Override
+            public void onResponse(Call<List<Cupon>> call, Response<List<Cupon>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    cupones = response.body().toArray(new Cupon[0]);
+                    generateCupones();  // Aquí sí usamos el diseño existente
+                } else {
+                    Log.e("CuponesActivity", "Respuesta no exitosa");
+                }
+            }
 
-                new Cupon("12%", "Agosto Gatuno",
-                        new int[]{Color.parseColor("#FF6B35"), Color.parseColor("#F7931E")},
-                        Color.parseColor("#E65100")),
+            @Override
+            public void onFailure(Call<List<Cupon>> call, Throwable t) {
+                Log.e("CuponesActivity", "Error al obtener cupones: " + t.getMessage());
+            }
+        });
+    }
 
-                new Cupon("25%", "Juguetes seleccionados",
-                        new int[]{Color.parseColor("#4FC3F7"), Color.parseColor("#29B6F6")},
-                        Color.parseColor("#0277BD")),
 
-                new Cupon("7%", "Promo Envíos",
-                        new int[]{Color.parseColor("#66BB6A"), Color.parseColor("#4CAF50")},
-                        Color.parseColor("#388E3C"))
+    private int[] getGradientColorsForIndex(int index) {
+        int[][] gradients = new int[][]{
+                {Color.parseColor("#9C63D6"), Color.parseColor("#5BA3F5")},
+                {Color.parseColor("#FF6B35"), Color.parseColor("#F7931E")},
+                {Color.parseColor("#4FC3F7"), Color.parseColor("#29B6F6")},
+                {Color.parseColor("#66BB6A"), Color.parseColor("#4CAF50")},
+                {Color.parseColor("#FFB300"), Color.parseColor("#F57C00")},
+                {Color.parseColor("#AB47BC"), Color.parseColor("#7E57C2")}
         };
+        return gradients[index % gradients.length];
     }
 
-    private void generateCupones() {
-        for (int i = 0; i < cupones.length; i++) {
-            View cuponView = createCuponView(cupones[i], i);
-            cuponesContainer.addView(cuponView);
+
+
+        private void generateCupones() {
+            if (cupones == null || cupones.length == 0) {
+                Log.w("CuponesActivity", "No hay cupones para mostrar");
+                return;
+            }
+
+            for (int i = 0; i < cupones.length; i++) {
+                View cuponView = createCuponView(cupones[i], i);
+                cuponesContainer.addView(cuponView);
+            }
         }
-    }
 
     private View createCuponView(Cupon cupon, int index) {
         // Crear el RelativeLayout principal
@@ -76,10 +123,13 @@ public class CuponesActivity extends AppCompatActivity {
         layoutParams.setMargins(0, 0, 0, dpToPx(16));
         couponLayout.setLayoutParams(layoutParams);
 
+        // Usar colores según el índice si vienen del backend sin colores
+        int[] gradientColors = getGradientColorsForIndex(index);
+
         // Crear gradiente para el fondo
         GradientDrawable gradient = new GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
-                cupon.getGradientColors()
+                gradientColors
         );
         gradient.setCornerRadius(dpToPx(12));
         couponLayout.setBackground(gradient);
@@ -103,6 +153,7 @@ public class CuponesActivity extends AppCompatActivity {
         return couponLayout;
     }
 
+
     private LinearLayout createLeftSection(Cupon cupon) {
         LinearLayout leftSection = new LinearLayout(this);
         RelativeLayout.LayoutParams leftParams = new RelativeLayout.LayoutParams(
@@ -113,9 +164,20 @@ public class CuponesActivity extends AppCompatActivity {
         leftSection.setOrientation(LinearLayout.VERTICAL);
         leftSection.setGravity(android.view.Gravity.CENTER);
 
+        // Asignar un color según el tipo de descuento
+        int leftColor;
+        String tipo = cupon.getTipoDescuento();
+        if ("PORCENTAJE".equalsIgnoreCase(tipo)) {
+            leftColor = Color.parseColor("#4CAF50"); // Verde para porcentaje
+        } else if ("MONTO".equalsIgnoreCase(tipo)) {
+            leftColor = Color.parseColor("#F44336"); // Rojo para monto
+        } else {
+            leftColor = Color.parseColor("#2196F3"); // Azul por defecto
+        }
+
         // Fondo sólido para la sección izquierda
         GradientDrawable leftBg = new GradientDrawable();
-        leftBg.setColor(cupon.getLeftColor());
+        leftBg.setColor(leftColor);
         leftBg.setCornerRadii(new float[]{dpToPx(12), dpToPx(12), 0, 0, 0, 0, dpToPx(12), dpToPx(12)});
         leftSection.setBackground(leftBg);
 
@@ -132,9 +194,15 @@ public class CuponesActivity extends AppCompatActivity {
         discountLabel.setLayoutParams(labelParams);
         leftSection.addView(discountLabel);
 
-        // Porcentaje de descuento
+        // Porcentaje o monto de descuento
         TextView discountText = new TextView(this);
-        discountText.setText(cupon.getDiscount());
+
+        double valor = cupon.getValorDescuento();
+        String descuentoFormateado = tipo.equalsIgnoreCase("PORCENTAJE")
+                ? (int) valor + "%"
+                : "$" + (int) valor;
+
+        discountText.setText(descuentoFormateado);
         discountText.setTextColor(Color.WHITE);
         discountText.setTextSize(32);
         discountText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -144,46 +212,47 @@ public class CuponesActivity extends AppCompatActivity {
         return leftSection;
     }
 
+
     private LinearLayout createRightSection(Cupon cupon, int index) {
         LinearLayout rightSection = new LinearLayout(this);
         rightSection.setOrientation(LinearLayout.VERTICAL);
         rightSection.setPadding(dpToPx(16), dpToPx(16), dpToPx(16), dpToPx(16));
 
-        // Titulo
+        // Título: nombre del cupón
         TextView tituloText = new TextView(this);
-        tituloText.setText(cupon.getVenue());
+        tituloText.setText(cupon.getNombre());
         tituloText.setTextColor(Color.WHITE);
         tituloText.setTextSize(12);
-        LinearLayout.LayoutParams venueParams = new LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams nombreParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        venueParams.setMargins(0, 0, 0, dpToPx(2));
-        tituloText.setLayoutParams(venueParams);
+        nombreParams.setMargins(0, 0, 0, dpToPx(2));
+        tituloText.setLayoutParams(nombreParams);
         rightSection.addView(tituloText);
 
-        // Descripcion cupon
+        // Descripción
         TextView descripcionText = new TextView(this);
-        descripcionText.setText("Breve descripcion");
+        descripcionText.setText(cupon.getDescripcion());
         descripcionText.setTextColor(Color.WHITE);
         descripcionText.setTextSize(10);
         descripcionText.setAlpha(0.8f);
-        LinearLayout.LayoutParams termsParams = new LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams descParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        termsParams.setMargins(0, 0, 0, dpToPx(8));
-        descripcionText.setLayoutParams(termsParams);
+        descParams.setMargins(0, 0, 0, dpToPx(8));
+        descripcionText.setLayoutParams(descParams);
         rightSection.addView(descripcionText);
 
 
-        // Buttons container
+        // Contenedor de botones
         LinearLayout buttonsContainer = new LinearLayout(this);
         buttonsContainer.setOrientation(LinearLayout.HORIZONTAL);
         buttonsContainer.setGravity(android.view.Gravity.END);
         rightSection.addView(buttonsContainer);
 
-        // Aplicar cupon button
+        // Botón "Aplicar Cupón"
         TextView viewBtn = createButton("Aplicar Cupón", index, true);
         LinearLayout.LayoutParams viewParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -193,9 +262,9 @@ public class CuponesActivity extends AppCompatActivity {
         viewBtn.setLayoutParams(viewParams);
         buttonsContainer.addView(viewBtn);
 
-
         return rightSection;
     }
+
 
     private TextView createButton(String text, int couponIndex, boolean isViewButton) {
         TextView button = new TextView(this);
@@ -211,18 +280,127 @@ public class CuponesActivity extends AppCompatActivity {
         button.setClickable(true);
         button.setFocusable(true);
 
-        // Set click listener
+        GradientDrawable border = new GradientDrawable();
+        border.setShape(GradientDrawable.RECTANGLE);
+        border.setCornerRadius(dpToPx(12));
+        border.setColor(Color.TRANSPARENT);
+        border.setStroke(dpToPx(2), Color.WHITE);
+        button.setBackground(border);
+        button.setPadding(dpToPx(24), dpToPx(8), dpToPx(24), dpToPx(8));
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isViewButton) {
-                    onViewCupon(cupones[couponIndex]);
+                SharedPreferences prefs = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+                String token = prefs.getString("accessToken", null);
+
+                if (token == null) {
+                    Toast.makeText(CuponesActivity.this, "Usuario no autenticado", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                // Obtener el cupón seleccionado (ejemplo)
+                Cupon cupon = cupones[couponIndex];
+                int cuponId = cupon.getId();  // Asumiendo que tienes método getId()
+
+                // Si el cupón está en la lista de aplicados, lo marcamos como canjeado y deshabilitamos el botón
+                if (cuponesAplicados.contains(cupon.getId())) {
+                    button.setText("Cupón canjeado");
+                    button.setEnabled(false);
+                    button.setClickable(false);
+                } else {
+                    // Si no está aplicado, asignar el listener para que se pueda agregar
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // TODO: Aquí va todo tu código que ya tenías para aplicar el cupón
+                            // ... (tu código actual dentro de onClick)
+                        }
+                    });
+                }
+
+
+
+                MisCuponRequest request = new MisCuponRequest(cuponId);
+                Log.d("CuponesActivity", "Intentando agregar cupón: " + cupon.getNombre());
+
+                ApiService apiService = RetrofitClient.getInstance(getApplicationContext()).getApiService();
+
+                Call<ResponseBody> call = apiService.aplicarCupon("Bearer " + token, request);
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("CuponesActivity", "Cupón agregado con éxito: " + cupon.getNombre());
+                            Toast.makeText(CuponesActivity.this, "Cupón aplicado correctamente", Toast.LENGTH_SHORT).show();
+
+                            // Cambiar texto y deshabilitar el botón para que no se pueda clickear más
+                            button.setText("Cupón canjeado");
+                            button.setEnabled(false);
+
+                            String username = prefs.getString("username", null);
+
+                            if (username != null) {
+                                mostrarCuponesUsuario(username, token);
+                            } else {
+                                Log.e("CuponesActivity", "⚠️ Username no encontrado en SharedPreferences");
+                            }
+
+                        } else {
+                            Toast.makeText(CuponesActivity.this, "Error al aplicar cupón", Toast.LENGTH_SHORT).show();
+                            Log.e("API", "Error código: " + response.code());
+                            Log.e("CuponesActivity", "Error al agregar cupón. Código: " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(CuponesActivity.this, "Error en la conexión", Toast.LENGTH_SHORT).show();
+                        Log.e("API", "Error en llamada: " + t.getMessage());
+                    }
+                });
             }
         });
 
         return button;
     }
+
+
+    private void mostrarCuponesUsuario(String nombreUsuario, String token) {
+        ApiService apiService = RetrofitClient.getInstance(getApplicationContext()).getApiService();
+
+        Call<List<Cupon>> call = apiService.obtenerCuponesUsuario("Bearer " + token, nombreUsuario);
+
+        call.enqueue(new Callback<List<Cupon>>() {
+            @Override
+            public void onResponse(Call<List<Cupon>> call, Response<List<Cupon>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Cupon> cupones = response.body();
+
+                    cuponesAplicados.clear();
+                    for (Cupon c : cupones) {
+                        cuponesAplicados.add(c.getId());
+                    }
+
+                    // Volvé a refrescar la UI con los datos nuevos (por ejemplo, recargar la lista)
+                    // Si usás RecyclerView: adapter.notifyDataSetChanged()
+                    // Si generás botones dinámicos, llamá la función que los crea aquí
+                    //cargarBotonesCupones();
+
+                    Log.d("CuponesActivity", "Cupones aplicados para " + nombreUsuario + ": " + cuponesAplicados);
+                } else {
+                    Log.e("CuponesActivity", "Error al obtener cupones. Código: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Cupon>> call, Throwable t) {
+                Log.e("CuponesActivity", "Error de red al obtener cupones: " + t.getMessage());
+            }
+        });
+    }
+
+
 
     private void setupListeners() {
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -233,9 +411,19 @@ public class CuponesActivity extends AppCompatActivity {
         });
     }
 
+
     private void onViewCupon(Cupon cupon) {
-        Toast.makeText(this, "Se aplicó un cupón con " + cupon.getDiscount() + " en " + cupon.getVenue(), Toast.LENGTH_SHORT).show();
-    }
+        String tipo = cupon.getTipoDescuento();
+        double valor = cupon.getValorDescuento();
+        String nombre = cupon.getNombre();
+
+        String descuento = tipo.equalsIgnoreCase("PORCENTAJE")
+                ? (int) valor + "%"
+                : "$" + (int) valor;
+
+        String mensaje = "Se aplicó un cupón de " + descuento + " en " + nombre;
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+}
 
 
     private int dpToPx(int dp) {
@@ -248,4 +436,6 @@ public class CuponesActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
+
 }
