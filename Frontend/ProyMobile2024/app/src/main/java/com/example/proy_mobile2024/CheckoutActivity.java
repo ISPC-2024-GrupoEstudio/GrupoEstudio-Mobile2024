@@ -94,6 +94,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
             carritoAdapter = new CarritoAdapter(this, listaCarrito, true);
             recyclerCheckout.setAdapter(carritoAdapter);
+            obtenerYAplicarCupones();
         } else {
             // Si no se pasan productos, cargamos desde backend
             carritoAdapter = new CarritoAdapter(this, listaCarrito, true);
@@ -115,7 +116,7 @@ public class CheckoutActivity extends AppCompatActivity {
         }
 
         tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
-        obtenerYAplicarCupones();
+        //obtenerYAplicarCupones();
 
 
         btnVolver = findViewById(R.id.btnVolverCart);
@@ -151,6 +152,10 @@ public class CheckoutActivity extends AppCompatActivity {
                     public void onResponse(Call<List<Cupon>> call, Response<List<Cupon>> response) {
                         if (response.isSuccessful() && response.body() != null) {
                             cuponesAplicables = response.body();
+                            // Log para confirmar cupones recibidos
+                            for (Cupon c : cuponesAplicables) {
+                                Log.d("Checkout", "Cupón recibido: id=" + c.getId() + ", descuento=" + c.getValorDescuento() + ", tipo=" + c.getTipoDescuento());
+                            }
                             aplicarDescuentos();
                         } else {
                             Log.e("Checkout", "No se pudieron obtener cupones");
@@ -164,32 +169,65 @@ public class CheckoutActivity extends AppCompatActivity {
                 });
     }
 
-    private void aplicarDescuentos() {
-        double total = totalSinDescuento;
-
-        double montoDescuentoFijo = 0.0;
-        double porcentajeTotal = 0.0;
-
-        for (Cupon cupon : cuponesAplicables) {
-            if (cupon.getTipoDescuento().equalsIgnoreCase("monto")) {
-                montoDescuentoFijo += cupon.getValorDescuento();
-            } else if (cupon.getTipoDescuento().equalsIgnoreCase("porcentaje")) {
-                porcentajeTotal += cupon.getValorDescuento(); // acumulativo
-            }
-        }
-
-        // Primero aplicamos el porcentaje
-        total -= (total * (porcentajeTotal / 100.0));
-
-        // Luego restamos el monto fijo
-        total -= montoDescuentoFijo;
-
-        if (total < 0) total = 0;
-
-        totalConDescuento = total;
-
-        tvTotalConDescuento.setText(String.format("Total con descuentos: $%.2f", totalConDescuento));
+//    private void aplicarDescuentos() {
+//        double total = totalSinDescuento;
+//
+//        double montoDescuentoFijo = 0.0;
+//        double porcentajeTotal = 0.0;
+//
+//        for (Cupon cupon : cuponesAplicables) {
+//            if (cupon.getTipoDescuento().equalsIgnoreCase("monto")) {
+//                montoDescuentoFijo += cupon.getValorDescuento();
+//            } else if (cupon.getTipoDescuento().equalsIgnoreCase("porcentaje")) {
+//                porcentajeTotal += cupon.getValorDescuento(); // acumulativo
+//            }
+//        }
+//
+//        // Primero aplicamos el porcentaje
+//        total -= (total * (porcentajeTotal / 100.0));
+//
+//        // Luego restamos el monto fijo
+//        total -= montoDescuentoFijo;
+//
+//        if (total < 0) total = 0;
+//
+//        totalConDescuento = total;
+//
+//        tvTotalConDescuento.setText(String.format("Total con descuentos: $%.2f", totalConDescuento));
+//    }
+private void aplicarDescuentos() {
+    // 🔄 Recalcular total sin descuento por si cambió listaCarrito
+    totalSinDescuento = 0.0;
+    for (Carrito item : listaCarrito) {
+        double precio = item.getProducto().getPrecio();
+        int cantidad = item.getCantidad();
+        totalSinDescuento += precio * cantidad;
     }
+
+    double total = totalSinDescuento;
+    double montoDescuentoFijo = 0.0;
+    double porcentajeTotal = 0.0;
+
+    for (Cupon cupon : cuponesAplicables) {
+        if (cupon.getTipoDescuento().equalsIgnoreCase("monto")) {
+            montoDescuentoFijo += cupon.getValorDescuento();
+        } else if (cupon.getTipoDescuento().equalsIgnoreCase("porcentaje")) {
+            porcentajeTotal += cupon.getValorDescuento(); // acumulativo
+        }
+    }
+
+    // Aplica descuentos
+    total -= (total * (porcentajeTotal / 100.0)); // primero porcentaje
+    total -= montoDescuentoFijo; // luego monto fijo
+    if (total < 0) total = 0;
+
+    totalConDescuento = total;
+
+    // Mostrar total actualizado
+    tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
+    tvTotalConDescuento.setText(String.format("Total con descuentos: $%.2f", totalConDescuento));
+}
+
 
 
     private void checkout() {

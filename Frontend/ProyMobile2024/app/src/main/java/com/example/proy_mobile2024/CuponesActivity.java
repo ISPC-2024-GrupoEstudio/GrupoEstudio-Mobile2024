@@ -28,7 +28,9 @@ import com.example.proy_mobile2024.model.MisCuponRequest;
 import com.example.proy_mobile2024.services.ApiService;
 import com.example.proy_mobile2024.services.RetrofitClient;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 
@@ -37,6 +39,8 @@ public class CuponesActivity extends AppCompatActivity {
     private ImageView btnBack;
     private LinearLayout cuponesContainer;
     private Cupon[] cupones;
+    private Set<Integer> cuponesAplicados = new HashSet<>();
+
 
 
     @Override
@@ -299,6 +303,24 @@ public class CuponesActivity extends AppCompatActivity {
                 Cupon cupon = cupones[couponIndex];
                 int cuponId = cupon.getId();  // Asumiendo que tienes método getId()
 
+                // Si el cupón está en la lista de aplicados, lo marcamos como canjeado y deshabilitamos el botón
+                if (cuponesAplicados.contains(cupon.getId())) {
+                    button.setText("Cupón canjeado");
+                    button.setEnabled(false);
+                    button.setClickable(false);
+                } else {
+                    // Si no está aplicado, asignar el listener para que se pueda agregar
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // TODO: Aquí va todo tu código que ya tenías para aplicar el cupón
+                            // ... (tu código actual dentro de onClick)
+                        }
+                    });
+                }
+
+
+
                 MisCuponRequest request = new MisCuponRequest(cuponId);
                 Log.d("CuponesActivity", "Intentando agregar cupón: " + cupon.getNombre());
 
@@ -355,10 +377,17 @@ public class CuponesActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Cupon> cupones = response.body();
 
-                    Log.d("CuponesActivity", "Cupones aplicados para " + nombreUsuario + ":");
+                    cuponesAplicados.clear();
                     for (Cupon c : cupones) {
-                        Log.d("CuponesActivity", "- " + c.getNombre() + " (ID: " + c.getId() + ")");
+                        cuponesAplicados.add(c.getId());
                     }
+
+                    // Volvé a refrescar la UI con los datos nuevos (por ejemplo, recargar la lista)
+                    // Si usás RecyclerView: adapter.notifyDataSetChanged()
+                    // Si generás botones dinámicos, llamá la función que los crea aquí
+                    //cargarBotonesCupones();
+
+                    Log.d("CuponesActivity", "Cupones aplicados para " + nombreUsuario + ": " + cuponesAplicados);
                 } else {
                     Log.e("CuponesActivity", "Error al obtener cupones. Código: " + response.code());
                 }
@@ -370,6 +399,7 @@ public class CuponesActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
     private void setupListeners() {
@@ -406,5 +436,6 @@ public class CuponesActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
 
 }
