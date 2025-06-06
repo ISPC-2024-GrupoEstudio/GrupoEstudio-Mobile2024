@@ -116,7 +116,8 @@ ng serve
 
 ## Video del Funcionamiento
 
-[Video de Funcionamiento](./Frontend/VideoAppMobile.mp4)
+[Video funcionamiento](https://vimeo.com/1091324551/da0c3bb6ba)
+
 
 ## 🔗 Enlaces Útiles
 - [Repositorio web](https://github.com/ISPC-2024-GrupoEstudio/GrupoEstudio-2024)
