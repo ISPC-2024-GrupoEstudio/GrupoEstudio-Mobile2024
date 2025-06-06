@@ -36,7 +36,7 @@ ALLOWED_HOSTS = [
     '0898-190-136-244-190.ngrok-free.app',
     '34a4-181-95-72-135.ngrok-free.app',
     "4db6-2803-9800-988a-7e8b-3198-99c-665e-b13e.ngrok-free.app",
-    '9abf-2803-9800-9883-45f5-a5a9-95e4-10c8-7eef.ngrok-free.app'
+    '72c7-2803-9800-9883-45f5-a5a9-95e4-10c8-7eef.ngrok-free.app'
     ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -46,7 +46,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://10.0.2.2:8000//api/",
     "http://127.0.0.1:8000//api/",
     "http://localhost:8000//api/",
-    'https://9abf-2803-9800-9883-45f5-a5a9-95e4-10c8-7eef.ngrok-free.app'
+    'https://72c7-2803-9800-9883-45f5-a5a9-95e4-10c8-7eef.ngrok-free.app'
 ]
 
 
@@ -98,7 +98,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://0898-190-136-244-190.ngrok-free.app',
     "https://41c2-190-136-244-190.ngrok-free.app",
     'https://1859-181-95-72-135.ngrok-free.app',
-    'https://9abf-2803-9800-9883-45f5-a5a9-95e4-10c8-7eef.ngrok-free.app'
+    'https://72c7-2803-9800-9883-45f5-a5a9-95e4-10c8-7eef.ngrok-free.app'
 ]
 
 ROOT_URLCONF = 'PetBoutique.urls'
