@@ -25,6 +25,7 @@ import com.example.proy_mobile2024.model.PedidoCheckoutData;
 import com.example.proy_mobile2024.model.PedidoCheckoutItemData;
 import com.example.proy_mobile2024.model.PreferenciaResponse;
 import com.example.proy_mobile2024.model.Producto;
+import com.example.proy_mobile2024.services.ApiService;
 import com.example.proy_mobile2024.services.RetrofitClient;
 
 import java.util.ArrayList;
@@ -48,6 +49,12 @@ public class CheckoutActivity extends AppCompatActivity {
     private ImageButton btnVolver;
     private Button btnPagar;
 
+    private TextView tvTotalConDescuento;
+    private List<Cupon> cuponesAplicables = new ArrayList<>();
+    private double totalSinDescuento = 0.0;
+    private double totalConDescuento = 0.0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +65,8 @@ public class CheckoutActivity extends AppCompatActivity {
 
         listaCarrito = new ArrayList<>();
         tvTotal = findViewById(R.id.tvTotal);
+        tvTotalConDescuento = findViewById(R.id.tvTotalConDescuento);
+
         double total = 0;
 
 
@@ -92,13 +101,22 @@ public class CheckoutActivity extends AppCompatActivity {
             cargarCarrito();
         }
 
+//        for (Carrito item : listaCarrito) {
+//            double precio = item.getProducto().getPrecio(); // o getPrecioUnitario()
+//            int cantidad = item.getCantidad();
+//            total += precio * cantidad;
+//        }
+//
+//        tvTotal.setText(String.format("Total: $%.2f", total));
         for (Carrito item : listaCarrito) {
-            double precio = item.getProducto().getPrecio(); // o getPrecioUnitario()
+            double precio = item.getProducto().getPrecio();
             int cantidad = item.getCantidad();
-            total += precio * cantidad;
+            totalSinDescuento += precio * cantidad;
         }
 
-        tvTotal.setText(String.format("Total: $%.2f", total));
+        tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
+        obtenerYAplicarCupones();
+
 
         btnVolver = findViewById(R.id.btnVolverCart);
         btnVolver.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +138,60 @@ public class CheckoutActivity extends AppCompatActivity {
 
     }
 
+    private void obtenerYAplicarCupones() {
+        SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+        String token = preferences.getString("access_token", "");
+        String username = preferences.getString("username", "");
+
+        ApiService apiService = RetrofitClient.getInstance(getApplicationContext()).getApiService();
+
+        apiService.obtenerCuponesUsuario("Bearer " + token, username)
+                .enqueue(new Callback<List<Cupon>>() {
+                    @Override
+                    public void onResponse(Call<List<Cupon>> call, Response<List<Cupon>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            cuponesAplicables = response.body();
+                            aplicarDescuentos();
+                        } else {
+                            Log.e("Checkout", "No se pudieron obtener cupones");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Cupon>> call, Throwable t) {
+                        Log.e("Checkout", "Error al obtener cupones: " + t.getMessage());
+                    }
+                });
+    }
+
+    private void aplicarDescuentos() {
+        double total = totalSinDescuento;
+
+        double montoDescuentoFijo = 0.0;
+        double porcentajeTotal = 0.0;
+
+        for (Cupon cupon : cuponesAplicables) {
+            if (cupon.getTipoDescuento().equalsIgnoreCase("monto")) {
+                montoDescuentoFijo += cupon.getValorDescuento();
+            } else if (cupon.getTipoDescuento().equalsIgnoreCase("porcentaje")) {
+                porcentajeTotal += cupon.getValorDescuento(); // acumulativo
+            }
+        }
+
+        // Primero aplicamos el porcentaje
+        total -= (total * (porcentajeTotal / 100.0));
+
+        // Luego restamos el monto fijo
+        total -= montoDescuentoFijo;
+
+        if (total < 0) total = 0;
+
+        totalConDescuento = total;
+
+        tvTotalConDescuento.setText(String.format("Total con descuentos: $%.2f", totalConDescuento));
+    }
+
+
     private void checkout() {
         SharedPreferences sharedPreferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
         String nombre_usuario = sharedPreferences.getString("id_usuario", "");
@@ -129,6 +201,7 @@ public class CheckoutActivity extends AppCompatActivity {
         PedidoCheckoutData pedidoCheckoutData = new PedidoCheckoutData();
         pedidoCheckoutData.setExternal_reference(nombre_usuario);
         pedidoCheckoutData.setItemsCarrito(listaCarrito);
+        pedidoCheckoutData.setMontoFinal(totalConDescuento);
 
         RetrofitClient.getInstance(this).getApiService().obtenerPreferencia(pedidoCheckoutData).enqueue(new Callback<PreferenciaResponse>() {
             @Override
