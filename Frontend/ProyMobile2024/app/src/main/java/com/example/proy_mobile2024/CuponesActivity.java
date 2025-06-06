@@ -300,7 +300,6 @@ public class CuponesActivity extends AppCompatActivity {
                 int cuponId = cupon.getId();  // Asumiendo que tienes método getId()
 
                 MisCuponRequest request = new MisCuponRequest(cuponId);
-                // Log antes de enviar la petición
                 Log.d("CuponesActivity", "Intentando agregar cupón: " + cupon.getNombre());
 
                 ApiService apiService = RetrofitClient.getInstance(getApplicationContext()).getApiService();
@@ -312,7 +311,12 @@ public class CuponesActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             Log.d("CuponesActivity", "Cupón agregado con éxito: " + cupon.getNombre());
                             Toast.makeText(CuponesActivity.this, "Cupón aplicado correctamente", Toast.LENGTH_SHORT).show();
-                            String username = prefs.getString("username", null); // Asegurate de haber guardado esto al loguear
+
+                            // Cambiar texto y deshabilitar el botón para que no se pueda clickear más
+                            button.setText("Cupón canjeado");
+                            button.setEnabled(false);
+
+                            String username = prefs.getString("username", null);
 
                             if (username != null) {
                                 mostrarCuponesUsuario(username, token);
@@ -338,6 +342,7 @@ public class CuponesActivity extends AppCompatActivity {
 
         return button;
     }
+
 
     private void mostrarCuponesUsuario(String nombreUsuario, String token) {
         ApiService apiService = RetrofitClient.getInstance(getApplicationContext()).getApiService();
