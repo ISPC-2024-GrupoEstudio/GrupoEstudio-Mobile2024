@@ -79,21 +79,6 @@ public interface ApiService {
     @GET("cupones/")
     Call<List<Cupon>> obtenerCupones();
 
-    //@POST("mis-cupones/")
-    //Call<Void> agregarCupon(@Body MisCuponRequest request);
-
-//    @POST("mis-cupones/{nombre_usuario}/")
-//    Call<Void> agregarCupon(
-//            @Path("nombre_usuario") String nombreUsuario,
-//            @Body MisCuponRequest request
-//    );
-
-//    @POST("mis-cupones/{nombreUsuario}/")
-//    Call<ResponseBody> aplicarCupon(
-//            @Header("Authorization") String authHeader,
-//            @Path("nombreUsuario") String nombreUsuario,
-//            @Body MisCuponRequest request
-//    );
     @POST("mis-cupones/")
     Call<ResponseBody> aplicarCupon(
             @Header("Authorization") String authHeader,
@@ -105,9 +90,6 @@ public interface ApiService {
             @Header("Authorization") String authHeader,
             @Path("nombreUsuario") String nombreUsuario
     );
-
-
-
 
 }
 

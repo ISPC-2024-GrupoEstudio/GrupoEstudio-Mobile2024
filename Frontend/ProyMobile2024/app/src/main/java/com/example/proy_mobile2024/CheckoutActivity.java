@@ -193,10 +193,12 @@ public class CheckoutActivity extends AppCompatActivity {
 
 
     private void checkout() {
+        aplicarDescuentos();
         SharedPreferences sharedPreferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
         String nombre_usuario = sharedPreferences.getString("id_usuario", "");
 
         Log.d("Checkout", "Nombre de usuario: " + nombre_usuario);
+        Log.d("Checkout", "Monto final con descuento: " + totalConDescuento);
 
         PedidoCheckoutData pedidoCheckoutData = new PedidoCheckoutData();
         pedidoCheckoutData.setExternal_reference(nombre_usuario);
