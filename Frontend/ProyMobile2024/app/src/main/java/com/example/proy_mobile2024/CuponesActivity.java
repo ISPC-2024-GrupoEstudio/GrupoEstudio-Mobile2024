@@ -29,8 +29,12 @@ import com.example.proy_mobile2024.model.MisCuponRequest;
 import com.example.proy_mobile2024.services.ApiService;
 import com.example.proy_mobile2024.services.RetrofitClient;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import retrofit2.Call;
@@ -119,7 +123,7 @@ public class CuponesActivity extends AppCompatActivity {
         RelativeLayout couponLayout = new RelativeLayout(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                dpToPx(120)
+                dpToPx(140)
         );
         layoutParams.setMargins(0, 0, 0, dpToPx(16));
         couponLayout.setLayoutParams(layoutParams);
@@ -158,7 +162,7 @@ public class CuponesActivity extends AppCompatActivity {
     private LinearLayout createLeftSection(Cupon cupon) {
         LinearLayout leftSection = new LinearLayout(this);
         RelativeLayout.LayoutParams leftParams = new RelativeLayout.LayoutParams(
-                dpToPx(120),
+                dpToPx(140),
                 RelativeLayout.LayoutParams.MATCH_PARENT
         );
         leftSection.setLayoutParams(leftParams);
@@ -241,6 +245,36 @@ public class CuponesActivity extends AppCompatActivity {
         descripcionText.setLayoutParams(descParams);
         rightSection.addView(descripcionText);
 
+        // Convertir y formatear fecha
+        String fechaFormateada = cupon.getFechaVencimiento(); // valor original
+
+        try {
+            SimpleDateFormat formatoEntrada = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            Date fecha = formatoEntrada.parse(cupon.getFechaVencimiento());
+
+            SimpleDateFormat formatoSalida = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "AR"));
+            fechaFormateada = formatoSalida.format(fecha);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            // Si falla, deja la fecha original
+        }
+
+
+        // Vencimiento
+        TextView vencimientoText = new TextView(this);
+        vencimientoText.setText("Válido hasta el: " + fechaFormateada);
+        vencimientoText.setTextColor(Color.WHITE);
+        vencimientoText.setTextSize(10);
+        vencimientoText.setAlpha(0.8f);
+        LinearLayout.LayoutParams vencimientoParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        vencimientoParams.setMargins(0, 0, 0, dpToPx(8));
+        vencimientoText.setLayoutParams(vencimientoParams);
+        rightSection.addView(vencimientoText);
+
+
 
         // Contenedor de botones
         LinearLayout buttonsContainer = new LinearLayout(this);
@@ -274,9 +308,14 @@ public class CuponesActivity extends AppCompatActivity {
             button.setText("Cupón canjeado");
             button.setEnabled(false);
             button.setAlpha(0.5f); // Visual gris
+        } else if (estaVencido(cupon)) {
+            button.setText("Cupón vencido");
+            button.setEnabled(false);
+            button.setAlpha(0.5f); // Visual gris
         } else {
-            button.setText(text); // Solo si no está canjeado
+            button.setText(text); // Este es el texto por defecto: "Aplicar Cupón"
         }
+
 
         button.setTextColor(Color.WHITE);
         button.setTextSize(12);
@@ -365,6 +404,19 @@ public class CuponesActivity extends AppCompatActivity {
         return button;
     }
 
+    private boolean estaVencido(Cupon cupon) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            Date hoy = new Date();
+            Date fechaVencimiento = sdf.parse(cupon.getFechaVencimiento());
+            return fechaVencimiento != null && fechaVencimiento.before(hoy);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false; // En caso de error, mejor no marcarlo como vencido
+        }
+    }
+
+
 
     private void mostrarCuponesUsuario(String nombreUsuario, String token) {
         ApiService apiService = RetrofitClient.getInstance(getApplicationContext()).getApiService();
@@ -436,6 +488,7 @@ public class CuponesActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
 
 
 }
