@@ -94,10 +94,15 @@
 
         <Spinner
             android:id="@+id/spinnerSucursales"
-            android:visibility="gone"
-            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/bg_total_border"
+            android:padding="12dp"
+            android:textAlignment="center"
+            />
 
         <Button
             android:id="@+id/btnCalcularEnvio"
@@ -144,7 +149,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Ej. Av. Siempre Viva 742, Piso 2, Depto A"
-                    android:background="@drawable/bg_total_border"
+                    android:background="@drawable/bg_border_rectangular"
                     android:padding="12dp"
                     android:inputType="textPostalAddress"/>
 
@@ -161,19 +166,10 @@
                     android:id="@+id/etCuidad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_total_border"
+                    android:background="@drawable/bg_border_rectangular"
                     android:padding="12dp"
                     android:inputType="textPostalAddress"
                     />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Incluye piso, departamento o referencias adicionales"
-                    android:textSize="12sp"
-                    android:layout_marginTop="4dp"
-                    android:textColor="@color/gris_claro"
-                    android:layout_marginBottom="8dp" />
 
             </LinearLayout>
 
@@ -228,15 +224,22 @@
 
 
         <!-- 4. Botón de Mercado Pago -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPagar"
-            android:text="Pagar con Mercado Pago"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
-            android:fontFamily="@font/poppins_semibold"/>
+            android:text="Pagar con Mercado Pago"
+            android:textColor="#000000"
+            android:fontFamily="@font/poppins_semibold"
+            app:backgroundTint="#FFEA00"
+            app:cornerRadius="16dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"/>
     </LinearLayout>
 
 
