@@ -356,7 +356,7 @@ public class CheckoutActivity extends AppCompatActivity {
         Log.d("Checkout", "Descuento total acumulado: $" + descuentoTotal);
         Log.d("Checkout", "Total con descuento: $" + totalConDescuento);
 
-        tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
+        tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento + costoEnvio));
         tvTotalConDescuento.setText(String.format("Total con descuentos aplicados: $%.2f", totalConDescuento + costoEnvio));
     }
 
