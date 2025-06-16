@@ -94,28 +94,23 @@ public class CheckoutActivity extends AppCompatActivity {
 
             carritoAdapter = new CarritoAdapter(this, listaCarrito, true);
             recyclerCheckout.setAdapter(carritoAdapter);
-            obtenerYAplicarCupones();
+            //obtenerYAplicarCupones();
         } else {
             // Si no se pasan productos, cargamos desde backend
             carritoAdapter = new CarritoAdapter(this, listaCarrito, true);
             recyclerCheckout.setAdapter(carritoAdapter);
             cargarCarrito();
         }
+        obtenerYAplicarCupones();
+
 
 //        for (Carrito item : listaCarrito) {
-//            double precio = item.getProducto().getPrecio(); // o getPrecioUnitario()
+//            double precio = item.getProducto().getPrecio();
 //            int cantidad = item.getCantidad();
-//            total += precio * cantidad;
+//            totalSinDescuento += precio * cantidad;
 //        }
 //
-//        tvTotal.setText(String.format("Total: $%.2f", total));
-        for (Carrito item : listaCarrito) {
-            double precio = item.getProducto().getPrecio();
-            int cantidad = item.getCantidad();
-            totalSinDescuento += precio * cantidad;
-        }
-
-        tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
+//        tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
         //obtenerYAplicarCupones();
 
 
@@ -150,83 +145,63 @@ public class CheckoutActivity extends AppCompatActivity {
                 .enqueue(new Callback<List<Cupon>>() {
                     @Override
                     public void onResponse(Call<List<Cupon>> call, Response<List<Cupon>> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            cuponesAplicables = response.body();
-                            // Log para confirmar cupones recibidos
-                            for (Cupon c : cuponesAplicables) {
-                                Log.d("Checkout", "Cupón recibido: id=" + c.getId() + ", descuento=" + c.getValorDescuento() + ", tipo=" + c.getTipoDescuento());
+                        if (response.isSuccessful()) {
+                            List<Cupon> cupones = response.body();
+                            if (cupones != null) {
+                                for (Cupon cupon : cupones) {
+                                    Log.d("Checkout", "Cupón recibido: id=" + cupon.getId() +
+                                            ", descuento=" + cupon.getValorDescuento() +
+                                            ", tipo=" + cupon.getTipoDescuento());
+                                }
+                                aplicarDescuentos(cupones);  // ✅ asegurate de que esto se llame
                             }
-                            aplicarDescuentos();
                         } else {
-                            Log.e("Checkout", "No se pudieron obtener cupones");
+                            Log.e("Checkout", "Error al obtener cupones: " + response.code());
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<Cupon>> call, Throwable t) {
-                        Log.e("Checkout", "Error al obtener cupones: " + t.getMessage());
+                        Log.e("Checkout", "Fallo al obtener cupones", t);
                     }
                 });
     }
 
-//    private void aplicarDescuentos() {
-//        double total = totalSinDescuento;
-//
-//        double montoDescuentoFijo = 0.0;
-//        double porcentajeTotal = 0.0;
-//
-//        for (Cupon cupon : cuponesAplicables) {
-//            if (cupon.getTipoDescuento().equalsIgnoreCase("monto")) {
-//                montoDescuentoFijo += cupon.getValorDescuento();
-//            } else if (cupon.getTipoDescuento().equalsIgnoreCase("porcentaje")) {
-//                porcentajeTotal += cupon.getValorDescuento(); // acumulativo
-//            }
-//        }
-//
-//        // Primero aplicamos el porcentaje
-//        total -= (total * (porcentajeTotal / 100.0));
-//
-//        // Luego restamos el monto fijo
-//        total -= montoDescuentoFijo;
-//
-//        if (total < 0) total = 0;
-//
-//        totalConDescuento = total;
-//
-//        tvTotalConDescuento.setText(String.format("Total con descuentos: $%.2f", totalConDescuento));
-//    }
-private void aplicarDescuentos() {
-    // 🔄 Recalcular total sin descuento por si cambió listaCarrito
-    totalSinDescuento = 0.0;
-    for (Carrito item : listaCarrito) {
-        double precio = item.getProducto().getPrecio();
-        int cantidad = item.getCantidad();
-        totalSinDescuento += precio * cantidad;
-    }
+    private void aplicarDescuentos(List<Cupon> cupones) {
+        totalSinDescuento = 0.0;
 
-    double total = totalSinDescuento;
-    double montoDescuentoFijo = 0.0;
-    double porcentajeTotal = 0.0;
-
-    for (Cupon cupon : cuponesAplicables) {
-        if (cupon.getTipoDescuento().equalsIgnoreCase("monto")) {
-            montoDescuentoFijo += cupon.getValorDescuento();
-        } else if (cupon.getTipoDescuento().equalsIgnoreCase("porcentaje")) {
-            porcentajeTotal += cupon.getValorDescuento(); // acumulativo
+        for (Carrito item : listaCarrito) {
+            double precio = item.getProducto().getPrecio();
+            int cantidad = item.getCantidad();
+            totalSinDescuento += precio * cantidad;
         }
+
+        Log.d("Checkout", "Total sin descuento: $" + totalSinDescuento);
+
+        double descuentoTotal = 0.0;
+
+        for (Cupon cupon : cupones) {
+            double descuento = 0.0;
+
+            if ("PORCENTAJE".equalsIgnoreCase(cupon.getTipoDescuento())) {
+                descuento = (totalSinDescuento * cupon.getValorDescuento()) / 100;
+            } else if ("MONTO".equalsIgnoreCase(cupon.getTipoDescuento())) {
+                descuento = cupon.getValorDescuento();
+            }
+
+            Log.d("Checkout", "Aplicando cupón: " + cupon.getNombre() + " - Descuento: $" + descuento);
+            descuentoTotal += descuento;
+        }
+
+        totalConDescuento = Math.max(totalSinDescuento - descuentoTotal, 0.0);
+
+        Log.d("Checkout", "Descuento total acumulado: $" + descuentoTotal);
+        Log.d("Checkout", "Total con descuento: $" + totalConDescuento);
+
+        tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
+        tvTotalConDescuento.setText(String.format("Total con descuentos: $%.2f", totalConDescuento));
     }
 
-    // Aplica descuentos
-    total -= (total * (porcentajeTotal / 100.0)); // primero porcentaje
-    total -= montoDescuentoFijo; // luego monto fijo
-    if (total < 0) total = 0;
-
-    totalConDescuento = total;
-
-    // Mostrar total actualizado
-    tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
-    tvTotalConDescuento.setText(String.format("Total con descuentos: $%.2f", totalConDescuento));
-}
 
 
 
@@ -242,7 +217,9 @@ private void aplicarDescuentos() {
         PedidoCheckoutData pedidoCheckoutData = new PedidoCheckoutData();
         pedidoCheckoutData.setExternal_reference(nombre_usuario);
         pedidoCheckoutData.setItemsCarrito(listaCarrito);
-        pedidoCheckoutData.setMontoFinal(totalSinDescuento);  // <--- ACÁ envías el total sin descuento
+        //pedidoCheckoutData.setMontoFinal(totalSinDescuento);
+        pedidoCheckoutData.setMontoFinal(totalConDescuento);
+        Log.d("Checkout", "Monto final enviado a MercadoPago: $" + totalConDescuento);
 
         RetrofitClient.getInstance(this).getApiService().obtenerPreferencia(pedidoCheckoutData).enqueue(new Callback<PreferenciaResponse>() {
             @Override
