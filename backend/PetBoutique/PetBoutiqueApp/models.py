@@ -163,9 +163,14 @@ class Pedido(models.Model):
     id_estado_pedido = models.ForeignKey(EstadoPedido, models.DO_NOTHING, db_column='id_estado_pedido', blank=True, null=True)
     nombre_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='nombre_usuario', blank=True, null=True)
     id_tipo_de_envio = models.ForeignKey('TipoEnvio', models.DO_NOTHING, db_column='id_tipo_de_envio', blank=True, null=True)
-    domicilio_envio = models.CharField(max_length=50, blank=True, null=True)
+    domicilio_envio = models.CharField(max_length=150, blank=True, null=True)
     id_forma_de_pago = models.ForeignKey(FormaDePago, models.DO_NOTHING, db_column='id_forma_de_pago', blank=True, null=True)
     numero_pedido = models.IntegerField(unique=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    codigo_postal = models.CharField(max_length=10, blank=True, null=True)
+    costo_envio = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    ciudad_envio = models.CharField(max_length=100, blank=True, null=True)
+    descuento = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
 
     class Meta:
         managed = False
@@ -185,6 +190,7 @@ class Producto(models.Model):
     stock_minimo = models.IntegerField(blank=True, null=True)
     id_categoria_producto = models.ForeignKey(CategoriaProducto, models.DO_NOTHING, db_column='id_categoria_producto', blank=True, null=True)
     image_url = models.TextField(blank=True, null=True)
+    peso = models.DecimalField(max_digits=5, decimal_places=2, default=0.50)
 
     class Meta:
         managed = False

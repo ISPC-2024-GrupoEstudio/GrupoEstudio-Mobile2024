@@ -3,11 +3,19 @@ package com.example.proy_mobile2024;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,13 +29,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proy_mobile2024.adapter.CarritoAdapter;
 import com.example.proy_mobile2024.model.Carrito;
+import com.example.proy_mobile2024.model.CostoEnvioRequest;
+import com.example.proy_mobile2024.model.CostoEnvioResponse;
 import com.example.proy_mobile2024.model.PedidoCheckoutData;
 import com.example.proy_mobile2024.model.PedidoCheckoutItemData;
 import com.example.proy_mobile2024.model.PreferenciaResponse;
 import com.example.proy_mobile2024.model.Producto;
+import com.example.proy_mobile2024.model.Sucursal;
+import com.example.proy_mobile2024.services.CorreoArgentinoApi;
 import com.example.proy_mobile2024.services.RetrofitClient;
+import com.example.proy_mobile2024.services.RetrofitClientCorreo;
+import com.example.proy_mobile2024.viewsmodels.ProvinciaUtils;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -47,6 +64,24 @@ public class CheckoutActivity extends AppCompatActivity {
     private ArrayList<Producto> productos;
     private ImageButton btnVolver;
     private Button btnPagar;
+    private TextView tvCostoEnvio;
+    private EditText etCodigoPostal;
+    private RadioGroup rgEnvio;
+    private RadioButton rbDomicilio, rbSucursal;
+    private Spinner spinnerSucursales;
+    private Button btnCalcularEnvio;
+    private List<Sucursal> sucursalesList;
+
+    private double costoEnvio = 0.0;
+    private double totalProductos = 0.0;
+
+    private String provinciaOrigen = "AR-X";  // fijo, según lo que dijiste
+    private String codigoPostalOrigen = "5000"; // ejemplo, podés cambiarlo o pedirlo dinámico
+    private TextView tvPrecioSucursal;
+    private TextView tvPrecioDomicilio;
+    private Sucursal sucursalSeleccionada = null;
+    LinearLayout layoutDireccion;
+    EditText etDireccion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +94,18 @@ public class CheckoutActivity extends AppCompatActivity {
         listaCarrito = new ArrayList<>();
         tvTotal = findViewById(R.id.tvTotal);
         double total = 0;
+        tvCostoEnvio = findViewById(R.id.tvCostoEnvio);
+        etCodigoPostal = findViewById(R.id.etCodigoPostal);
+        rgEnvio = findViewById(R.id.rgEnvio);
+        rbDomicilio = findViewById(R.id.rbDomicilio);
+        rbSucursal = findViewById(R.id.rbSucursal);
+        spinnerSucursales = findViewById(R.id.spinnerSucursales);
+        btnCalcularEnvio = findViewById(R.id.btnCalcularEnvio);
+        tvPrecioSucursal = findViewById(R.id.tvPrecioSucursal);
+        tvPrecioDomicilio = findViewById(R.id.tvPrecioDomicilio);
+        etDireccion = findViewById(R.id.etDireccion);
+        layoutDireccion = findViewById(R.id.layoutDireccion);
+
 
 
 
@@ -97,8 +144,86 @@ public class CheckoutActivity extends AppCompatActivity {
             int cantidad = item.getCantidad();
             total += precio * cantidad;
         }
+        totalProductos = total;
 
         tvTotal.setText(String.format("Total: $%.2f", total));
+
+        // Mostrar u ocultar spinner según tipo de envío
+        rgEnvio.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.rbSucursal) {
+                String cpDestino = etCodigoPostal.getText().toString().trim();
+                if (!cpDestino.isEmpty()) {
+                    String codProvinciaDestino = ProvinciaUtils.determinarProvinciaDesdeCP(cpDestino);
+                    if (!codProvinciaDestino.equals("Provincia no identificada")) {
+                        cargarSucursales(codProvinciaDestino);
+                    } else {
+                        Toast.makeText(this, "Código postal no reconocido", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Ingrese el código postal para cargar sucursales", Toast.LENGTH_SHORT).show();
+                }
+                spinnerSucursales.setVisibility(View.VISIBLE);
+            } else {
+                spinnerSucursales.setVisibility(View.GONE);
+                sucursalSeleccionada = null;
+            }
+            costoEnvio = 0;
+            actualizarTotal();
+        });
+
+        // Selección de sucursal en el spinner
+        spinnerSucursales.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                if (sucursalesList != null && position >= 0 && position < sucursalesList.size()) {
+                    sucursalSeleccionada = sucursalesList.get(position);
+                    Log.d("Checkout", "Sucursal seleccionada: " + sucursalSeleccionada.getNombreSucursal());
+                } else {
+                    Log.d("Checkout", "Sucursal no seleccionada o lista vacía");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                sucursalSeleccionada = null;
+            }
+        });
+
+        // Botón para calcular costo de envío
+        btnCalcularEnvio.setOnClickListener(v -> {
+            String cpDestino = etCodigoPostal.getText().toString().trim();
+
+            if (cpDestino.isEmpty() || cpDestino.length() < 4) {
+                Toast.makeText(CheckoutActivity.this, "Ingrese un código postal válido", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Determinar código de provincia desde el CP
+            String codProvinciaDestino = ProvinciaUtils.determinarProvinciaDesdeCP(cpDestino);
+            String nombreProvinciaDestino = ProvinciaUtils.obtenerNombreProvincia(codProvinciaDestino);
+
+            if (nombreProvinciaDestino.equals("Provincia no identificada")) {
+                Toast.makeText(CheckoutActivity.this, "Código postal no reconocido", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // MOSTRAR FORMULARIO DE DIRECCIÓN si elige "A domicilio"
+            if (rbDomicilio.isChecked()) {
+                layoutDireccion.setVisibility(View.VISIBLE);
+            } else {
+                layoutDireccion.setVisibility(View.GONE);
+            }
+
+            // Realiza el cálculo de envío
+            String peso = "1";
+            calcularCostoEnvio(cpDestino, peso);
+        });
+
+
+
+
+
+
 
         btnVolver = findViewById(R.id.btnVolverCart);
         btnVolver.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +239,18 @@ public class CheckoutActivity extends AppCompatActivity {
         btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Validar solo si es envío a domicilio
+                if (rbDomicilio.isChecked()) {
+                    EditText etDireccion = findViewById(R.id.etDireccion);
+                    String direccion = etDireccion.getText().toString().trim();
+
+                    if (direccion.isEmpty()) {
+                        Toast.makeText(CheckoutActivity.this, "Debés ingresar una dirección para el envío a domicilio.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
+                // Si pasa validación, continúa al checkout de Mercado Pago
                 checkout();
             }
         });
@@ -125,6 +262,34 @@ public class CheckoutActivity extends AppCompatActivity {
         String nombre_usuario = sharedPreferences.getString("id_usuario", "");
 
         Log.d("Checkout", "Nombre de usuario: " + nombre_usuario);
+        List<Carrito> listaConEnvio = new ArrayList<>(listaCarrito);
+
+        // 🧼 Eliminar ítem de envío previo, si lo hubiera
+        for (Iterator<Carrito> iterator = listaConEnvio.iterator(); iterator.hasNext(); ) {
+            Carrito item = iterator.next();
+            if ("Costo de envío".equals(item.getProducto().getNombre())) {
+                iterator.remove();
+            }
+        }
+
+        // ➕ Agregamos el costo de envío como un ítem nuevo si es mayor a cero
+        if (costoEnvio > 0) {
+            Carrito envioItem = new Carrito();
+            Producto envio = new Producto(
+                    -1,                            // id ficticio
+                    "Costo de envío",              // nombre
+                    "Tarifa de envío seleccionada",// descripción
+                    costoEnvio,                    // precio (el que obtuviste del API)
+                    "",                            // image_url vacío o null
+                    -1                             // id_categoria ficticio
+            );
+            envio.setNombre("Costo de envío");
+            envio.setPrecio(costoEnvio);
+            envioItem.setProducto(envio);
+            envioItem.setCantidad(1);
+            listaConEnvio.add(envioItem);
+        }
+
 
         PedidoCheckoutData pedidoCheckoutData = new PedidoCheckoutData();
         pedidoCheckoutData.setExternal_reference(nombre_usuario);
@@ -164,6 +329,142 @@ public class CheckoutActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Carrito>> call, Throwable t) {
                 Toast.makeText(CheckoutActivity.this, "Error al cargar el carrito", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void actualizarTotal() {
+        double totalFinal = totalProductos + costoEnvio;
+        tvTotal.setText(String.format("Total: $%.2f", totalFinal));
+        tvCostoEnvio.setText(String.format("Costo de envío: $%.2f", costoEnvio));
+        tvCostoEnvio.setVisibility(View.GONE);
+
+    }
+
+    private void cargarSucursales(String provincia) {
+        Log.d("SUCURSALES", "Buscando sucursales para provincia: " + provincia);
+
+        CorreoArgentinoApi api = RetrofitClientCorreo.getApi();
+        api.obtenerSucursales(provincia).enqueue(new Callback<List<Sucursal>>() {
+            @Override
+            public void onResponse(Call<List<Sucursal>> call, Response<List<Sucursal>> response) {
+                Log.d("SUCURSALES", "Respuesta recibida. Código: " + response.code());
+                if (response.isSuccessful() && response.body() != null) {
+                    sucursalesList = response.body(); // Asignar a variable de clase
+
+                    Log.d("SUCURSALES", "Sucursales recibidas: " + sucursalesList.size());
+                    for (Sucursal suc : sucursalesList) {
+                        Log.d("SUCURSALES", "Sucursal: " + suc.getNombreSucursal());
+                    }
+
+                    List<String> nombres = new ArrayList<>();
+                    for (Sucursal suc : sucursalesList) {
+                        nombres.add(suc.getNombreSucursal());
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                            CheckoutActivity.this,
+                            android.R.layout.simple_spinner_item,
+                            nombres
+                    );
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerSucursales.setAdapter(adapter);
+                    spinnerSucursales.setVisibility(View.VISIBLE);
+
+                } else {
+                    try {
+                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "null";
+                        Log.e("SUCURSALES", "Error en respuesta: " + errorBody);
+                    } catch (IOException e) {
+                        Log.e("SUCURSALES", "Error leyendo errorBody", e);
+                    }
+                    Toast.makeText(CheckoutActivity.this, "No se pudieron cargar las sucursales", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Sucursal>> call, Throwable t) {
+                Log.e("SUCURSALES", "Falla en la llamada: " + t.getMessage(), t);
+                Toast.makeText(CheckoutActivity.this, "Error al cargar sucursales: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void calcularCostoEnvio(String cpDestino, String peso) {
+        String cpOrigen = "5000"; // Córdoba Capital
+        String provinciaOrigen = "AR-X"; // Córdoba
+        String provinciaDestino = ProvinciaUtils.determinarProvinciaDesdeCP(cpDestino);
+
+        CostoEnvioRequest request = new CostoEnvioRequest(cpOrigen, cpDestino, provinciaOrigen, provinciaDestino, peso);
+
+        // DEBUG
+        Log.d("DEBUG", "CP origen: " + request.getCpOrigen());
+        Log.d("DEBUG", "CP destino: " + request.getCpDestino());
+        Log.d("DEBUG", "Prov origen: " + request.getProvinciaOrigen());
+        Log.d("DEBUG", "Prov destino: " + request.getProvinciaDestino());
+        Log.d("DEBUG", "Peso: " + request.getPeso());
+
+        CorreoArgentinoApi api = RetrofitClientCorreo.getApi();
+        Call<CostoEnvioResponse> call = api.calcularCostoEnvio(request);
+        call.enqueue(new Callback<CostoEnvioResponse>() {
+            @Override
+            public void onResponse(Call<CostoEnvioResponse> call, Response<CostoEnvioResponse> response) {
+                if (response.isSuccessful()) {
+                    CostoEnvioResponse costo = response.body();
+                    if (costo != null && costo.getPaqarClasico() != null) {
+                        double precioSucursal = costo.getPaqarClasico().getASucursal();
+                        double precioDomicilio = costo.getPaqarClasico().getADomicilio();
+
+                        int selectedId = rgEnvio.getCheckedRadioButtonId();
+
+                        if (selectedId == R.id.rbDomicilio) {
+                            costoEnvio = precioDomicilio; // Guardar costo
+                            tvPrecioDomicilio.setText("Precio a domicilio: $" + precioDomicilio);
+                            tvPrecioDomicilio.setVisibility(View.VISIBLE);
+                        } else if (selectedId == R.id.rbSucursal) {
+                            costoEnvio = precioSucursal; // Guardar costo
+                            tvPrecioDomicilio.setText("Precio en sucursal: $" + precioSucursal);
+                            tvPrecioDomicilio.setVisibility(View.VISIBLE);
+                        }
+
+                        for (Iterator<Carrito> iterator = listaCarrito.iterator(); iterator.hasNext(); ) {
+                            Carrito item = iterator.next();
+                            if (item.getProducto().getNombre().equals("Costo de envío")) {
+                                iterator.remove();
+                            }
+                        }
+
+                        Producto envio = new Producto(
+                                -1,
+                                "Costo de envío",
+                                "Tarifa de envío seleccionada",
+                                costoEnvio,
+                                "",
+                                -1
+                        );
+
+                        Carrito itemEnvio = new Carrito();
+                        itemEnvio.setProducto(envio);
+                        itemEnvio.setCantidad(1);
+
+                        listaCarrito.add(itemEnvio);
+
+                        carritoAdapter.setCarritoList(listaCarrito);
+                        carritoAdapter.notifyDataSetChanged();
+
+                        actualizarTotal();
+
+                    } else {
+                        Log.e("Envio", "Objeto paqarClasico es null o respuesta vacía");
+                    }
+                } else {
+                    Log.e("Envio", "Error en respuesta: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CostoEnvioResponse> call, Throwable t) {
+                Log.e("Envio", "Falla en la llamada: " + t.getMessage());
             }
         });
     }
