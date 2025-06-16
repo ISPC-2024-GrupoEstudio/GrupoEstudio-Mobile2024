@@ -13,22 +13,12 @@
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/drawable/spinner_background.xml">
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_checkout.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_cupones.xml">
-        <config>
-          <theme>@style/Theme.ProyMobile2024</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_dashboard.xml">
-        <config>
-          <theme>@style/Theme.ProyMobile2024</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_detalle_pedido.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
@@ -39,11 +29,6 @@
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_galeria_productos.xml">
-        <config>
-          <theme>@style/Theme.ProyMobile2024</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_historial_compras.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
@@ -68,22 +53,12 @@
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/card_historial_pedido.xml">
-        <config>
-          <theme>@style/Theme.ProyMobile2024</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/carrusel_dashboard.xml">
-        <config>
-          <theme>@style/Theme.ProyMobile2024</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_contacto.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_editar_perfil.xml">
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_login.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
@@ -98,22 +73,7 @@
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/item_producto_pedido.xml">
-        <config>
-          <theme>@style/Theme.ProyMobile2024</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/nav_header.xml">
-        <config>
-          <theme>@style/Theme.ProyMobile2024</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/spinner_background.xml">
-        <config>
-          <theme>@style/Theme.ProyMobile2024</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/spinner_item.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
@@ -145,29 +105,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e094ab0-88b7-48c1-8970-03fefd25940e" name="Changes" comment="Estilizacion Editar Perfil">
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/.idea/cody_history.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/.idea/deploymentTargetSelector.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/.idea/migrations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/.idea/other.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/ContactoFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/ContactoFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/RegisterFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/RegisterFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/AuthInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/AuthInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/RetrofitClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/RetrofitClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/RetrofitClientRegister.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/java/com/example/proy_mobile2024/services/RetrofitClientRegister.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_contacto.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_contacto.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/fragment_register.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/PetBoutique/PetBoutique/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/PetBoutique/PetBoutique/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,7 +115,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=R58T43Q23JY)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\Milena\.android\avd\Pixel_4.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/Frontend/ProyMobile2024">
       <ProjectState />
@@ -186,6 +124,9 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$/Frontend/ProyMobile2024/app">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
@@ -222,9 +163,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="valueResourceFile" />
-        <option value="Class" />
         <option value="layoutResourceFile" />
         <option value="resourceFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -236,7 +177,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Developer" />
+        <entry key="$PROJECT_DIR$" value="MilenaGimenez2" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -260,7 +201,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="_Designer_Tab" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -273,34 +214,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;AnalyzeApkAction.lastApkPath&quot;: &quot;C:/Users/Milena/Desktop/2025 MOBILE/nuevo/GrupoEstudio-Mobile2024/Frontend/ProyMobile2024/app/build/outputs/apk/debug/app-debug.apk&quot;,
-    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
-    &quot;ApkExportedModule&quot;: &quot;Proy-Mobile2024.app&quot;,
-    &quot;ExportApk.ApkPathForProy-Mobile2024.app&quot;: &quot;C:\\Users\\valea\\AndroidStudioProjects\\GrupoEstudio-Mobile2024\\Frontend\\ProyMobile2024\\app&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;MilenaGimenez&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Milena/Desktop/2025 MOBILE/nuevo/GrupoEstudio-Mobile2024/Frontend/ProyMobile2024/app/build/outputs/apk/debug/app-debug.apk&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "AnalyzeApkAction.lastApkPath": "C:/Users/Milena/Desktop/2025 MOBILE/nuevo/GrupoEstudio-Mobile2024/Frontend/ProyMobile2024/app/build/outputs/apk/debug/app-debug.apk",
+    "Android App.app.executor": "Run",
+    "ApkExportedModule": "Proy-Mobile2024.app",
+    "ExportApk.ApkPathForProy-Mobile2024.app": "C:\\Users\\valea\\AndroidStudioProjects\\GrupoEstudio-Mobile2024\\Frontend\\ProyMobile2024\\app",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "MilenaGimenez",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Milena/Desktop/2025 MOBILE/nuevo/GrupoEstudio-Mobile2024/Frontend/ProyMobile2024/app/build/outputs/apk/debug/app-debug.apk",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;ExportApk.BuildVariants&quot;: [
-      &quot;release&quot;
+  "keyToStringList": {
+    "ExportApk.BuildVariants": [
+      "release"
     ]
   }
-}</component>
+}]]></component>
   <component name="PsdUISettings">
     <option name="MODULE_TAB" value="Properties" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
@@ -468,12 +409,12 @@
       <map>
         <entry key="com.example.proy_mobile2024">
           <value>
-            <CheckInfo lastCheckTimestamp="1749090544710" />
+            <CheckInfo lastCheckTimestamp="1750020589215" />
           </value>
         </entry>
         <entry key="com.example.proy_mobile2024.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1749090544715" />
+            <CheckInfo lastCheckTimestamp="1750020589215" />
           </value>
         </entry>
       </map>

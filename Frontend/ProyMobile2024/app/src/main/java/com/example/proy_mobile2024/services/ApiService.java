@@ -1,6 +1,8 @@
 package com.example.proy_mobile2024.services;
+import com.example.proy_mobile2024.Cupon;
 import com.example.proy_mobile2024.model.Carrito;
 import com.example.proy_mobile2024.model.CategoriaProducto;
+import com.example.proy_mobile2024.model.MisCuponRequest;
 import com.example.proy_mobile2024.model.Pedido;
 import com.example.proy_mobile2024.model.ItemCarritoData;
 import com.example.proy_mobile2024.model.LoginResponse;
@@ -17,10 +19,12 @@ import com.example.proy_mobile2024.model.Usuario;
 import com.example.proy_mobile2024.model.UsuarioPerfil;
 import com.example.proy_mobile2024.model.ProductosXPedido;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -71,6 +75,28 @@ public interface ApiService {
 
     @GET("productoXPedido/por-pedido/{id}")
     Call<List<ProductosXPedido>> obtenerProductosPorPedido(@Path("id") int idPedido);
+
+    @GET("cupones/")
+    Call<List<Cupon>> obtenerCupones();
+
+    @POST("mis-cupones/")
+    Call<ResponseBody> aplicarCupon(
+            @Header("Authorization") String authHeader,
+            @Body MisCuponRequest request
+    );
+
+    @GET("mis-cupones/{nombreUsuario}/")
+    Call<List<Cupon>> obtenerCuponesUsuario(
+            @Header("Authorization") String authHeader,
+            @Path("nombreUsuario") String nombreUsuario
+    );
+
+    @DELETE("mis-cupones/{nombreUsuario}/")
+    Call<ResponseBody> eliminarCuponesUsuario(
+            @Header("Authorization") String authHeader,
+            @Path("nombreUsuario") String nombreUsuario
+    );
+
 
 }
 

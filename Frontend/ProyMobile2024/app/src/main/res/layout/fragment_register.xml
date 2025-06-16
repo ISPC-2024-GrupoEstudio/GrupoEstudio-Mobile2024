@@ -9,7 +9,8 @@
     android:background="@android:color/white"
     android:orientation="vertical"
     android:padding="20dp"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="10dp"
+    android:fitsSystemWindows="true">
 
     <Space
         android:layout_width="376dp"
@@ -85,9 +86,9 @@
             <Spinner
                 android:id="@+id/spinner_tipo_DNI"
                 android:layout_width="match_parent"
+                android:background="@drawable/form_contacto"
                 android:textColor="@color/black"
                 android:layout_height="54dp"
-                android:background="@drawable/form_contacto"
                 android:fontFamily="@font/poppins_regular"/>
 
             <EditText
@@ -202,7 +203,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:background="@drawable/btn_contacto"
+                android:background="@drawable/button_bg"
                 android:backgroundTint="@null"
                 android:minHeight="48dp"
                 android:text="Registro"

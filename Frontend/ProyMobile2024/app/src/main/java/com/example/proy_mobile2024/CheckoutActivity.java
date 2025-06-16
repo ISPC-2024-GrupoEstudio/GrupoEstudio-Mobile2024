@@ -2,6 +2,7 @@ package com.example.proy_mobile2024;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -37,6 +40,7 @@ import com.example.proy_mobile2024.model.PreferenciaResponse;
 import com.example.proy_mobile2024.model.Producto;
 import com.example.proy_mobile2024.model.Sucursal;
 import com.example.proy_mobile2024.services.CorreoArgentinoApi;
+import com.example.proy_mobile2024.services.ApiService;
 import com.example.proy_mobile2024.services.RetrofitClient;
 import com.example.proy_mobile2024.services.RetrofitClientCorreo;
 import com.example.proy_mobile2024.viewsmodels.ProvinciaUtils;
@@ -50,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -86,16 +91,38 @@ public class CheckoutActivity extends AppCompatActivity {
     LinearLayout layoutDireccion;
     EditText etDireccion;
 
+    private TextView tvTotalConDescuento;
+    private List<Cupon> cuponesAplicables = new ArrayList<>();
+    private double totalSinDescuento = 0.0;
+    private double totalConDescuento = 0.0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+
+            // Para íconos oscuros en status bar transparente
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                );
+            }
+        }
 
         recyclerCheckout = findViewById(R.id.recyclerProductos);
         recyclerCheckout.setLayoutManager(new LinearLayoutManager(this));
 
         listaCarrito = new ArrayList<>();
         tvTotal = findViewById(R.id.tvTotal);
+        tvTotalConDescuento = findViewById(R.id.tvTotalConDescuento);
+
         double total = 0;
         tvCostoEnvio = findViewById(R.id.tvCostoEnvio);
         etCodigoPostal = findViewById(R.id.etCodigoPostal);
@@ -135,21 +162,25 @@ public class CheckoutActivity extends AppCompatActivity {
 
             carritoAdapter = new CarritoAdapter(this, listaCarrito, true);
             recyclerCheckout.setAdapter(carritoAdapter);
+            //obtenerYAplicarCupones();
         } else {
             // Si no se pasan productos, cargamos desde backend
             carritoAdapter = new CarritoAdapter(this, listaCarrito, true);
             recyclerCheckout.setAdapter(carritoAdapter);
             cargarCarrito();
         }
-
+        totalSinDescuento = 0;
         for (Carrito item : listaCarrito) {
             double precio = item.getProducto().getPrecio(); // o getPrecioUnitario()
             int cantidad = item.getCantidad();
-            total += precio * cantidad;
+            totalSinDescuento += precio * cantidad;
         }
-        totalProductos = total;
+        totalProductos = totalSinDescuento;
+        totalConDescuento = totalSinDescuento; // Por defecto, sin cupón
+        obtenerYAplicarCupones();
 
-        tvTotal.setText(String.format("Total: $%.2f", total));
+        tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
+
 
         // Mostrar u ocultar spinner según tipo de envío
         rgEnvio.setOnCheckedChangeListener((group, checkedId) -> {
@@ -223,11 +254,6 @@ public class CheckoutActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
         btnVolver = findViewById(R.id.btnVolverCart);
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,91 +286,219 @@ public class CheckoutActivity extends AppCompatActivity {
 
     }
 
+    private void obtenerYAplicarCupones() {
+        SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+        String token = preferences.getString("access_token", "");
+        String username = preferences.getString("username", "");
+
+        ApiService apiService = RetrofitClient.getInstance(getApplicationContext()).getApiService();
+
+        apiService.obtenerCuponesUsuario("Bearer " + token, username)
+                .enqueue(new Callback<List<Cupon>>() {
+                    @Override
+                    public void onResponse(Call<List<Cupon>> call, Response<List<Cupon>> response) {
+                        if (response.isSuccessful()) {
+                            //List<Cupon> cupones = response.body();
+                            cuponesAplicables = response.body();
+
+                            if (cuponesAplicables != null) {
+                                for (Cupon cupon : cuponesAplicables) {
+                                    Log.d("Checkout", "Cupón recibido: id=" + cupon.getId() +
+                                            ", descuento=" + cupon.getValorDescuento() +
+                                            ", tipo=" + cupon.getTipoDescuento());
+                                }
+                                aplicarDescuentos(cuponesAplicables);  // ✅ asegurate de que esto se llame
+                            }
+                        } else {
+                            Log.e("Checkout", "Error al obtener cupones: " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Cupon>> call, Throwable t) {
+                        Log.e("Checkout", "Fallo al obtener cupones", t);
+                    }
+                });
+    }
+
+    private void aplicarDescuentos(List<Cupon> cupones) {
+        totalSinDescuento = 0.0;
+
+        for (Carrito item : listaCarrito) {
+            double precio = item.getProducto().getPrecio();
+            int cantidad = item.getCantidad();
+            totalSinDescuento += precio * cantidad;
+        }
+
+        Log.d("Checkout", "Total sin descuento: $" + totalSinDescuento);
+
+        double descuentoTotal = 0.0;
+
+        for (Cupon cupon : cupones) {
+            double descuento = 0.0;
+
+            if ("PORCENTAJE".equalsIgnoreCase(cupon.getTipoDescuento())) {
+                descuento = (totalSinDescuento * cupon.getValorDescuento()) / 100;
+            } else if ("MONTO".equalsIgnoreCase(cupon.getTipoDescuento())) {
+                descuento = cupon.getValorDescuento();
+            }
+
+            Log.d("Checkout", "Aplicando cupón: " + cupon.getNombre() + " - Descuento: $" + descuento);
+            descuentoTotal += descuento;
+        }
+
+        totalConDescuento = Math.max(totalSinDescuento - descuentoTotal, 0.0);
+
+        Log.d("Checkout", "Descuento total acumulado: $" + descuentoTotal);
+        Log.d("Checkout", "Total con descuento: $" + totalConDescuento);
+
+        tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
+        tvTotalConDescuento.setText(String.format("Total con descuentos: $%.2f", totalConDescuento));
+    }
+
+
+
+
     private void checkout() {
-        SharedPreferences sharedPreferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
-        String nombre_usuario = sharedPreferences.getString("id_usuario", "");
+    SharedPreferences sharedPreferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+    String nombre_usuario = sharedPreferences.getString("id_usuario", "");
+    String token = sharedPreferences.getString("access_token", "");
 
-        EditText etDireccion = findViewById(R.id.etDireccion);
-        String direccion = etDireccion.getText().toString().trim();
-        String codigoPostal = etCodigoPostal.getText().toString().trim();
+    EditText etDireccion = findViewById(R.id.etDireccion);
+    String direccion = etDireccion.getText().toString().trim();
+    String codigoPostal = etCodigoPostal.getText().toString().trim();
 
-        if (rbDomicilio.isChecked() && direccion.isEmpty()) {
-            Toast.makeText(CheckoutActivity.this, "Debés ingresar una dirección para el envío a domicilio.", Toast.LENGTH_SHORT).show();
-            return;
-        }
+    if (rbDomicilio.isChecked() && direccion.isEmpty()) {
+        Toast.makeText(CheckoutActivity.this, "Debés ingresar una dirección para el envío a domicilio.", Toast.LENGTH_SHORT).show();
+        return;
+    }
 
-        String ciudad = ProvinciaUtils.obtenerNombreProvincia(ProvinciaUtils.determinarProvinciaDesdeCP(codigoPostal));
-        if (ciudad.equals("Provincia no identificada")) {
-            Toast.makeText(this, "Código postal no reconocido", Toast.LENGTH_SHORT).show();
-            return;
-        }
+    String ciudad = ProvinciaUtils.obtenerNombreProvincia(ProvinciaUtils.determinarProvinciaDesdeCP(codigoPostal));
+    if (ciudad.equals("Provincia no identificada")) {
+        Toast.makeText(this, "Código postal no reconocido", Toast.LENGTH_SHORT).show();
+        return;
+    }
 
-        String tipoEnvio = rbDomicilio.isChecked() ? "Domicilio" : "Sucursal";
+    String tipoEnvio = rbDomicilio.isChecked() ? "Domicilio" : "Sucursal";
 
-        JSONObject opcionEnvio = new JSONObject();
+    JSONObject opcionEnvio = new JSONObject();
+    try {
         opcionEnvio.put("tipo", tipoEnvio);
         opcionEnvio.put("costo", costoEnvio);
         if (tipoEnvio.equals("Sucursal") && sucursalSeleccionada != null) {
             opcionEnvio.put("id", sucursalSeleccionada.getCodigoSucursal());
             opcionEnvio.put("nombreSucursal", sucursalSeleccionada.getNombreSucursal());
         }
-
-        double totalFinal = totalProductos + costoEnvio;
-        double descuento = 0.0; // Podés modificar esto si estás manejando cupones
-
-        // Armamos el external_reference completo
-        String externalReference = nombre_usuario + "|" + direccion + "|" + codigoPostal + "|" +
-                opcionEnvio.toString() + "|" + totalFinal + "|" + (rbDomicilio.isChecked() ? 1 : 2) + "|" + ciudad + "|" + descuento;
-
-        Log.d("Checkout", "external_reference: " + externalReference);
-
-        // Limpiamos ítems anteriores de envío, si los hubiera
-        List<Carrito> listaConEnvio = new ArrayList<>(listaCarrito);
-        for (Iterator<Carrito> iterator = listaConEnvio.iterator(); iterator.hasNext(); ) {
-            Carrito item = iterator.next();
-            if ("Costo de envío".equals(item.getProducto().getNombre())) {
-                iterator.remove();
-            }
-        }
-
-        // Agregamos el costo de envío como ítem si es mayor a cero
-        if (costoEnvio > 0) {
-            Carrito envioItem = new Carrito();
-            Producto envio = new Producto(
-                    -1,
-                    "Costo de envío",
-                    "Tarifa de envío seleccionada",
-                    costoEnvio,
-                    "",
-                    -1
-            );
-            envioItem.setProducto(envio);
-            envioItem.setCantidad(1);
-            listaConEnvio.add(envioItem);
-        }
-
-        PedidoCheckoutData pedidoCheckoutData = new PedidoCheckoutData();
-        pedidoCheckoutData.setExternal_reference(externalReference);
-        pedidoCheckoutData.setItemsCarrito(listaConEnvio);
-
-        RetrofitClient.getInstance(this).getApiService().obtenerPreferencia(pedidoCheckoutData).enqueue(new Callback<PreferenciaResponse>() {
-            @Override
-            public void onResponse(Call<PreferenciaResponse> call, Response<PreferenciaResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(response.body().getInit_point()));
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(CheckoutActivity.this, "Error al obtener preferencia de pago", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PreferenciaResponse> call, Throwable t) {
-                Toast.makeText(CheckoutActivity.this, "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
-            }
-        });
+    } catch (JSONException e) {
+        e.printStackTrace();
+        return;
     }
+
+    // Aplicamos descuentos si hay cupones válidos
+    double descuento = totalSinDescuento - totalConDescuento;
+    double totalFinal = totalConDescuento + costoEnvio;
+
+    // Armado de external_reference
+    String externalReference = nombre_usuario + "|" + direccion + "|" + codigoPostal + "|" +
+            opcionEnvio.toString() + "|" + totalFinal + "|" + (rbDomicilio.isChecked() ? 1 : 2) + "|" + ciudad + "|" + descuento;
+
+    Log.d("Checkout", "external_reference: " + externalReference);
+
+    // Filtrar ítems anteriores de envío
+    List<Carrito> listaConEnvio = new ArrayList<>(listaCarrito);
+    for (Iterator<Carrito> iterator = listaConEnvio.iterator(); iterator.hasNext(); ) {
+        Carrito item = iterator.next();
+        if ("Costo de envío".equals(item.getProducto().getNombre())) {
+            iterator.remove();
+        }
+    }
+
+    // Agregar el ítem "Costo de envío" si corresponde
+    if (costoEnvio > 0) {
+        Carrito envioItem = new Carrito();
+        Producto envio = new Producto(
+                -1,
+                "Costo de envío",
+                "Tarifa de envío seleccionada",
+                costoEnvio,
+                "",
+                -1
+        );
+        envioItem.setProducto(envio);
+        envioItem.setCantidad(1);
+        listaConEnvio.add(envioItem);
+    }
+
+    // Armar el objeto de pedido
+    PedidoCheckoutData pedidoCheckoutData = new PedidoCheckoutData();
+    pedidoCheckoutData.setExternal_reference(externalReference);
+    pedidoCheckoutData.setItemsCarrito(listaConEnvio);
+    pedidoCheckoutData.setMontoFinal(totalFinal);
+
+    if (!cuponesAplicables.isEmpty()) {
+        pedidoCheckoutData.setCupon(cuponesAplicables.get(0).getNombre());
+    } else {
+        pedidoCheckoutData.setCupon("");
+    }
+
+    Log.d("Checkout", "Monto final enviado a MercadoPago: $" + totalFinal);
+
+    // Guardar el descuento en SharedPreferences
+    SharedPreferences prefs = getSharedPreferences("DescuentosPorPedido", MODE_PRIVATE);
+    SharedPreferences.Editor editor = prefs.edit();
+    int idPedidoGenerado = (int) System.currentTimeMillis();  // ID temporal
+    editor.putFloat("descuento_" + idPedidoGenerado, (float) descuento);
+    editor.apply();
+
+    // Llamada a backend
+    ApiService apiService = RetrofitClient.getInstance(this).getApiService();
+
+    apiService.obtenerPreferencia(pedidoCheckoutData).enqueue(new Callback<PreferenciaResponse>() {
+        @Override
+        public void onResponse(Call<PreferenciaResponse> call, Response<PreferenciaResponse> response) {
+            if (response.isSuccessful() && response.body() != null) {
+                // Ir a Mercado Pago
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(response.body().getInit_point()));
+                startActivity(intent);
+
+                // Eliminar cupones del usuario en el backend
+                apiService.eliminarCuponesUsuario("Bearer " + token, nombre_usuario)
+                        .enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if (response.isSuccessful()) {
+                                    Log.d("Cupones", "Cupones eliminados exitosamente tras pagar");
+                                } else {
+                                    Log.e("Cupones", "Error al eliminar cupones: " + response.code());
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.e("Cupones", "Fallo al eliminar cupones", t);
+                            }
+                        });
+
+                // Borrar cupon guardado en el dispositivo
+                SharedPreferences.Editor editor = getSharedPreferences("CuponPrefs", MODE_PRIVATE).edit();
+                editor.remove("cupon_aplicado");
+                editor.apply();
+
+                cuponesAplicables.clear();
+            } else {
+                Toast.makeText(CheckoutActivity.this, "Error al obtener preferencia de pago", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onFailure(Call<PreferenciaResponse> call, Throwable t) {
+            Toast.makeText(CheckoutActivity.this, "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+        }
+    });
+}
+
+
 
     private void cargarCarrito() {
         SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
