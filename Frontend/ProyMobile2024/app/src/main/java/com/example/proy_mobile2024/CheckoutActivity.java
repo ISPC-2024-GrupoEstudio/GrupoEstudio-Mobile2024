@@ -31,6 +31,7 @@ import com.example.proy_mobile2024.services.RetrofitClient;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -146,14 +147,16 @@ public class CheckoutActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<List<Cupon>> call, Response<List<Cupon>> response) {
                         if (response.isSuccessful()) {
-                            List<Cupon> cupones = response.body();
-                            if (cupones != null) {
-                                for (Cupon cupon : cupones) {
+                            //List<Cupon> cupones = response.body();
+                            cuponesAplicables = response.body();
+
+                            if (cuponesAplicables != null) {
+                                for (Cupon cupon : cuponesAplicables) {
                                     Log.d("Checkout", "Cupón recibido: id=" + cupon.getId() +
                                             ", descuento=" + cupon.getValorDescuento() +
                                             ", tipo=" + cupon.getTipoDescuento());
                                 }
-                                aplicarDescuentos(cupones);  // ✅ asegurate de que esto se llame
+                                aplicarDescuentos(cuponesAplicables);  // ✅ asegurate de que esto se llame
                             }
                         } else {
                             Log.e("Checkout", "Error al obtener cupones: " + response.code());
@@ -206,10 +209,9 @@ public class CheckoutActivity extends AppCompatActivity {
 
 
     private void checkout() {
-        //aplicarDescuentos();  // Podés comentar para que no modifique totalConDescuento
-
         SharedPreferences sharedPreferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
         String nombre_usuario = sharedPreferences.getString("id_usuario", "");
+        String token = sharedPreferences.getString("access_token", "");
 
         Log.d("Checkout", "Nombre de usuario: " + nombre_usuario);
         Log.d("Checkout", "Monto final sin descuento: " + totalSinDescuento);
@@ -217,11 +219,25 @@ public class CheckoutActivity extends AppCompatActivity {
         PedidoCheckoutData pedidoCheckoutData = new PedidoCheckoutData();
         pedidoCheckoutData.setExternal_reference(nombre_usuario);
         pedidoCheckoutData.setItemsCarrito(listaCarrito);
-        //pedidoCheckoutData.setMontoFinal(totalSinDescuento);
         pedidoCheckoutData.setMontoFinal(totalConDescuento);
+
+        if (!cuponesAplicables.isEmpty()) {
+            pedidoCheckoutData.setCupon(cuponesAplicables.get(0).getNombre());
+        } else {
+            pedidoCheckoutData.setCupon("");
+        }
+
         Log.d("Checkout", "Monto final enviado a MercadoPago: $" + totalConDescuento);
 
-        RetrofitClient.getInstance(this).getApiService().obtenerPreferencia(pedidoCheckoutData).enqueue(new Callback<PreferenciaResponse>() {
+        SharedPreferences prefs = getSharedPreferences("DescuentosPorPedido", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        int idPedidoGenerado = (int) System.currentTimeMillis();  // ID temporal
+        editor.putFloat("descuento_" + idPedidoGenerado, (float) (totalSinDescuento - totalConDescuento));
+        editor.apply();
+
+        ApiService apiService = RetrofitClient.getInstance(this).getApiService();
+
+        apiService.obtenerPreferencia(pedidoCheckoutData).enqueue(new Callback<PreferenciaResponse>() {
             @Override
             public void onResponse(Call<PreferenciaResponse> call, Response<PreferenciaResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -229,6 +245,29 @@ public class CheckoutActivity extends AppCompatActivity {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(response.body().getInit_point()));
                     startActivity(intent);
+                    Log.d("Pedido", "Pedido guardado con descuento");
+
+                    // 🔴 BORRAR CUPONES DEL USUARIO EN BACKEND
+                    apiService.eliminarCuponesUsuario("Bearer " + token, nombre_usuario)
+                            .enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    if (response.isSuccessful()) {
+                                        Log.d("Cupones", "Cupones eliminados exitosamente tras pagar");
+                                    } else {
+                                        Log.e("Cupones", "Error al eliminar cupones: " + response.code());
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Log.e("Cupones", "Fallo al eliminar cupones", t);
+                                }
+                            });
+
+
+                    cuponesAplicables.clear();
+                    //tvTotalConDescuento.setText(""); // o "Sin cupones aplicados"
                 }
             }
 
@@ -238,6 +277,7 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
     private void cargarCarrito() {
