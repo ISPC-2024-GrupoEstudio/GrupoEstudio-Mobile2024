@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -31,8 +32,12 @@ import com.example.proy_mobile2024.model.MisCuponRequest;
 import com.example.proy_mobile2024.services.ApiService;
 import com.example.proy_mobile2024.services.RetrofitClient;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import retrofit2.Call;
@@ -43,13 +48,14 @@ public class CuponesActivity extends AppCompatActivity {
     private LinearLayout cuponesContainer;
     private Cupon[] cupones;
     private Set<Integer> cuponesAplicados = new HashSet<>();
-
-
+    private int cuponYaAplicadoId = -1; // Se usa para bloquear los demás
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cupones);
+        SharedPreferences prefs = getSharedPreferences("CuponPrefs", MODE_PRIVATE);
+        cuponYaAplicadoId = prefs.getInt("cupon_aplicado", -1); // -1 si no hay ninguno aplicado
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -107,15 +113,14 @@ public class CuponesActivity extends AppCompatActivity {
     private int[] getGradientColorsForIndex(int index) {
         int[][] gradients = new int[][]{
                 {Color.parseColor("#9C63D6"), Color.parseColor("#5BA3F5")},
-                {Color.parseColor("#FF6B35"), Color.parseColor("#F7931E")},
+                {Color.parseColor("#3FA98A"), Color.parseColor("#40C39C")},
                 {Color.parseColor("#4FC3F7"), Color.parseColor("#29B6F6")},
-                {Color.parseColor("#66BB6A"), Color.parseColor("#4CAF50")},
+                {Color.parseColor("#8EB8E7"), Color.parseColor("#66DDD4")},
                 {Color.parseColor("#FFB300"), Color.parseColor("#F57C00")},
-                {Color.parseColor("#AB47BC"), Color.parseColor("#7E57C2")}
+                {Color.parseColor("#66BB6A"), Color.parseColor("#4CAF50")}
         };
         return gradients[index % gradients.length];
     }
-
 
 
         private void generateCupones() {
@@ -135,7 +140,7 @@ public class CuponesActivity extends AppCompatActivity {
         RelativeLayout couponLayout = new RelativeLayout(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                dpToPx(120)
+                dpToPx(140)
         );
         layoutParams.setMargins(0, 0, 0, dpToPx(16));
         couponLayout.setLayoutParams(layoutParams);
@@ -174,7 +179,7 @@ public class CuponesActivity extends AppCompatActivity {
     private LinearLayout createLeftSection(Cupon cupon) {
         LinearLayout leftSection = new LinearLayout(this);
         RelativeLayout.LayoutParams leftParams = new RelativeLayout.LayoutParams(
-                dpToPx(120),
+                dpToPx(140),
                 RelativeLayout.LayoutParams.MATCH_PARENT
         );
         leftSection.setLayoutParams(leftParams);
@@ -182,15 +187,10 @@ public class CuponesActivity extends AppCompatActivity {
         leftSection.setGravity(android.view.Gravity.CENTER);
 
         // Asignar un color según el tipo de descuento
-        int leftColor;
+        int leftColor = Color.parseColor("#5B4CBD"); // Naranja plano fijo, elegí el que quieras
+
         String tipo = cupon.getTipoDescuento();
-        if ("PORCENTAJE".equalsIgnoreCase(tipo)) {
-            leftColor = Color.parseColor("#4CAF50"); // Verde para porcentaje
-        } else if ("MONTO".equalsIgnoreCase(tipo)) {
-            leftColor = Color.parseColor("#F44336"); // Rojo para monto
-        } else {
-            leftColor = Color.parseColor("#2196F3"); // Azul por defecto
-        }
+
 
         // Fondo sólido para la sección izquierda
         GradientDrawable leftBg = new GradientDrawable();
@@ -262,6 +262,36 @@ public class CuponesActivity extends AppCompatActivity {
         descripcionText.setLayoutParams(descParams);
         rightSection.addView(descripcionText);
 
+        // Convertir y formatear fecha
+        String fechaFormateada = cupon.getFechaVencimiento(); // valor original
+
+        try {
+            SimpleDateFormat formatoEntrada = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            Date fecha = formatoEntrada.parse(cupon.getFechaVencimiento());
+
+            SimpleDateFormat formatoSalida = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "AR"));
+            fechaFormateada = formatoSalida.format(fecha);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            // Si falla, deja la fecha original
+        }
+
+
+        // Vencimiento
+        TextView vencimientoText = new TextView(this);
+        vencimientoText.setText("Válido hasta el: " + fechaFormateada);
+        vencimientoText.setTextColor(Color.WHITE);
+        vencimientoText.setTextSize(10);
+        vencimientoText.setAlpha(0.8f);
+        LinearLayout.LayoutParams vencimientoParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        vencimientoParams.setMargins(0, 0, 0, dpToPx(8));
+        vencimientoText.setLayoutParams(vencimientoParams);
+        rightSection.addView(vencimientoText);
+
+
 
         // Contenedor de botones
         LinearLayout buttonsContainer = new LinearLayout(this);
@@ -285,7 +315,25 @@ public class CuponesActivity extends AppCompatActivity {
 
     private TextView createButton(String text, int couponIndex, boolean isViewButton) {
         TextView button = new TextView(this);
-        button.setText(text);
+
+        SharedPreferences cuponPrefs = getSharedPreferences("CuponPrefs", MODE_PRIVATE);
+        int cuponAplicadoId = cuponPrefs.getInt("cupon_aplicado", -1);
+
+        Cupon cupon = cupones[couponIndex];
+
+        if (cupon.getId() == cuponAplicadoId) {
+            button.setText("Cupón canjeado");
+            button.setEnabled(false);
+            button.setAlpha(0.5f); // Visual gris
+        } else if (estaVencido(cupon)) {
+            button.setText("Cupón vencido");
+            button.setEnabled(false);
+            button.setAlpha(0.5f); // Visual gris
+        } else {
+            button.setText(text); // Este es el texto por defecto: "Aplicar Cupón"
+        }
+
+
         button.setTextColor(Color.WHITE);
         button.setTextSize(12);
         if (!isViewButton) {
@@ -308,79 +356,83 @@ public class CuponesActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences prefs = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
-                String token = prefs.getString("accessToken", null);
+                SharedPreferences authPrefs = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
+                SharedPreferences cuponPrefs = getSharedPreferences("CuponPrefs", MODE_PRIVATE);
 
-                if (token == null) {
+                String token = authPrefs.getString("accessToken", null);
+                String username = authPrefs.getString("username", null);
+
+                if (token == null || username == null) {
                     Toast.makeText(CuponesActivity.this, "Usuario no autenticado", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Obtener el cupón seleccionado (ejemplo)
-                Cupon cupon = cupones[couponIndex];
-                int cuponId = cupon.getId();  // Asumiendo que tienes método getId()
-
-                // Si el cupón está en la lista de aplicados, lo marcamos como canjeado y deshabilitamos el botón
-                if (cuponesAplicados.contains(cupon.getId())) {
-                    button.setText("Cupón canjeado");
-                    button.setEnabled(false);
-                    button.setClickable(false);
-                } else {
-                    // Si no está aplicado, asignar el listener para que se pueda agregar
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // TODO: Aquí va todo tu código que ya tenías para aplicar el cupón
-                            // ... (tu código actual dentro de onClick)
-                        }
-                    });
+                // Solo permitir si no hay cupón aplicado
+                if (cuponYaAplicadoId != -1) {
+                    if (cupon.getId() == cuponYaAplicadoId) {
+                        Toast.makeText(CuponesActivity.this, "Ya canjeaste este cupón", Toast.LENGTH_SHORT).show();
+                    } else {
+                        new AlertDialog.Builder(CuponesActivity.this)
+                                .setTitle("Límite de cupones")
+                                .setMessage("Solamente puede canjearse un cupón por compra")
+                                .setPositiveButton("Aceptar", null)
+                                .show();
+                    }
+                    return;
                 }
 
-
-
-                MisCuponRequest request = new MisCuponRequest(cuponId);
-                Log.d("CuponesActivity", "Intentando agregar cupón: " + cupon.getNombre());
-
+                // Aplicar cupón
+                MisCuponRequest request = new MisCuponRequest(cupon.getId());
                 ApiService apiService = RetrofitClient.getInstance(getApplicationContext()).getApiService();
 
-                Call<ResponseBody> call = apiService.aplicarCupon("Bearer " + token, request);
-                call.enqueue(new Callback<ResponseBody>() {
+                apiService.aplicarCupon("Bearer " + token, request).enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
-                            Log.d("CuponesActivity", "Cupón agregado con éxito: " + cupon.getNombre());
-                            Toast.makeText(CuponesActivity.this, "Cupón aplicado correctamente", Toast.LENGTH_SHORT).show();
+                            // Guardar el cupón como aplicado
+                            SharedPreferences.Editor editor = cuponPrefs.edit();
+                            editor.putInt("cupon_aplicado", cupon.getId());
+                            editor.apply();
 
-                            // Cambiar texto y deshabilitar el botón para que no se pueda clickear más
+                            cuponYaAplicadoId = cupon.getId(); // actualizar en RAM
+
                             button.setText("Cupón canjeado");
                             button.setEnabled(false);
+                            button.setAlpha(0.5f); // gris
 
-                            String username = prefs.getString("username", null);
+                            Toast.makeText(CuponesActivity.this, "Cupón aplicado correctamente", Toast.LENGTH_SHORT).show();
+                            mostrarCuponesUsuario(username, token);
 
-                            if (username != null) {
-                                mostrarCuponesUsuario(username, token);
-                            } else {
-                                Log.e("CuponesActivity", "⚠️ Username no encontrado en SharedPreferences");
-                            }
-
+                            // También podés refrescar la pantalla o bloquear otros cupones manualmente si lo necesitás
                         } else {
                             Toast.makeText(CuponesActivity.this, "Error al aplicar cupón", Toast.LENGTH_SHORT).show();
-                            Log.e("API", "Error código: " + response.code());
-                            Log.e("CuponesActivity", "Error al agregar cupón. Código: " + response.code());
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Toast.makeText(CuponesActivity.this, "Error en la conexión", Toast.LENGTH_SHORT).show();
-                        Log.e("API", "Error en llamada: " + t.getMessage());
                     }
                 });
             }
         });
 
+
         return button;
     }
+
+    private boolean estaVencido(Cupon cupon) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            Date hoy = new Date();
+            Date fechaVencimiento = sdf.parse(cupon.getFechaVencimiento());
+            return fechaVencimiento != null && fechaVencimiento.before(hoy);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false; // En caso de error, mejor no marcarlo como vencido
+        }
+    }
+
 
 
     private void mostrarCuponesUsuario(String nombreUsuario, String token) {
@@ -453,6 +505,7 @@ public class CuponesActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
 
 
 }
