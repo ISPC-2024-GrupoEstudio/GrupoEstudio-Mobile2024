@@ -247,7 +247,7 @@ public class CheckoutActivity extends AppCompatActivity {
                     startActivity(intent);
                     Log.d("Pedido", "Pedido guardado con descuento");
 
-                    // 🔴 BORRAR CUPONES DEL USUARIO EN BACKEND
+                    // BORRAR CUPONES DEL USUARIO EN BACKEND
                     apiService.eliminarCuponesUsuario("Bearer " + token, nombre_usuario)
                             .enqueue(new Callback<ResponseBody>() {
                                 @Override
@@ -265,6 +265,9 @@ public class CheckoutActivity extends AppCompatActivity {
                                 }
                             });
 
+                    SharedPreferences.Editor editor = getSharedPreferences("CuponPrefs", MODE_PRIVATE).edit();
+                    editor.remove("cupon_aplicado");
+                    editor.apply();
 
                     cuponesAplicables.clear();
                     //tvTotalConDescuento.setText(""); // o "Sin cupones aplicados"
