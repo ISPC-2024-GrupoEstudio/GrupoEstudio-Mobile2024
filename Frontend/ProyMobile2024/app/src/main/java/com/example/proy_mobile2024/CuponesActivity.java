@@ -92,15 +92,14 @@ public class CuponesActivity extends AppCompatActivity {
     private int[] getGradientColorsForIndex(int index) {
         int[][] gradients = new int[][]{
                 {Color.parseColor("#9C63D6"), Color.parseColor("#5BA3F5")},
-                {Color.parseColor("#FF6B35"), Color.parseColor("#F7931E")},
+                {Color.parseColor("#3FA98A"), Color.parseColor("#40C39C")},
                 {Color.parseColor("#4FC3F7"), Color.parseColor("#29B6F6")},
-                {Color.parseColor("#66BB6A"), Color.parseColor("#4CAF50")},
+                {Color.parseColor("#8EB8E7"), Color.parseColor("#66DDD4")},
                 {Color.parseColor("#FFB300"), Color.parseColor("#F57C00")},
-                {Color.parseColor("#AB47BC"), Color.parseColor("#7E57C2")}
+                {Color.parseColor("#66BB6A"), Color.parseColor("#4CAF50")}
         };
         return gradients[index % gradients.length];
     }
-
 
 
         private void generateCupones() {
@@ -167,15 +166,10 @@ public class CuponesActivity extends AppCompatActivity {
         leftSection.setGravity(android.view.Gravity.CENTER);
 
         // Asignar un color según el tipo de descuento
-        int leftColor;
+        int leftColor = Color.parseColor("#5B4CBD"); // Naranja plano fijo, elegí el que quieras
+
         String tipo = cupon.getTipoDescuento();
-        if ("PORCENTAJE".equalsIgnoreCase(tipo)) {
-            leftColor = Color.parseColor("#4CAF50"); // Verde para porcentaje
-        } else if ("MONTO".equalsIgnoreCase(tipo)) {
-            leftColor = Color.parseColor("#F44336"); // Rojo para monto
-        } else {
-            leftColor = Color.parseColor("#2196F3"); // Azul por defecto
-        }
+
 
         // Fondo sólido para la sección izquierda
         GradientDrawable leftBg = new GradientDrawable();
@@ -324,7 +318,7 @@ public class CuponesActivity extends AppCompatActivity {
                     } else {
                         new AlertDialog.Builder(CuponesActivity.this)
                                 .setTitle("Límite de cupones")
-                                .setMessage("Solamente puede canjearse 1 cupón por compra")
+                                .setMessage("Solamente puede canjearse un cupón por compra")
                                 .setPositiveButton("Aceptar", null)
                                 .show();
                     }
