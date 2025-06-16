@@ -42,6 +42,9 @@ import com.example.proy_mobile2024.services.RetrofitClientCorreo;
 import com.example.proy_mobile2024.viewsmodels.ProvinciaUtils;
 import com.google.gson.Gson;
 
+import org.cloudinary.json.JSONObject;
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -261,10 +264,42 @@ public class CheckoutActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
         String nombre_usuario = sharedPreferences.getString("id_usuario", "");
 
-        Log.d("Checkout", "Nombre de usuario: " + nombre_usuario);
-        List<Carrito> listaConEnvio = new ArrayList<>(listaCarrito);
+        EditText etDireccion = findViewById(R.id.etDireccion);
+        String direccion = etDireccion.getText().toString().trim();
+        String codigoPostal = etCodigoPostal.getText().toString().trim();
 
-        // 🧼 Eliminar ítem de envío previo, si lo hubiera
+        if (rbDomicilio.isChecked() && direccion.isEmpty()) {
+            Toast.makeText(CheckoutActivity.this, "Debés ingresar una dirección para el envío a domicilio.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String ciudad = ProvinciaUtils.obtenerNombreProvincia(ProvinciaUtils.determinarProvinciaDesdeCP(codigoPostal));
+        if (ciudad.equals("Provincia no identificada")) {
+            Toast.makeText(this, "Código postal no reconocido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String tipoEnvio = rbDomicilio.isChecked() ? "Domicilio" : "Sucursal";
+
+        JSONObject opcionEnvio = new JSONObject();
+        opcionEnvio.put("tipo", tipoEnvio);
+        opcionEnvio.put("costo", costoEnvio);
+        if (tipoEnvio.equals("Sucursal") && sucursalSeleccionada != null) {
+            opcionEnvio.put("id", sucursalSeleccionada.getCodigoSucursal());
+            opcionEnvio.put("nombreSucursal", sucursalSeleccionada.getNombreSucursal());
+        }
+
+        double totalFinal = totalProductos + costoEnvio;
+        double descuento = 0.0; // Podés modificar esto si estás manejando cupones
+
+        // Armamos el external_reference completo
+        String externalReference = nombre_usuario + "|" + direccion + "|" + codigoPostal + "|" +
+                opcionEnvio.toString() + "|" + totalFinal + "|" + (rbDomicilio.isChecked() ? 1 : 2) + "|" + ciudad + "|" + descuento;
+
+        Log.d("Checkout", "external_reference: " + externalReference);
+
+        // Limpiamos ítems anteriores de envío, si los hubiera
+        List<Carrito> listaConEnvio = new ArrayList<>(listaCarrito);
         for (Iterator<Carrito> iterator = listaConEnvio.iterator(); iterator.hasNext(); ) {
             Carrito item = iterator.next();
             if ("Costo de envío".equals(item.getProducto().getNombre())) {
@@ -272,43 +307,41 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         }
 
-        // ➕ Agregamos el costo de envío como un ítem nuevo si es mayor a cero
+        // Agregamos el costo de envío como ítem si es mayor a cero
         if (costoEnvio > 0) {
             Carrito envioItem = new Carrito();
             Producto envio = new Producto(
-                    -1,                            // id ficticio
-                    "Costo de envío",              // nombre
-                    "Tarifa de envío seleccionada",// descripción
-                    costoEnvio,                    // precio (el que obtuviste del API)
-                    "",                            // image_url vacío o null
-                    -1                             // id_categoria ficticio
+                    -1,
+                    "Costo de envío",
+                    "Tarifa de envío seleccionada",
+                    costoEnvio,
+                    "",
+                    -1
             );
-            envio.setNombre("Costo de envío");
-            envio.setPrecio(costoEnvio);
             envioItem.setProducto(envio);
             envioItem.setCantidad(1);
             listaConEnvio.add(envioItem);
         }
 
-
         PedidoCheckoutData pedidoCheckoutData = new PedidoCheckoutData();
-        pedidoCheckoutData.setExternal_reference(nombre_usuario);
-        pedidoCheckoutData.setItemsCarrito(listaCarrito);
+        pedidoCheckoutData.setExternal_reference(externalReference);
+        pedidoCheckoutData.setItemsCarrito(listaConEnvio);
 
         RetrofitClient.getInstance(this).getApiService().obtenerPreferencia(pedidoCheckoutData).enqueue(new Callback<PreferenciaResponse>() {
             @Override
             public void onResponse(Call<PreferenciaResponse> call, Response<PreferenciaResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-
-                  Intent intent = new Intent(Intent.ACTION_VIEW);
-                  intent.setData(Uri.parse(response.body().getInit_point()));
-                  startActivity(intent);
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(response.body().getInit_point()));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(CheckoutActivity.this, "Error al obtener preferencia de pago", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<PreferenciaResponse> call, Throwable t) {
-                Toast.makeText(CheckoutActivity.this, "Error al cargar el carrito", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CheckoutActivity.this, "Error al conectar con el servidor", Toast.LENGTH_SHORT).show();
             }
         });
     }

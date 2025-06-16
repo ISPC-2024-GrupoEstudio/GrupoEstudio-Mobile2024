@@ -314,7 +314,7 @@ def crear_preferencia(request):
                     } for item in items
                 ],
                 "back_urls": {
-                    "success": "https://b562-181-28-11-56.ngrok-free.app/api/pago-exitoso" + from_param,
+                    "success": "https://dc88-181-28-11-56.ngrok-free.app/api/pago-exitoso" + from_param,
                     "failure": "https://tusitio.com/failure",
                     "pending": "https://tusitio.com/pending"
                 },
@@ -350,8 +350,8 @@ def procesar_pedido(external_reference_completa):
     codigo_postal = parts[2] if len(parts) > 2 else ""
     opcion_envio_json = parts[3] if len(parts) > 3 else "{}"
     total_final = float(parts[4]) if len(parts) > 4 else 0.0
+    tipo_envio_id = int(parts[5]) if len(parts) > 5 else None
     ciudad_envio = parts[6] if len(parts) > 6 else ""
-    tipo_envio_id = int(parts[6]) if len(parts) > 6 else None
     descuento = float(parts[7]) if len(parts) > 7 else 0.0
 
     try:
