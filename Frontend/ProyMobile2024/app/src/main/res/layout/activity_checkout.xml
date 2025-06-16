@@ -56,7 +56,6 @@
         <TextView
             android:layout_marginTop="16dp"
             android:text="Datos de envío"
-            android:text="@string/check_datos"
             android:textStyle="bold"
             android:textSize="18sp"
             android:fontFamily="@font/poppins_bold"

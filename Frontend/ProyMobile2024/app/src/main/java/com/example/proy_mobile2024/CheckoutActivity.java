@@ -325,6 +325,10 @@ public class CheckoutActivity extends AppCompatActivity {
         totalSinDescuento = 0.0;
 
         for (Carrito item : listaCarrito) {
+            if (item.getProducto().getNombre().equals("Costo de envío")) {
+                continue; //
+            }
+
             double precio = item.getProducto().getPrecio();
             int cantidad = item.getCantidad();
             totalSinDescuento += precio * cantidad;
@@ -353,7 +357,7 @@ public class CheckoutActivity extends AppCompatActivity {
         Log.d("Checkout", "Total con descuento: $" + totalConDescuento);
 
         tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
-        tvTotalConDescuento.setText(String.format("Total con descuentos: $%.2f", totalConDescuento));
+        tvTotalConDescuento.setText(String.format("Total con descuentos aplicados: $%.2f", totalConDescuento + costoEnvio));
     }
 
 
@@ -382,17 +386,12 @@ public class CheckoutActivity extends AppCompatActivity {
     String tipoEnvio = rbDomicilio.isChecked() ? "Domicilio" : "Sucursal";
 
     JSONObject opcionEnvio = new JSONObject();
-    try {
         opcionEnvio.put("tipo", tipoEnvio);
         opcionEnvio.put("costo", costoEnvio);
         if (tipoEnvio.equals("Sucursal") && sucursalSeleccionada != null) {
             opcionEnvio.put("id", sucursalSeleccionada.getCodigoSucursal());
             opcionEnvio.put("nombreSucursal", sucursalSeleccionada.getNombreSucursal());
         }
-    } catch (JSONException e) {
-        e.printStackTrace();
-        return;
-    }
 
     // Aplicamos descuentos si hay cupones válidos
     double descuento = totalSinDescuento - totalConDescuento;
@@ -640,6 +639,7 @@ public class CheckoutActivity extends AppCompatActivity {
                         carritoAdapter.notifyDataSetChanged();
 
                         actualizarTotal();
+                        aplicarDescuentos(cuponesAplicables);
 
                     } else {
                         Log.e("Envio", "Objeto paqarClasico es null o respuesta vacía");
