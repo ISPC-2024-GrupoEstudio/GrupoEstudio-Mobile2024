@@ -357,8 +357,14 @@ public class CheckoutActivity extends AppCompatActivity {
         Log.d("Checkout", "Total con descuento: $" + totalConDescuento);
 
         tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento + costoEnvio));
-        tvTotalConDescuento.setText(String.format("Total con descuentos aplicados: $%.2f", totalConDescuento + costoEnvio));
+        if (cupones != null && !cupones.isEmpty()) {
+            tvTotalConDescuento.setVisibility(View.VISIBLE);
+            tvTotalConDescuento.setText(String.format("Total con descuento de cupón: $%.2f", totalConDescuento + costoEnvio));
+        } else {
+            tvTotalConDescuento.setVisibility(View.GONE);
+        }
     }
+
 
 
 
