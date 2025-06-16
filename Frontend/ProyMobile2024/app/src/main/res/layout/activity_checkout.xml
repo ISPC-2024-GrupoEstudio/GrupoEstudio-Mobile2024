@@ -59,8 +59,9 @@
             android:textStyle="bold"
             android:textSize="18sp"
             android:fontFamily="@font/poppins_bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
 
         <EditText
             android:id="@+id/etCodigoPostal"
@@ -214,15 +215,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Total con descuentos: $0.00"
+            android:visibility="gone"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_marginTop="5dp"
-            android:textColor="#8546aa"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="10dp"
-            android:fontFamily="@font/poppins_semibold"/>
+            android:textSize="22sp"
+            android:textColor="#4A148C"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_total_con_descuento"
+            android:padding="16dp"
+            android:fontFamily="@font/poppins_semibold" />
 
 
         <!-- 4. Botón de Mercado Pago -->
