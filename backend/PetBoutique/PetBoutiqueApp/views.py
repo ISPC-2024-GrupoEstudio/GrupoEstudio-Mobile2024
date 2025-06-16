@@ -351,7 +351,22 @@ def crear_preferencia(request):
     return JsonResponse({"error": "Método no permitido"}, status=405)
 
 
-def procesar_pedido(nombre_usuario):
+def procesar_pedido(external_reference_completa):
+    # Parsear la referencia externa completa
+    parts = external_reference_completa.split('|')
+    nombre_usuario = parts[0]
+    direccion_envio = parts[1] if len(parts) > 1 else ""
+    codigo_postal = parts[2] if len(parts) > 2 else ""
+    opcion_envio_json = parts[3] if len(parts) > 3 else "{}"
+    total_final = float(parts[4]) if len(parts) > 4 else 0.0
+    tipo_envio_id = int(parts[5]) if len(parts) > 5 else None
+    ciudad_envio = parts[6] if len(parts) > 6 else ""
+    descuento = float(parts[7]) if len(parts) > 7 else 0.0
+
+    try:
+        opcion_envio = json.loads(opcion_envio_json)
+    except:
+        opcion_envio = {}
     carrito = Carrito.objects.filter(nombre_usuario=nombre_usuario)
 
     if not carrito.exists():
@@ -379,7 +394,16 @@ def procesar_pedido(nombre_usuario):
             'nombre_usuario': nombre_usuario,
             'fecha': timezone.now(),
             'id_estado_pedido': 1,
-            'numero_pedido': numero_pedido
+            'numero_pedido': numero_pedido,
+            'domicilio_envio': direccion_envio,
+            'codigo_postal': codigo_postal,
+            'costo_envio': opcion_envio.get('costo', 0),
+            'tipo_envio': opcion_envio.get('tipo', ''),
+            'datos_envio': json.dumps(opcion_envio),
+            'total': total_final,
+            'ciudad_envio': ciudad_envio,
+            'id_tipo_de_envio': tipo_envio_id,
+            'descuento': descuento
         }
 
         pedido_serializer = PedidoSerializer(data=pedido_data)
