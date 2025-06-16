@@ -38,7 +38,7 @@ public class AuthInterceptor implements Interceptor {
         // Si el token está expirado, usa el refresh token para obtener uno nuevo
         if (response.code() == 401 && refreshToken != null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://10.0.2.2:8000//api/")
+                    .baseUrl("https://dc88-181-28-11-56.ngrok-free.app/api/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
