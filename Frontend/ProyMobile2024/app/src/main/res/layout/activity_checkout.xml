@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +22,7 @@
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:background="@color/transparente"
-            android:contentDescription="@string/volver"
+            android:contentDescription="@string/btn_volver"
             app:srcCompat="@drawable/flecha_volver"
             android:layout_gravity="start"
             android:layout_marginTop="-60dp"/>
@@ -53,7 +54,7 @@
 
         <!-- 2. Formulario de envío -->
         <TextView
-            android:text="Datos de envío"
+            android:text="@string/check_datos"
             android:textStyle="bold"
             android:textSize="24sp"
             android:layout_width="match_parent"
