@@ -55,6 +55,9 @@ public interface ApiService {
     @POST("add-to-cart/")
     Call<Void> agregarProductoACarrito(@Body ItemCarritoData item);
 
+    @POST("delete-item-from-cart/")
+    Call<Void> eliminarItemDeCarrito(@Body ItemCarritoData item);
+
     @GET("cart/{nombreUsuario}")
     Call<List<Carrito>> obtenerCarrito(@Path("nombreUsuario") String nombreUsuario);
 

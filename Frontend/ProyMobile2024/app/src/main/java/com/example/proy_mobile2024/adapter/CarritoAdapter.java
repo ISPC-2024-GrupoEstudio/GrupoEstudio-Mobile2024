@@ -1,11 +1,13 @@
 package com.example.proy_mobile2024.adapter;
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.MediaRouteButton;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,10 +68,24 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoH
 
         if (esModoCheckout) {
             holder.btnEliminarItemCarrito.setVisibility(View.GONE);
+            holder.btnSumarCantidad.setVisibility(View.GONE);
+            holder.btnRestarCantidad.setVisibility(View.GONE);
         } else {
             holder.btnEliminarItemCarrito.setVisibility(View.VISIBLE);
             holder.btnEliminarItemCarrito.setOnClickListener(v -> {
                 eliminarItemCarrito(carrito);
+                this.actualizarCarrito();
+            });
+            //boton mas
+            holder.btnSumarCantidad.setVisibility(View.VISIBLE);
+            holder.btnSumarCantidad.setOnClickListener(v -> {
+                agregarProductoAlCarrito(carrito);
+                this.actualizarCarrito();
+            });
+            //boton menos
+            holder.btnRestarCantidad.setVisibility(View.VISIBLE);
+            holder.btnRestarCantidad.setOnClickListener(v -> {
+                quitarItemAlCarrito(carrito);
                 this.actualizarCarrito();
             });
         }
@@ -81,7 +97,9 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoH
     }
 
     public static class CarritoHolder extends RecyclerView.ViewHolder {
-        private TextView nombre, precio;
+        public ImageButton btnSumarCantidad;
+        public ImageButton btnRestarCantidad;
+        private TextView nombre, precio, textCantidad;
         private ImageView imagenProducto;
         private ImageView btnEliminarItemCarrito;
 
@@ -89,13 +107,17 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoH
             super(itemView);
             nombre = itemView.findViewById(R.id.nombreCarrito);
             precio = itemView.findViewById(R.id.precioCarrito);
+            textCantidad = itemView.findViewById(R.id.textCantidad);
             imagenProducto = itemView.findViewById(R.id.imagenProductoCarrito);
             btnEliminarItemCarrito = itemView.findViewById(R.id.btnEliminarItemCarrito);
+            btnSumarCantidad = itemView.findViewById(R.id.btnSumarCantidad);
+            btnRestarCantidad = itemView.findViewById(R.id.btnRestarCantidad);
         }
 
         public void render(Carrito carrito) {
             nombre.setText(carrito.getProducto().getNombre());
             precio.setText(String.valueOf(carrito.getProducto().getPrecio()));
+            textCantidad.setText(String.valueOf(carrito.getCantidad()));
             Glide.with(itemView.getContext())
                     .load(carrito.getProducto().getImagen())
                     .placeholder(R.drawable.placeholder)
@@ -162,5 +184,53 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoH
             lista.add(item.getProducto());
         }
         return lista;
+    }
+
+    private void agregarProductoAlCarrito(Carrito carrito) {
+        ItemCarritoData item = new ItemCarritoData();
+        item.setId_producto(carrito.getId_producto());
+        item.setCantidad(1);
+        item.setNombre_usuario(carrito.getNombre_usuario());
+
+        Call<Void> call = RetrofitClient.getInstance(context).getApiService().agregarProductoACarrito(item);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(context, "Producto agregado con exito al carrito", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "Error, datos invalidos", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(context, "Error al agregar el producto, intente nuevamente", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    private void quitarItemAlCarrito(Carrito carrito) {
+        ItemCarritoData item = new ItemCarritoData();
+        item.setId_producto(carrito.getId_producto());
+        item.setCantidad(1);
+        item.setNombre_usuario(carrito.getNombre_usuario());
+
+
+        Call<Void> call = RetrofitClient.getInstance(context).getApiService().eliminarItemDeCarrito(item);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(context, "Producto eliminado con exito del carrito", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "Error, datos invalidos", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(context, "Error al agregar el producto, intente nuevamente", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
