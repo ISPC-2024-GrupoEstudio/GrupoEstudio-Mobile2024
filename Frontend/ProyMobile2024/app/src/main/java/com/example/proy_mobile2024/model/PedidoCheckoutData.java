@@ -7,6 +7,16 @@ public class PedidoCheckoutData{
     private List<PedidoCheckoutItemData> items;
     private String from = "app";
     private double montoFinal;
+    private double montoDescuento;
+
+    private String cupon;         // <--- nuevo
+    private double descuento;     // <--- nuevo
+
+    public String getCupon() { return cupon; }
+    public void setCupon(String cupon) { this.cupon = cupon; }
+
+    public double getDescuento() { return descuento; }
+    public void setDescuento(double descuento) { this.descuento = descuento; }
 
     public String getExternal_reference() {
         return external_reference;
@@ -37,7 +47,15 @@ public class PedidoCheckoutData{
         return montoFinal;
     }
 
+    public double getMontoDescuento() {
+        return montoDescuento;
+    }
+
     public void setMontoFinal(double montoFinal) {
         this.montoFinal = montoFinal;
+    }
+
+    public void setMontoDescuento(double montoDescuento) {
+        this.montoDescuento = montoDescuento;
     }
 }

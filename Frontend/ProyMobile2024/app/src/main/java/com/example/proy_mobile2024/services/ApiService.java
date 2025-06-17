@@ -91,5 +91,12 @@ public interface ApiService {
             @Path("nombreUsuario") String nombreUsuario
     );
 
+    @DELETE("mis-cupones/{nombreUsuario}/")
+    Call<ResponseBody> eliminarCuponesUsuario(
+            @Header("Authorization") String authHeader,
+            @Path("nombreUsuario") String nombreUsuario
+    );
+
+
 }
 

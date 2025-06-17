@@ -39,6 +39,8 @@ from rest_framework import generics
 from rest_framework_simplejwt.views import TokenObtainPairView , TokenRefreshView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 import mercadopago
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password
 
 sdk = mercadopago.SDK("APP_USR-833122140344943-051410-45098cbf690567d10ec9d3bfec64cc08-2437030261")
 
@@ -148,8 +150,6 @@ class RegisterView (APIView):
     permission_classes = [AllowAny]
 
     def post (self, request):
-        #nuevo_usuario = request.data
-        #nuevo_usuario["id_rol"] = 2
 
         usuario_serializer = UsuarioSerializer(data = request.data)
         
@@ -353,7 +353,7 @@ def crear_preferencia(request):
                     } #for item in items
                 ],
                 "back_urls": {
-                    "success": "https://4db6-2803-9800-988a-7e8b-3198-99c-665e-b13e.ngrok-free.app/api/pago-exitoso" + from_param,
+                    "success": "https://3077-2803-9800-9883-4725-a5a5-bb72-81ec-583f.ngrok-free.app/api/pago-exitoso" + from_param,
                     "failure": "https://tusitio.com/failure",
                     "pending": "https://tusitio.com/pending"
                 },
@@ -381,7 +381,22 @@ def crear_preferencia(request):
     return JsonResponse({"error": "Método no permitido"}, status=405)
 
 
-def procesar_pedido(nombre_usuario):
+def procesar_pedido(external_reference_completa):
+    # Parsear la referencia externa completa
+    parts = external_reference_completa.split('|')
+    nombre_usuario = parts[0]
+    direccion_envio = parts[1] if len(parts) > 1 else ""
+    codigo_postal = parts[2] if len(parts) > 2 else ""
+    opcion_envio_json = parts[3] if len(parts) > 3 else "{}"
+    total_final = float(parts[4]) if len(parts) > 4 else 0.0
+    tipo_envio_id = int(parts[5]) if len(parts) > 5 else None
+    ciudad_envio = parts[6] if len(parts) > 6 else ""
+    descuento = float(parts[7]) if len(parts) > 7 else 0.0
+
+    try:
+        opcion_envio = json.loads(opcion_envio_json)
+    except:
+        opcion_envio = {}
     carrito = Carrito.objects.filter(nombre_usuario=nombre_usuario)
 
     if not carrito.exists():
@@ -409,7 +424,16 @@ def procesar_pedido(nombre_usuario):
             'nombre_usuario': nombre_usuario,
             'fecha': timezone.now(),
             'id_estado_pedido': 1,
-            'numero_pedido': numero_pedido
+            'numero_pedido': numero_pedido,
+            'domicilio_envio': direccion_envio,
+            'codigo_postal': codigo_postal,
+            'costo_envio': opcion_envio.get('costo', 0),
+            'tipo_envio': opcion_envio.get('tipo', ''),
+            'datos_envio': json.dumps(opcion_envio),
+            'total': total_final,
+            'ciudad_envio': ciudad_envio,
+            'id_tipo_de_envio': tipo_envio_id,
+            'descuento': descuento
         }
 
         pedido_serializer = PedidoSerializer(data=pedido_data)
@@ -465,39 +489,45 @@ class Login(TokenObtainPairView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        print("Solicitud recibida en el backend")
-        # Recuperamos las credenciales
-        username = request.data.get('username', None)
-        password = request.data.get('password', None)
+        print("Solicitud de login recibida en el backend")
+
+        username = request.data.get('username')
+        password = request.data.get('password')
+
         print(f"Username: {username}, Password: {password}")
 
-
-        # Validar que los campos no estén vacíos
-        if username is None or password is None:
+        if not username or not password:
             print("Error: Datos incompletos")
             return Response({"error": "Datos incompletos"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Autenticación
+        # Django se encarga del hash por dentro
         user = authenticate(username=username, password=password)
-        if user:
-            # Serializa el token y el usuario
-            login_serializer = self.serializer_class(data=request.data)
-            usuario = Usuario.objects.get(nombre_usuario=username)
-            if login_serializer.is_valid():
-                print(f"Usuario autenticado: {user.username}")
-                usuario_serializer = UsuarioSerializer(usuario)
-                # usuario_serializer = UserSerializer(user)
-                return Response({
-                    'token': login_serializer.validated_data.get('access'),
-                    'refresh_token': login_serializer.validated_data.get('refresh'),
-                    'usuario': usuario_serializer.data,
-                    'message': 'Inicio de sesión exitoso'
-                }, status=status.HTTP_200_OK)
 
+        if user is None:
+            print("Error: Credenciales incorrectas o usuario no encontrado")
+            return Response({"error": "Credenciales incorrectas"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        try:
+            usuario = Usuario.objects.get(nombre_usuario=username)
+        except Usuario.DoesNotExist:
+            print("Error: Usuario no encontrado en tabla Usuario")
+            return Response({"error": "Usuario no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Token serializer (si todo fue válido)
+        login_serializer = self.serializer_class(data=request.data)
+        if login_serializer.is_valid():
+            print("Login exitoso")
+            usuario_serializer = UsuarioSerializer(usuario)
+            return Response({
+                'token': login_serializer.validated_data.get('access'),
+                'refresh_token': login_serializer.validated_data.get('refresh'),
+                'usuario': usuario_serializer.data,
+                'message': 'Inicio de sesión exitoso'
+            }, status=status.HTTP_200_OK)
         else:
-            print("Error: Credenciales incorrectas")
-            return Response({"error": "Credenciales incorrectas"}, status=status.HTTP_404_NOT_FOUND)
-        
+            print("Error: Serializer inválido")
+            return Response({"error": "Error de autenticación"}, status=status.HTTP_400_BAD_REQUEST) 
+             
 class LogoutView(APIView):
     def post(self, request):
         try:
@@ -519,32 +549,38 @@ class LogoutView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
-class RegisterView (APIView):
+class RegisterView(APIView):
     permission_classes = [AllowAny]
-    def post (self, request):
-        usuario_serializer = UsuarioSerializer(data = request.data)
-        admin_user_data =  {
+
+    def post(self, request):
+        print("Registro recibido en el backend")
+
+        password_plana = request.data.get("password")
+        password_encriptada = make_password(password_plana)
+        print(f"Contraseña encriptada: {password_encriptada}")
+
+        usuario_serializer = UsuarioSerializer(data=request.data)
+
+        admin_user_data = {
             "first_name": request.data.get("nombre"),
             "last_name": request.data.get("apellido"),
-            "username":  request.data.get("nombre_usuario"),
+            "username": request.data.get("nombre_usuario"),
             "password": request.data.get("password"),
             "email": request.data.get("email"),
         }
-        admin_user_serializer = UserSerializer(data = admin_user_data)
+
+        admin_user_serializer = UserSerializer(data=admin_user_data)
 
         if usuario_serializer.is_valid() and admin_user_serializer.is_valid():
             usuario_serializer.save()
             admin_user_serializer.save()
-
-            return Response(usuario_serializer.data, status= status.HTTP_201_CREATED)
+            print("Usuario registrado correctamente con contraseña encriptada")
+            return Response(usuario_serializer.data, status=status.HTTP_201_CREATED)
         else:
-    # Imprimir errores para debug
-            print(usuario_serializer.errors)
-            print(admin_user_serializer.errors)
-            return Response({
-                "usuario_errors": usuario_serializer.errors,
-                "admin_user_errors": admin_user_serializer.errors
-            }, status=status.HTTP_400_BAD_REQUEST)
+            print("Errores al registrar el usuario:")
+            print("Errores usuario_serializer:", usuario_serializer.errors)
+            print("Errores admin_user_serializer:", admin_user_serializer.errors)
+            return Response({"error": "Error al registrar"}, status=status.HTTP_400_BAD_REQUEST)
 
 # Para registrar usuarios en BDD
 @api_view(['POST'])

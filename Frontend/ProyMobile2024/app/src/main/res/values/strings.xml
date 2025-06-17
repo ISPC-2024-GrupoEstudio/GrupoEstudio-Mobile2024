@@ -11,6 +11,7 @@
     <string name="itemnav_cerrsesion">Cerrar sesión</string>
     <string name="itemnav_contanctus">Contactanos</string>
     <string name="itemnav_home">Home</string>
+    <string name="btn_volver">Volver atrás</string>
 
     <!--Activity Perfil-->
     <string name="perfil_nombre">Nombre</string>
@@ -98,9 +99,9 @@
     <string name="landing_descripcionBanderin">Imagen logo de petboutique</string>
     <string name="landing_bienvenida">Bienvenid@s a Pet Boutique</string>
     <string name="landing_boton">Empezar</string>
-    <string name="volver">volver_a_productos</string>
-    <string name="carrito">Carrito</string>
-    <string name="descripcion_Cart">Logo de carrito</string>
+
+
+
     <string name="descripcion_detalleprod">Volver a productos</string>
     <string name="descripcion_imagendetalleprod">Imagen de producto detallado</string>
     <string name="descripcion_imagen_volver_products">Volver al home</string>
@@ -114,6 +115,7 @@
     <!--fragment checkout-->
     <string name="resumen_de_tu_compra">Resumen de tu compra</string>
     <string name="nuestra_p_gina_web">Nuestra página web</string>
+    <string name="check_datos">Datos de envío</string>
 
     <!--Activity Dashboard -->
     <string name="dash_img">gato rompiendo un fondo blanco</string>
@@ -152,5 +154,12 @@
     <string name="carrusel_titulo">Peluches</string>
     <string name="carrusel_img">Producto recomendado</string>
     <string name="carrusel_btn">Ver producto</string>
+
+    <!-- Activity Carrito-->
+    <string name="cart_volver">volver_a_productos</string>
+    <string name="cart_carrito">Carrito</string>
+    <string name="cart_descripcion">Logo de carrito</string>
+    <string name="cart_vaciar">Vacíar Carrito</string>
+    <string name="cart_pago">Proceder al pago</string>
 
 </resources>
