@@ -91,10 +91,11 @@ public class CheckoutActivity extends AppCompatActivity {
     LinearLayout layoutDireccion;
     EditText etDireccion;
 
-    private TextView tvTotalConDescuento;
     private List<Cupon> cuponesAplicables = new ArrayList<>();
     private double totalSinDescuento = 0.0;
     private double totalConDescuento = 0.0;
+    private TextView tvTotalConDescuento;
+
 
 
     @Override
@@ -284,6 +285,10 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
+        tvTotalConDescuento = findViewById(R.id.tvTotalConDescuento);
+        obtenerYAplicarCupones();  // Al final del onCreate
+
+
     }
 
     private void mostrarTotales() {
@@ -300,6 +305,17 @@ public class CheckoutActivity extends AppCompatActivity {
         tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
     }
 
+    private void calcularTotalSinDescuento() {
+        totalSinDescuento = 0.0;
+        for (Carrito item : listaCarrito) {
+            double precio = item.getProducto().getPrecio();
+            int cantidad = item.getCantidad();
+            totalSinDescuento += precio * cantidad;
+        }
+
+        tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
+    }
+
     private void obtenerYAplicarCupones() {
         SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
         String token = preferences.getString("access_token", "");
@@ -312,20 +328,16 @@ public class CheckoutActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<List<Cupon>> call, Response<List<Cupon>> response) {
                         if (response.isSuccessful()) {
-                            //List<Cupon> cupones = response.body();
                             cuponesAplicables = response.body();
-
                             if (cuponesAplicables != null) {
-                                for (Cupon cupon : cuponesAplicables) {
-                                    Log.d("Checkout", "Cupón recibido: id=" + cupon.getId() +
-                                            ", descuento=" + cupon.getValorDescuento() +
-                                            ", tipo=" + cupon.getTipoDescuento());
-                                }
-                                aplicarDescuentos(cuponesAplicables);  // ✅ asegurate de que esto se llame
+                                aplicarDescuentos(cuponesAplicables);  // 🔥 ESTE LLAMADO ES CLAVE
                             }
-                        } else {
-                            Log.e("Checkout", "Error al obtener cupones: " + response.code());
                         }
+                        Log.d("DESCUENTO", "Cupones recibidos: " + cuponesAplicables.size());
+                        for (Cupon cupon : cuponesAplicables) {
+                            Log.d("DESCUENTO", "Cupón: " + cupon.getNombre() + " - Tipo: " + cupon.getTipoDescuento() + " - Valor: " + cupon.getValorDescuento());
+                        }
+
                     }
 
                     @Override
@@ -333,22 +345,22 @@ public class CheckoutActivity extends AppCompatActivity {
                         Log.e("Checkout", "Fallo al obtener cupones", t);
                     }
                 });
+
     }
+
+
+
+
+
 
     private void aplicarDescuentos(List<Cupon> cupones) {
         totalSinDescuento = 0.0;
 
         for (Carrito item : listaCarrito) {
-            if (item.getProducto().getNombre().equals("Costo de envío")) {
-                continue; //
-            }
-
             double precio = item.getProducto().getPrecio();
             int cantidad = item.getCantidad();
             totalSinDescuento += precio * cantidad;
         }
-
-        Log.d("Checkout", "Total sin descuento: $" + totalSinDescuento);
 
         double descuentoTotal = 0.0;
 
@@ -361,23 +373,25 @@ public class CheckoutActivity extends AppCompatActivity {
                 descuento = cupon.getValorDescuento();
             }
 
-            Log.d("Checkout", "Aplicando cupón: " + cupon.getNombre() + " - Descuento: $" + descuento);
+            Log.d("DESCUENTO", "Aplicando cupón: " + cupon.getNombre() + ", tipo=" + cupon.getTipoDescuento() + ", valor=" + cupon.getValorDescuento() + ", descuento aplicado=" + descuento);
             descuentoTotal += descuento;
         }
 
         totalConDescuento = Math.max(totalSinDescuento - descuentoTotal, 0.0);
 
-        Log.d("Checkout", "Descuento total acumulado: $" + descuentoTotal);
-        Log.d("Checkout", "Total con descuento: $" + totalConDescuento);
-
-        tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento + costoEnvio));
-        if (cupones != null && !cupones.isEmpty()) {
-            tvTotalConDescuento.setVisibility(View.VISIBLE);
-            tvTotalConDescuento.setText(String.format("Total con descuento de cupón: $%.2f", totalConDescuento + costoEnvio));
+        tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
+        if (!cupones.isEmpty()) {
+            tvTotalConDescuento.setText(String.format("Total con descuentos: $%.2f", totalConDescuento));
         } else {
-            tvTotalConDescuento.setVisibility(View.GONE);
+            tvTotalConDescuento.setText(String.format("Total sin descuentos: $%.2f", totalSinDescuento));
         }
+
+        tvTotalConDescuento.setVisibility(View.VISIBLE);  // OSTRAR TOTAL CON DESCUENTO
     }
+
+
+
+
 
 
 
@@ -452,9 +466,14 @@ public class CheckoutActivity extends AppCompatActivity {
     PedidoCheckoutData pedidoCheckoutData = new PedidoCheckoutData();
     pedidoCheckoutData.setExternal_reference(externalReference);
     pedidoCheckoutData.setItemsCarrito(listaConEnvio);
-    pedidoCheckoutData.setMontoFinal(totalFinal);
+    //pedidoCheckoutData.setMontoFinal(totalFinal);
+    pedidoCheckoutData.setMontoFinal(totalConDescuento);
+        Log.d("DESCUENTO", "Total sin descuento: " + totalSinDescuento);
+        Log.d("DESCUENTO", "Total con descuento: " + totalConDescuento);
 
-    if (!cuponesAplicables.isEmpty()) {
+
+
+        if (!cuponesAplicables.isEmpty()) {
         pedidoCheckoutData.setCupon(cuponesAplicables.get(0).getNombre());
     } else {
         pedidoCheckoutData.setCupon("");
@@ -530,6 +549,8 @@ public class CheckoutActivity extends AppCompatActivity {
                     listaCarrito = response.body();
                     carritoAdapter.setCarritoList(listaCarrito);
                     mostrarTotales();
+
+                    obtenerYAplicarCupones();
                 }
             }
 
