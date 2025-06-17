@@ -467,7 +467,6 @@ public class LoginFragment extends Fragment {
                     // Guardar tokens y datos básicos
                     saveTokens(tokenResponse.getToken(), tokenResponse.getRefreshToken(), id_usuario, nombre, apellido, email, loginData.getUsername());
 
-                    // NUEVO: Obtener y guardar la imagen de perfil después del login exitoso
                     obtenerImagenPerfilDespuesLogin(loginData.getUsername());
 
                     // Resto del código para actualizar UI
@@ -580,7 +579,7 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    // NUEVO MÉTODO: Agregar este método al final de la clase LoginFragment
+
     private void obtenerImagenPerfilDespuesLogin(String username) {
         RetrofitClient.getInstance(getActivity()).getApiService().getPerfil().enqueue(new Callback<List<UsuarioPerfil>>() {
             @Override
