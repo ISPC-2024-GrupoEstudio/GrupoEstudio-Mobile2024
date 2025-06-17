@@ -380,7 +380,12 @@ public class CheckoutActivity extends AppCompatActivity {
         totalConDescuento = Math.max(totalSinDescuento - descuentoTotal, 0.0);
 
         tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
-        tvTotalConDescuento.setText(String.format("Total con descuentos: $%.2f", totalConDescuento));
+        if (!cupones.isEmpty()) {
+            tvTotalConDescuento.setText(String.format("Total con descuentos: $%.2f", totalConDescuento));
+        } else {
+            tvTotalConDescuento.setText(String.format("Total sin descuentos: $%.2f", totalSinDescuento));
+        }
+
         tvTotalConDescuento.setVisibility(View.VISIBLE);  // OSTRAR TOTAL CON DESCUENTO
     }
 
