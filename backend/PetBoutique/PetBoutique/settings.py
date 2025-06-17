@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [
     '0898-190-136-244-190.ngrok-free.app',
     '34a4-181-95-72-135.ngrok-free.app',
     "4db6-2803-9800-988a-7e8b-3198-99c-665e-b13e.ngrok-free.app",
+    '2232-2803-9800-9883-45f5-a5a9-95e4-10c8-7eef.ngrok-free.app',
     '3077-2803-9800-9883-4725-a5a5-bb72-81ec-583f.ngrok-free.app'
     '9abf-2803-9800-9883-45f5-a5a9-95e4-10c8-7eef.ngrok-free.app',
     "b562-181-28-11-56.ngrok-free.app",
@@ -49,6 +50,8 @@ CSRF_TRUSTED_ORIGINS = [
     "http://10.0.2.2:8000//api/",
     "http://127.0.0.1:8000//api/",
     "http://localhost:8000//api/",
+    'https://2232-2803-9800-9883-45f5-a5a9-95e4-10c8-7eef.ngrok-free.app',
+    "https://4db6-2803-9800-988a-7e8b-3198-99c-665e-b13e.ngrok-free.app"
     'https://3077-2803-9800-9883-4725-a5a5-bb72-81ec-583f.ngrok-free.app'
     'https://9abf-2803-9800-9883-45f5-a5a9-95e4-10c8-7eef.ngrok-free.app',
     "https://b562-181-28-11-56.ngrok-free.app",
@@ -145,7 +148,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pet_boutique',
         'USER': 'root',
-        'PASSWORD': 'mibasededatos9701',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
