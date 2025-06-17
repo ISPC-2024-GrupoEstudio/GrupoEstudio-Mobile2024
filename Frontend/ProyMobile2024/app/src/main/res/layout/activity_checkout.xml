@@ -61,7 +61,8 @@
             android:fontFamily="@font/poppins_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black"/>
 
         <EditText
             android:id="@+id/etCodigoPostal"
@@ -71,7 +72,10 @@
             android:layout_marginTop="8dp"
             android:padding="12dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:textColorHint="@color/black"/>
 
         <RadioGroup
             android:id="@+id/rgEnvio"
@@ -84,12 +88,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="A domicilio"
-                android:checked="true"/>
+                android:checked="true"
+                android:textColor="@color/black"/>
             <RadioButton
                 android:id="@+id/rbSucursal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="En sucursal"/>
+                android:text="En sucursal"
+                android:textColor="@color/black"/>
         </RadioGroup>
 
         <Spinner
@@ -102,6 +108,7 @@
             android:background="@drawable/bg_total_border"
             android:padding="12dp"
             android:textAlignment="center"
+            
             />
 
         <Button
@@ -142,7 +149,8 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:paddingBottom="4dp"
-                    android:fontFamily="@font/poppins_semibold"/>
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textColor="@color/black"/>
 
                 <EditText
                     android:id="@+id/etDireccion"
@@ -151,7 +159,8 @@
                     android:hint="Ej. Av. Siempre Viva 742, Piso 2, Depto A"
                     android:background="@drawable/bg_border_rectangular"
                     android:padding="12dp"
-                    android:inputType="textPostalAddress"/>
+                    android:inputType="textPostalAddress"
+                    android:textColorHint="@color/black"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -160,7 +169,8 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:paddingBottom="4dp"
-                    android:fontFamily="@font/poppins_semibold"/>
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textColor="@color/black"/>
 
                 <EditText
                     android:id="@+id/etCuidad"
@@ -169,6 +179,7 @@
                     android:background="@drawable/bg_border_rectangular"
                     android:padding="12dp"
                     android:inputType="textPostalAddress"
+                    android:textColorHint="@color/black"
                     />
 
             </LinearLayout>
@@ -180,7 +191,8 @@
             android:textColor="@color/black"
             android:fontFamily="@font/poppins_regular"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            />
         <TextView
             android:id="@+id/tvPrecioSucursal"
             android:layout_marginTop="4dp"
@@ -211,13 +223,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Total con descuentos: $0.00"
-            android:visibility="gone"
+            android:visibility="visible"
             android:textStyle="bold"
             android:textSize="22sp"
             android:textColor="#4A148C"
             android:gravity="center"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/bg_total_con_descuento"
             android:padding="16dp"
             android:fontFamily="@font/poppins_semibold" />

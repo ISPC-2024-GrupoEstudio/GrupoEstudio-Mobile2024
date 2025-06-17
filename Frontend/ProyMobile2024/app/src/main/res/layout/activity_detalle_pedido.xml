@@ -59,6 +59,71 @@
             android:layout_marginEnd="5dp"/>
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="35sp"
+            android:text="Detalle Envío"
+            android:layout_marginTop="20dp"
+            android:gravity="center|top"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:fontFamily="@font/poppins_semibold"/>
+
+
+        <TextView
+            android:id="@+id/tvDireccionEnvio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dirección: -"
+            android:textSize="16sp"
+            android:textColor="@color/purple"
+            android:padding="8dp"
+            android:fontFamily="@font/poppins_regular" />
+
+        <TextView
+            android:id="@+id/tvCodigoPostal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Código Postal: "
+            android:textSize="16sp"
+            android:textColor="@color/purple"
+            android:padding="8dp"
+            android:fontFamily="@font/poppins_regular" />
+
+        <TextView
+            android:id="@+id/tvCiudad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Provincia: "
+            android:textSize="16sp"
+            android:textColor="@color/purple"
+            android:padding="8dp"
+            android:fontFamily="@font/poppins_regular" />
+
+        <TextView
+            android:id="@+id/tvCostoEnvio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Costo envío: "
+            android:textSize="16sp"
+            android:textColor="@color/purple"
+            android:padding="8dp"
+            android:fontFamily="@font/poppins_regular" />
+
+        <TextView
+            android:id="@+id/tvDescuento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Descuento: -"
+            android:textSize="16sp"
+            android:textColor="@color/purple"
+            android:padding="8dp"
+            android:fontFamily="@font/poppins_regular" />
+
+
+        <TextView
             android:id="@+id/tvTotalPedido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

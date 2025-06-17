@@ -178,12 +178,42 @@ class AddToCartView (APIView):
         carrito_serializer = CarritoSerializer(data = request.data)
 
         if carrito_serializer.is_valid():
-            carrito_serializer.save()
+            if Carrito.objects.filter(id_producto=request.data["id_producto"], nombre_usuario=request.data["nombre_usuario"]).exists():
+                # Si el carrito ya existe, actualizamos la cantidad
+                carrito = Carrito.objects.get(id_producto=request.data["id_producto"], nombre_usuario=request.data["nombre_usuario"])
+                carrito.cantidad += request.data["cantidad"]
+                carrito.save()
+                return Response(carrito_serializer.data, status= status.HTTP_201_CREATED)
+            else:
+                # Si el carrito no existe, lo creamos
+                carrito_serializer.save()
+                return Response(carrito_serializer.data, status= status.HTTP_201_CREATED)
 
-            return Response(carrito_serializer.data, status= status.HTTP_201_CREATED)
         else:
             return Response(carrito_serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
+class DeleteItemFromCartView (APIView):
+    def post (self, request):
+        carrito_serializer = CarritoSerializer(data = request.data)
+
+        if carrito_serializer.is_valid():
+            if Carrito.objects.filter(id_producto=request.data["id_producto"], nombre_usuario=request.data["nombre_usuario"]).exists():
+                # Si el carrito ya existe, actualizamos la cantidad
+                carrito = Carrito.objects.get(id_producto=request.data["id_producto"], nombre_usuario=request.data["nombre_usuario"])
+                carrito.cantidad -= request.data["cantidad"]
+                if (carrito.cantidad <= 0):
+                    carrito.delete()
+                else:
+                    carrito.save()
+                return Response(carrito_serializer.data, status= status.HTTP_200_OK)
+            else:
+                # Si el carrito no existe, lo creamos
+                carrito_serializer.save()
+                return Response(carrito_serializer.data, status= status.HTTP_201_CREATED)
+
+        else:
+            return Response(carrito_serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+        
 class DeleteFromCartView (APIView):
     def delete (self, request, id_carrito):
         carrito = Carrito.objects.get(id_carrito=id_carrito)
@@ -362,6 +392,7 @@ def procesar_pedido(external_reference_completa):
     tipo_envio_id = int(parts[5]) if len(parts) > 5 else None
     ciudad_envio = parts[6] if len(parts) > 6 else ""
     descuento = float(parts[7]) if len(parts) > 7 else 0.0
+    localidad = parts[8] if len(parts) > 8 else ""
 
     try:
         opcion_envio = json.loads(opcion_envio_json)
@@ -403,7 +434,8 @@ def procesar_pedido(external_reference_completa):
             'total': total_final,
             'ciudad_envio': ciudad_envio,
             'id_tipo_de_envio': tipo_envio_id,
-            'descuento': descuento
+            'descuento': descuento,
+            'localidad': localidad
         }
 
         pedido_serializer = PedidoSerializer(data=pedido_data)
