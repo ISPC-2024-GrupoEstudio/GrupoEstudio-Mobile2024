@@ -80,13 +80,13 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoH
             holder.btnSumarCantidad.setVisibility(View.VISIBLE);
             holder.btnSumarCantidad.setOnClickListener(v -> {
                 agregarProductoAlCarrito(carrito);
-                this.actualizarCarrito();
+                //this.actualizarCarrito();
             });
             //boton menos
             holder.btnRestarCantidad.setVisibility(View.VISIBLE);
             holder.btnRestarCantidad.setOnClickListener(v -> {
                 quitarItemAlCarrito(carrito);
-                this.actualizarCarrito();
+                //this.actualizarCarrito();
             });
         }
     }
@@ -197,7 +197,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoH
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(context, "Producto agregado con exito al carrito", Toast.LENGTH_LONG).show();
+                    actualizarCarrito();
                 } else {
                     Toast.makeText(context, "Error, datos invalidos", Toast.LENGTH_SHORT).show();
                 }
@@ -221,7 +221,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoH
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(context, "Producto eliminado con exito del carrito", Toast.LENGTH_LONG).show();
+                    actualizarCarrito();
                 } else {
                     Toast.makeText(context, "Error, datos invalidos", Toast.LENGTH_SHORT).show();
                 }

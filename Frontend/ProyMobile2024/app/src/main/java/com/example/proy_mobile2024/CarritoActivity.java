@@ -119,10 +119,7 @@ public class CarritoActivity extends AppCompatActivity {
         this.carritoAdapter.actualizarCarrito();
 
         botonCheckout.setOnClickListener(v -> {
-            ArrayList<Producto> productos = new ArrayList<>(carritoAdapter.getListProducts());
-
             Intent intent = new Intent(this, CheckoutActivity.class);
-            intent.putExtra(CheckoutActivity.EXTRA_PRODUCTOS, productos); // ArrayList<Producto>
             startActivity(intent);
         });
 

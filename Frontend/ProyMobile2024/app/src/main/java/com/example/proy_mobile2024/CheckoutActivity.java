@@ -286,6 +286,20 @@ public class CheckoutActivity extends AppCompatActivity {
 
     }
 
+    private void mostrarTotales() {
+        totalSinDescuento = 0;
+        for (Carrito item : listaCarrito) {
+            double precio = item.getProducto().getPrecio(); // o getPrecioUnitario()
+            int cantidad = item.getCantidad();
+            totalSinDescuento += precio * cantidad;
+        }
+        totalProductos = totalSinDescuento;
+        totalConDescuento = totalSinDescuento; // Por defecto, sin cupón
+        obtenerYAplicarCupones();
+
+        tvTotal.setText(String.format("Total: $%.2f", totalSinDescuento));
+    }
+
     private void obtenerYAplicarCupones() {
         SharedPreferences preferences = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
         String token = preferences.getString("access_token", "");
@@ -515,6 +529,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     listaCarrito = response.body();
                     carritoAdapter.setCarritoList(listaCarrito);
+                    mostrarTotales();
                 }
             }
 
