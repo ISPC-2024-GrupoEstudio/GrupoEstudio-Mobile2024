@@ -13,6 +13,11 @@
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/drawable/ic_servicios_carrito.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/activity_checkout.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
@@ -73,6 +78,11 @@
           <theme>@style/Theme.ProyMobile2024</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/item_carrito.xml">
+        <config>
+          <theme>@style/Theme.ProyMobile2024</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/layout/nav_header.xml">
         <config>
           <theme>@style/Theme.ProyMobile2024</theme>
@@ -115,7 +125,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\Milena\.android\avd\Pixel_4.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=/Users/florencianoelcarrillo/.android/avd/Pixel_8_API_35.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/Frontend/ProyMobile2024">
       <ProjectState />
@@ -248,6 +258,9 @@
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Frontend/ProyMobile2024/app/src/main/res/drawable" />
+    </key>
     <key name="android.template.-432022673">
       <recent name="com.example.proy_mobile2024" />
     </key>
