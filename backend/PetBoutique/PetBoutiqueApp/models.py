@@ -171,6 +171,8 @@ class Pedido(models.Model):
     costo_envio = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     ciudad_envio = models.CharField(max_length=100, blank=True, null=True)
     descuento = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
+    localidad = models.CharField(max_length=100, blank=True, null=True)
+
 
     class Meta:
         managed = False

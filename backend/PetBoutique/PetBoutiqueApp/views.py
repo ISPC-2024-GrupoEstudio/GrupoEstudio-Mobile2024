@@ -353,7 +353,7 @@ def crear_preferencia(request):
                     } #for item in items
                 ],
                 "back_urls": {
-                    "success": "https://4db6-2803-9800-988a-7e8b-3198-99c-665e-b13e.ngrok-free.app/api/pago-exitoso" + from_param,
+                    "success": "https://d773-181-92-31-235.ngrok-free.app/api/pago-exitoso" + from_param,
                     "failure": "https://tusitio.com/failure",
                     "pending": "https://tusitio.com/pending"
                 },
@@ -392,6 +392,7 @@ def procesar_pedido(external_reference_completa):
     tipo_envio_id = int(parts[5]) if len(parts) > 5 else None
     ciudad_envio = parts[6] if len(parts) > 6 else ""
     descuento = float(parts[7]) if len(parts) > 7 else 0.0
+    localidad = parts[8] if len(parts) > 8 else ""
 
     try:
         opcion_envio = json.loads(opcion_envio_json)
@@ -433,7 +434,8 @@ def procesar_pedido(external_reference_completa):
             'total': total_final,
             'ciudad_envio': ciudad_envio,
             'id_tipo_de_envio': tipo_envio_id,
-            'descuento': descuento
+            'descuento': descuento,
+            'localidad': localidad
         }
 
         pedido_serializer = PedidoSerializer(data=pedido_data)
