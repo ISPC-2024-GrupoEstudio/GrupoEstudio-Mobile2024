@@ -11,7 +11,7 @@ Pet Boutique es una aplicación móvil desarrollada con Android Studio como part
 - [Funcionalidades](#funcionalidades-principales)
 - [Instalación](#instalación)
 - [Tecnologia](#tecnologías-utilizadas)
-- [Video de Funcionamiento](#video-del-funcionamiento)
+- [Capturas de Pantalla](#capturas-de-pantalla)
 - [Enlaces Útiles](#enlaces-útiles)
 - [Autores](#autores)
 - [Mención a la Institución](#mención-a-la-institución)
@@ -27,7 +27,7 @@ Esta aplicación simula una tienda online especializada en productos para mascot
 
 ✅ Detalle de productos: Visualiza información detallada de cada producto seleccionado.
 
-✅ Carrito de compras y checkout: Agrega productos al carrito y simula el proceso de compra, incluyendo opciones de pago y resumen del pedido.
+✅ Carrito de compras y checkout: Agrega productos al carrito, cotiza el envío y simula el proceso de compra, incluyendo opciones de pago y resumen del pedido.
 
 ✅ Pasarela de pago: Integración de un sistema de pago simulado para completar compras de manera segura y efectiva.
 
@@ -114,9 +114,27 @@ ng serve
 
 - Python (virtualenv).
 
-## Video del Funcionamiento
+- RapidAPI | Correo Argentino 1 de Bruno Aramburu
 
-[Video funcionamiento](https://vimeo.com/1091324551/da0c3bb6ba)
+## Capturas de Pantalla
+
+[Inicio](Capturas-README/inicio.jpg)
+[Introducción 1](Capturas-README/intro1.jpg)
+[Introducción 2](Capturas-README/intro2.jpg)
+[Introducción 3](Capturas-README/intro3.jpg)
+[Home](Capturas-README/home.jpg)
+[Galería](Capturas-README/galeria.jpg)
+[Resgistro](Capturas-README/registro.jpg)
+[Contacto](Capturas-README/contacto.jpg)
+[Login](Capturas-README/login.jpg)
+[Perfil](Capturas-README/perfil.jpg)
+[Menú Lateral](Capturas-README/menuLateral.jpg)
+[Carrito](Capturas-README/carrito.jpg)
+[Checkout](Capturas-README/checkout.jpg)
+[Dashboard](Capturas-README/dash.jpg)
+[Historial de Compras](Capturas-README/historial.jpg)
+[Detalle de Pedido](Capturas-README/detallePedido.jpg)
+[Cupones](Capturas-README/cupones.jpg)
 
 
 ## 🔗 Enlaces Útiles
@@ -126,6 +144,7 @@ ng serve
 - [Android Studio](https://developer.android.com/studio?hl=es-419)
 - [Cloudinary](https://cloudinary.com/)
 - [MySQL Workbench](https://www.mysql.com/products/workbench/)
+- [RapidAPI | Correo Argentino 1](https://rapidapi.com/brunoaramburu/api/correo-argentino1)
 
 ## Autores
 
