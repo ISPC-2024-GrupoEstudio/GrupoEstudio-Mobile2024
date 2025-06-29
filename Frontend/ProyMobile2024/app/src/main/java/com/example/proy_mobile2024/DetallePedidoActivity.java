@@ -160,7 +160,7 @@ public class DetallePedidoActivity extends AppCompatActivity {
     }
 
     private void obtenerDatosDelPedido(int idPedido) {
-        String url = " https://d773-181-92-31-235.ngrok-free.app/api/pedidos/" + idPedido + "/"; // Cambiá TU_BACKEND_URL
+        String url = "https://98f1-181-111-12-240.ngrok-free.app/api/pedidos/" + idPedido + "/"; // Cambiá TU_BACKEND_URL
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
