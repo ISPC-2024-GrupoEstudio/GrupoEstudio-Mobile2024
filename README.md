@@ -117,24 +117,56 @@ ng serve
 - RapidAPI | Correo Argentino 1 de Bruno Aramburu
 
 ## Capturas de Pantalla
+### Inicio
+<img src="Capturas-README/inicio.jpg" alt="Inicio" width="200" height="auto" /> 
 
-![Inicio](Capturas-README/inicio.jpg)
-![Introducción 1](Capturas-README/intro1.jpg)
-![Introducción 2](Capturas-README/intro2.jpg)
-![Introducción 3](Capturas-README/intro3.jpg)
-![Home](Capturas-README/home.jpg)
-![Galería](Capturas-README/galeria.jpg)
-![Resgistro](Capturas-README/registro.jpg)
-![Contacto](Capturas-README/contacto.jpg)
-![Login](Capturas-README/login.jpg)
-![Perfil](Capturas-README/perfil.jpg)
-![Menú Lateral](Capturas-README/menuLateral.jpg)
-![Carrito](Capturas-README/carrito.jpg)
-![Checkout](Capturas-README/checkout.jpg)
-![Dashboard](Capturas-README/dash.jpg)
-![Historial de Compras](Capturas-README/historial.jpg)
-![Detalle de Pedido](Capturas-README/detallePedido.jpg)
-![Cupones](Capturas-README/cupones.jpg)
+### Introducción 1
+<img src="Capturas-README/intro1.jpg" alt="Inicio" width="200" height="auto" />
+
+### Introducción 2
+<img src="Capturas-README/intro2.jpg" alt="Inicio" width="200" height="auto" />
+
+### Introducción 3
+<img src="Capturas-README/intro3.jpg" alt="Inicio" width="200" height="auto" />
+
+### Home
+<img src="Capturas-README/home.jpg" alt="Inicio" width="200" height="auto" />
+
+### Galería
+<img src="Capturas-README/galeria.jpg" alt="Inicio" width="200" height="auto" />
+
+### Registro
+<img src="Capturas-README/registro.jpg" alt="Inicio" width="200" height="auto" />
+
+### Contacto
+<img src="Capturas-README/contacto.jpg" alt="Inicio" width="200" height="auto" />
+
+### Login
+<img src="Capturas-README/login.jpg" alt="Inicio" width="200" height="auto" />
+
+### Perfil
+<img src="Capturas-README/perfil.jpg" alt="Inicio" width="200" height="auto" />
+
+### Menú Lateral
+<img src="Capturas-README/menuLateral.jpg" alt="Inicio" width="200" height="auto" />
+
+### Carrito
+<img src="Capturas-README/carrito.jpg" alt="Inicio" width="200" height="auto" />
+
+### Checkout
+<img src="Capturas-README/checkout.jpg" alt="Inicio" width="200" height="auto" />
+
+### Dashboard
+<img src="Capturas-README/dash.jpg" alt="Inicio" width="200" height="auto" />
+
+### Historial de Compras
+<img src="Capturas-README/historial.jpg" alt="Inicio" width="200" height="auto" />
+
+### Detalle de Pedido
+<img src="Capturas-README/detallePedido.jpg" alt="Inicio" width="200" height="auto" />
+
+### Cupones
+<img src="Capturas-README/cupones.jpg" alt="Inicio" width="200" height="auto" />
 
 
 ## 🔗 Enlaces Útiles
