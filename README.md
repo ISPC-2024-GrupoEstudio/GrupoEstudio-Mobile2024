@@ -119,7 +119,8 @@ ng serve
 ## Capturas de Pantalla
 
 ![Inicio](Capturas-README/inicio.jpg)
-![Introducción 1](Capturas-README/intro1.png)
+![Introducción 1](Capturas-README/intro1.jpg)
+![Introducción 2](Capturas-README/intro2.jpg)
 ![Introducción 3](Capturas-README/intro3.jpg)
 ![Home](Capturas-README/home.jpg)
 ![Galería](Capturas-README/galeria.jpg)
